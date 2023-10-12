@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model;
+package controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,7 +17,7 @@ public class Datenbank {
 
     
     private static final String treibername = "org.hsqldb.jdbc.JDBCDriver";
-    private static final String dbURL = "jdbc:hsqldb:file:data/mapgenis;ifexists=true";
+    private static final String dbURL = "jdbc:hsqldb:file:data/mapgen;ifexists=true";
     private Connection conn;
     private static Datenbank instance;
     
@@ -31,7 +31,7 @@ public class Datenbank {
      * Ferner macht der Konstruktor den Datenbanktreiber
      * der Laufzeitumgebung bekannt.
      */
-    private Datenbank() {
+    public Datenbank() {
         try {
             Class.forName(treibername);
         } catch (ClassNotFoundException exc) {
@@ -63,8 +63,9 @@ public class Datenbank {
      * 
      * @throws SQLException 
      */
-    private void connect() throws SQLException {
+    public Connection connect() throws SQLException {
         conn = DriverManager.getConnection(dbURL, "SA", "");
+        return conn;
     }
 
     /**
@@ -73,7 +74,7 @@ public class Datenbank {
      * 
      * @throws SQLException 
      */
-    private void close() throws SQLException {
+    public void close() throws SQLException {
         if (conn != null) {
             if (!conn.isClosed()) {
                 Statement stmt = conn.createStatement();
