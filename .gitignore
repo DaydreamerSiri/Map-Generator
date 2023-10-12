@@ -2,3 +2,4 @@
 /MapGenerator/build/
 MapGenerator/data/mapgen.lck
 MapGenerator/data/mapgen.log
+.DS_Store
