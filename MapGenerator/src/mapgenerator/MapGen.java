@@ -5,6 +5,7 @@
 package mapgenerator;
 import view.*;
 import javax.swing.JFrame;
+import controller.DiceRoll;
 
 
 /**
