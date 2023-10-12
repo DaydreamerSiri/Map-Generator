@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package mapgen;
+import java.sql.Connection;
 import view.*;
 import javax.swing.JFrame;
 import controller.Geography;
@@ -20,11 +21,12 @@ public class MapGen {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+
         Datenbank db = new Datenbank();
         
         try {
-            db.connect();
+            Connection conn = db.connect();
+            conn.createStatement().execute("SELECT * FROM PUBLIC.RELATIONSHIPS");
         }
         catch(SQLException e) {
             e.printStackTrace();

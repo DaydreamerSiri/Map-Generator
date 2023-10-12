@@ -63,8 +63,9 @@ public class Datenbank {
      * 
      * @throws SQLException 
      */
-    public void connect() throws SQLException {
+    public Connection connect() throws SQLException {
         conn = DriverManager.getConnection(dbURL, "SA", "");
+        return conn;
     }
 
     /**
