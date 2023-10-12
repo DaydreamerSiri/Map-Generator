@@ -11,7 +11,7 @@ import javax.swing.JFrame;
  *
  * @author 3menk
  */
-public class MapGenerator {
+public class MapGen {
 
     /**
      * @param args the command line arguments
