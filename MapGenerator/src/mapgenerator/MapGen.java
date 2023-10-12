@@ -5,7 +5,7 @@
 package mapgenerator;
 import view.*;
 import javax.swing.JFrame;
-import controller.DiceRoll;
+import controller.Geography;
 
 
 /**
@@ -18,9 +18,16 @@ public class MapGen {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        //incert, get map presets for UI
+        int numTiles = 10;
+        
         JFrame start = new MainMenu();
         start.setVisible(true);
         
+        
+        //1 - Geography Generator
+        Geography geography = new Geography();
+        geography.geographyGen(numTiles);
     }
     
 }
