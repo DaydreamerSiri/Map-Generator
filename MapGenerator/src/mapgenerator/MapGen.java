@@ -3,18 +3,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package mapgenerator;
+import view.*;
+import javax.swing.JFrame;
+
 
 /**
  *
  * @author 3menk
  */
-public class MapGenerator {
+public class MapGen {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        JFrame start = new MainMenu();
+        start.setVisible(true);
+        
     }
     
 }
