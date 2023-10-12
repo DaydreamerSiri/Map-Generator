@@ -17,7 +17,7 @@ public class Datenbank {
 
     
     private static final String treibername = "org.hsqldb.jdbc.JDBCDriver";
-    private static final String dbURL = "jdbc:hsqldb:file:data/mapgenis;ifexists=true";
+    private static final String dbURL = "jdbc:hsqldb:file:data/mapgen;ifexists=true";
     private Connection conn;
     private static Datenbank instance;
     
