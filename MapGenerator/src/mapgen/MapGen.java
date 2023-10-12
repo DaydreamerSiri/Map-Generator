@@ -26,7 +26,7 @@ public class MapGen {
         
         try {
             Connection conn = db.connect();
-            conn.createStatement().execute("SELECT * FROM PUBLIC.RELATIONSHIPS");
+            System.out.println(conn.createStatement().execute("SELECT * FROM PUBLIC.RELATIONSHIPS"));
         }
         catch(SQLException e) {
             e.printStackTrace();
