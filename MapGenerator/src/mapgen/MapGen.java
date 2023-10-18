@@ -13,7 +13,10 @@ import java.sql.SQLException;
 
 /**
  *
- * @author 3menk
+ * @author Sehri Singh
+ * @author Jason Aragorn Charles
+ * @author Florian Herbst
+ * @author Noral Deen Dyab
  */
 public class MapGen {
 

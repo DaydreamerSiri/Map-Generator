@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
+
+import javax.swing.SwingConstants;
+
 /**
  *
  * @author 3menk
@@ -14,6 +17,9 @@ public class MainMenu extends javax.swing.JFrame {
      */
     public MainMenu() {
         initComponents();
+        this.MainMenuLBL.setHorizontalAlignment(SwingConstants.CENTER);
+        this.MainMenuLBL.setVerticalAlignment(SwingConstants.CENTER);
+        
     }
 
     /**
@@ -26,6 +32,9 @@ public class MainMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         StartBtn = new javax.swing.JButton();
+        LoadBTN = new javax.swing.JToggleButton();
+        ExitBTN = new javax.swing.JToggleButton();
+        MainMenuLBL = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -36,21 +45,41 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        LoadBTN.setText("Load");
+
+        ExitBTN.setText("End");
+
+        MainMenuLBL.setText("Medieval Map Generator");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(230, 230, 230)
-                .addComponent(StartBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(230, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(224, 224, 224)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(StartBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                            .addComponent(LoadBTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ExitBTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(154, 154, 154)
+                        .addComponent(MainMenuLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(189, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(149, 149, 149)
+                .addGap(36, 36, 36)
+                .addComponent(MainMenuLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
                 .addComponent(StartBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(282, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addComponent(LoadBTN)
+                .addGap(43, 43, 43)
+                .addComponent(ExitBTN)
+                .addContainerGap(155, Short.MAX_VALUE))
         );
 
         pack();
@@ -98,6 +127,9 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton ExitBTN;
+    private javax.swing.JToggleButton LoadBTN;
+    private javax.swing.JLabel MainMenuLBL;
     private javax.swing.JButton StartBtn;
     // End of variables declaration//GEN-END:variables
 }

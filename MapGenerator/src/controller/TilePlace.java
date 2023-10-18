@@ -1,11 +1,11 @@
 import java.util.*;
 
-public class PlaceTile {
-    private List<Tile> tiles; //Liste der Tiles die platziert werden sollen
+public class TilePlace {
+    private List<Object[]> tiles; //Liste der Tiles die platziert werden sollen
     private List<Position> placedPositions = new ArrayList<>(); //Liste die die Positionen aller platzierten Tiles speichert
     private Set<Integer> blocked = new HashSet<>(); // Vorrübergehender Speicher für blockierte Richtungen (1 bis 8)
 
-    public PlaceTile(List<Tile> tiles) {
+    public TilePlace(List<Object[]> tiles) {
         this.tiles = tiles;
     }
 
@@ -57,7 +57,7 @@ public class PlaceTile {
         return placedPositions.stream().noneMatch(position -> position.getX() == x && position.getY() == y); //Das hier hat ein Kumpel mir so gesagt, ich hatte noch nie mit stream zu tun.
     }
 
-    private Tile getRandomTile() {
+    private Object[] getRandomTile() {
         return tiles.get(new Random().nextInt(tiles.size())); //wählt zufälliges Tile via würfeln aus
     }
 

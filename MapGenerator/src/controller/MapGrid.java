@@ -15,15 +15,25 @@ import javax.swing.border.LineBorder;
 
 /**
  *
- * @author 3menk
+ * @author Sehri Singh
  */
 public class MapGrid extends MapGridModel{
     
+    /**
+     * Constructor of the Class MapGrid
+     * @param sizeX the X Size of the Map
+     * @param sizeY the Y Size of the Map
+     */
     public MapGrid(int sizeX, int sizeY){
         super(sizeX, sizeY);
     }
     
     
+    
+    /**
+     * function to generate map Cells and placing them in the UI
+     * @return Boolean 
+     */
     public boolean generateMap(){
         List<List<JButton>> cellMap = new ArrayList();
         for(int i = 0; this.getSizeX() > i; i++){
@@ -55,7 +65,10 @@ public class MapGrid extends MapGridModel{
     }
     
     
-    
+    /**
+     * Getter Function to retrieve all the Map Information
+     * @return MapGridModel Object
+     */
     public MapGridModel getMapData(){
         return this;
     }
