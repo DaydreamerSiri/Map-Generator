@@ -41,7 +41,7 @@ public class MapGen {
         
         //1 - Geography Generator
         Geography geography = new Geography();
-        geography.geographyGen(numTiles);
+        geography.geographyGen();
     }
     
 }
