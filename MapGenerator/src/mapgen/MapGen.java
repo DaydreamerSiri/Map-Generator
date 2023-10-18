@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import controller.Geography;
 import controller.Datenbank;
 import java.sql.SQLException;
+import controller.TilePlace;
 
 
 /**
@@ -42,6 +43,9 @@ public class MapGen {
         //1 - Geography Generator
         Geography geography = new Geography();
         geography.geographyGen();
+     
+        TilePlace tileplace = new TilePlace();
+        tileplace.placeTile();
     }
     
 }
