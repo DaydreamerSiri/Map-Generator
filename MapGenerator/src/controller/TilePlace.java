@@ -12,10 +12,10 @@ public class TilePlace {
         // save both num and type
         String type = (String) tile[0];
         int count = (int) tile[1];
-
+/*
         // show on console
         System.out.println("Tile type: " + type);
-        System.out.println("Tile count: " + count);
+        System.out.println("Tile count: " + count); */
     }
     public void placeTiles() {
         Random random = new Random();
@@ -24,37 +24,36 @@ public class TilePlace {
         int x = random.nextInt(100) - 50; // Zufällige X-Koordinate zwischen -50 und 49
         int y = random.nextInt(100) - 50; // Zufällige Y-Koordinate zwischen -50 und 49
 
-        // Wenn noch Tiles übrig sind
+        // if tiles left
         while (!tiles.isEmpty()) {
             // Würfeln Sie eine Zahl von 1-8
             int direction = getRandomDirection();
 
-            // Überprüfen Sie, ob der Platz blockiert ist
+            // check if blocked
             while (blocked.contains(direction)) {
                 // Wenn blockiert, neue Zahl würfeln
                 direction = getRandomDirection();
             }
 
-            // Aktualisieren Sie x und y in die gewählte Richtung
             switch (direction) {
-                case 1: x--; break; // Up
-                case 2: x--; y++; break; // Up-right
-                case 3: y++; break; // Right
-                case 4: x++; y++; break; // Down-right
-                case 5: x++; break; // Down
-                case 6: x++; y--; break; // Down-left
-                case 7: y--; break; // Left
-                case 8: x--; y--; break; // Up-left
+                case 1: x--; break; // left
+                case 2: x--; y++; break; // left-up
+                case 3: y++; break; // up
+                case 4: x++; y++; break; // up-right
+                case 5: x++; break; // right
+                case 6: x++; y--; break; // Down-right
+                case 7: y--; break; // down
+                case 8: x--; y--; break; // down-left
             }
 
-            // Überprüfen Sie, ob die neue Richtung nicht belegt ist
+            // check if direction is blocked
             if (isPositionFree(x, y)) {
-                // Wenn nicht, dann Tile setzen und Block-Counter zurücksetzen
+                // if not place tile and reset block counter
                 placedPositions.add(new Position(x, y));
                 blocked.clear();
-                tiles.remove(0); // Entfernen Sie das platzierte Tile aus der Liste
+                tiles.remove(0); // removes placed tile from list
             } else {
-                // Wenn blockiert, neu würfeln und Zahl blockieren
+                // if blocked roll again and block num
                 blocked.add(direction);
             }
         }
