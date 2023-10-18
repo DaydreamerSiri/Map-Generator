@@ -1,34 +1,37 @@
+package controller;
+import controller.Geography;
 import java.util.*;
 
 public class PlaceTile {
-    private List<Tile> tiles; //Liste der Tiles die platziert werden sollen
-    private List<Position> placedPositions = new ArrayList<>(); //Liste die die Positionen aller platzierten Tiles speichert
-    private Set<Integer> blocked = new HashSet<>(); // Vorrübergehender Speicher für blockierte Richtungen (1 bis 8)
+    private Geography geography = new Geography();
+    private List<Object[]> tiles = new ArrayList<>();
+    private List<Position> placedPositions = new ArrayList<>();
+    private Set<Integer> blocked = new HashSet<>();
 
-    public PlaceTile(List<Tile> tiles) {
-        this.tiles = tiles;
+    public PlaceTile(int numTiles) {
+        for (int i = 0; i < numTiles; i++) {
+            tiles.add(geography.tableGeography());
+        }
     }
 
     public void placeTiles() {
-        // Start in Board Mitte ansonsten mathematisch Mittelpunkt bestimmten
-        int x = 0;
-        int y = 0;
+        Random random = new Random();
 
-        // Zufälliges Tile in Mitte setzen
-        placedPositions.add(new Position(x, y));
+        // start at random position
+        int x = random.nextInt(100) - 50; // random x from -49 to 50
+        int y = random.nextInt(100) - 50; // random y from -49 to 50
 
-        // Wenn noch Tiles übrig sind
+        // if tiles left
         while (!tiles.isEmpty()) {
-            // würfel Zahl von 1-8
+            // Würfeln Sie eine Zahl von 1-8
             int direction = getRandomDirection();
 
-            // Check ob platz blockiert
+            // check if place is empty
             while (blocked.contains(direction)) {
-                // Wenn blockiert, neue Zahl würfeln
+                // if blocked roll again
                 direction = getRandomDirection();
             }
 
-            // Update x und y auf gewählte Richtung
             switch (direction) {
                 case 1: x--; break; // Up
                 case 2: x--; y++; break; // Up-right
@@ -40,41 +43,51 @@ public class PlaceTile {
                 case 8: x--; y--; break; // Up-left
             }
 
-            // Check ob neue Richtung nicht belegt
+            // check if new direction is blocked
             if (isPositionFree(x, y)) {
-                // Wenn nicht, dann Tile setzen und block counter reset
-                placedPositions.add(new Position(x, y));
+                // if not then place tile and reset block counter
+                String tileType = (String) tiles.get(0)[0];
+                int tileCount = (int) tiles.get(0)[1];
+                placedPositions.add(new Position(x, y, tileType, tileCount));
                 blocked.clear();
-                tiles.remove(getRandomTile());
+
+                tiles.remove(0); // removes placed tile from list
             } else {
-                // wenn blockiert neu würfeln und Zahl blockieren
+                // if blocked roll again and block num
                 blocked.add(direction);
             }
         }
     }
 
     private boolean isPositionFree(int x, int y) {
-        return placedPositions.stream().noneMatch(position -> position.getX() == x && position.getY() == y); //Das hier hat ein Kumpel mir so gesagt, ich hatte noch nie mit stream zu tun.
-    }
-
-    private Tile getRandomTile() {
-        return tiles.get(new Random().nextInt(tiles.size())); //wählt zufälliges Tile via würfeln aus
+        return placedPositions.stream().noneMatch(position -> position.getX() == x && position.getY() == y);
     }
 
     private int getRandomDirection() {
-        return new Random().nextInt(8) + 1; // kein off by 1 for me bitch!
+        return new Random().nextInt(8) + 1;
+    }
+
+    public static void main(String[] args) {
+        PlaceTile placeTile = new PlaceTile(10);
+        placeTile.placeTiles();
     }
 }
 
-class Position { //Klasse für Position auf dem Spielfeld. KI meinte ich soll die so unter meine andere Klasse tun da sonst kein Zugriff wäre.
+class Position {
     private int x;
     private int y;
+    private String tileType;
+    private int tileCount;
 
-    public Position(int x, int y) {
+    public Position(int x, int y, String tileType, int tileCount) {
         this.x = x;
         this.y = y;
+        this.tileType = tileType;
+        this.tileCount = tileCount;
     }
 
     public int getX() { return x; }
     public int getY() { return y; }
+    public String getTileType() { return tileType; }
+    public int getTileCount() { return tileCount; }
 }
