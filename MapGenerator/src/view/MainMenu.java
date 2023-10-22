@@ -86,8 +86,8 @@ public class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void StartBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartBtnActionPerformed
-        CellMap map = new CellMap(3,3);
-        map.setVisible(true);
+        MapSettings sett = new MapSettings();
+        sett.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_StartBtnActionPerformed
 

@@ -36,31 +36,35 @@ public class MapGrid extends MapGridModel{
      */
     public boolean generateMap(){
         List<List<JButton>> cellMap = new ArrayList();
+        if(this.getCellData() == null) {
         for(int i = 0; this.getSizeX() > i; i++){
-            cellMap.add(new ArrayList());
-            for(int j = 0; this.getSizeY() > j; j++) {
-               JButton cell = new JButton();
-               cell.setLocation(this.yCellPosition*i, -this.xCellPosition*j);
-               cell.setSize(10, 10);
-               cell.setVisible(true);
-               cell.setText("CELL" +i+" "+j);
-               cell.setBorder(LineBorder.createBlackLineBorder());
-               cellMap.get(i).add(cell);
-               
-               cell.addActionListener(new ActionListener(){
-                   @Override
-                   public void actionPerformed(ActionEvent e){
-                       JFrame msg = new JFrame();
-                       msg.setSize(100, 100);
-                       msg.setVisible(true);
-                       msg.add(new JLabel("TEST"));
-                       
-                   }
-               });
-               
+                cellMap.add(new ArrayList());
+                for(int j = 0; this.getSizeY() > j; j++) {
+                   JButton cell = new JButton();
+                   cell.setLocation(this.yCellPosition*i, -this.xCellPosition*j);
+                   cell.setSize(10, 10);
+                   cell.setVisible(true);
+                   cell.setText("CELL" +i+" "+j);
+                   cell.setBorder(LineBorder.createBlackLineBorder());
+                   cellMap.get(i).add(cell);
+
+                   cell.addActionListener(new ActionListener(){
+                       @Override
+                       public void actionPerformed(ActionEvent e){
+                           JFrame msg = new JFrame();
+                           msg.setSize(100, 100);
+                           msg.setVisible(true);
+                           msg.add(new JLabel("TEST"));
+
+                       }
+                   });
+
+                }
             }
+            this.setCellData(cellMap);
+            return true;
         }
-        this.setCellData(cellMap);
+        
         return false;
     }
     
