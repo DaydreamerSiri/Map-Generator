@@ -4,16 +4,23 @@
  */
 package view;
 
+import controller.Datenbank;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * @author 3menk
  */
 public class MapSettings extends javax.swing.JFrame {
-
+    Datenbank db;
     /**
      * Creates new form MapSettings
+     * @param db the Database Connection
      */
-    public MapSettings() {
+    public MapSettings(Datenbank db) {
+       this.db = db;
         initComponents();
     }
 
@@ -103,8 +110,31 @@ public class MapSettings extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    private Datenbank connectDB(){
+        
+        try {
+            this.db.connect();
+            System.out.println("Datenbank verbunden");
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public void getDate(){
+        try {
+            this.db.getDate();
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
     private void StartBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartBTNActionPerformed
         // TODO add your handling code here:
+        this.connectDB();
+        this.getDate();
         CellMap map = new CellMap(Integer.parseInt(this.xSizeInput.getText()), 
                 Integer.parseInt(this.ySizeInput.getText()));
         map.setVisible(true);
@@ -113,7 +143,7 @@ public class MapSettings extends javax.swing.JFrame {
 
     private void BackBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackBTNActionPerformed
         // TODO add your handling code here:
-        MainMenu menu = new MainMenu();
+        MainMenu menu = new MainMenu(this.db);
         menu.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_BackBTNActionPerformed
@@ -148,7 +178,7 @@ public class MapSettings extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MapSettings().setVisible(true);
+                new MapSettings(new Datenbank()).setVisible(true);
             }
         });
     }

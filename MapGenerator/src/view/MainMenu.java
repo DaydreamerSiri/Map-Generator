@@ -4,18 +4,22 @@
  */
 package view;
 
+import com.sun.jdi.connect.spi.Connection;
+import controller.Datenbank;
 import javax.swing.SwingConstants;
 
 /**
  *
- * @author 3menk
+ * @author Sehri Singh
  */
 public class MainMenu extends javax.swing.JFrame {
-
+    Datenbank db;
     /**
      * Creates new form MainMenu
+     * @param db the Database Connection
      */
-    public MainMenu() {
+    public MainMenu(Datenbank db) {
+        this.db = db;
         initComponents();
         this.MainMenuLBL.setHorizontalAlignment(SwingConstants.CENTER);
         this.MainMenuLBL.setVerticalAlignment(SwingConstants.CENTER);
@@ -45,7 +49,12 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        LoadBTN.setText("Load");
+        LoadBTN.setText("Load Database");
+        LoadBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LoadBTNActionPerformed(evt);
+            }
+        });
 
         ExitBTN.setText("End");
 
@@ -86,10 +95,17 @@ public class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void StartBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartBtnActionPerformed
-        MapSettings sett = new MapSettings();
+        MapSettings sett = new MapSettings(this.db);
         sett.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_StartBtnActionPerformed
+
+    private void LoadBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadBTNActionPerformed
+        // TODO add your handling code here:
+        
+        
+        
+    }//GEN-LAST:event_LoadBTNActionPerformed
 
     /**
      * @param args the command line arguments
@@ -121,7 +137,7 @@ public class MainMenu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainMenu().setVisible(true);
+                new MainMenu(new Datenbank()).setVisible(true);
             }
         });
     }

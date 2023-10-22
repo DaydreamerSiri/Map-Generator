@@ -24,21 +24,10 @@ public class MapGen {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
-        Datenbank db = new Datenbank();
-        
-        try {
-            Connection conn = db.connect();
-            System.out.println(conn.createStatement().execute("SELECT * FROM PUBLIC.RELATIONSHIPS"));
-        }
-        catch(SQLException e) {
-            e.printStackTrace();
-        }
         
         //incert, get map presets for UI
         int numTiles = 10;
-        
-        JFrame start = new MainMenu();
+        JFrame start = new MainMenu(new Datenbank());
         start.setVisible(true);
         
         

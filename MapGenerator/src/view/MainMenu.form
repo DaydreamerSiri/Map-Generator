@@ -69,8 +69,11 @@
     </Component>
     <Component class="javax.swing.JToggleButton" name="LoadBTN">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Load"/>
+        <Property name="text" type="java.lang.String" value="Load Database"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LoadBTNActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JToggleButton" name="ExitBTN">
       <Properties>
