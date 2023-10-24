@@ -133,8 +133,8 @@ public class MapSettings extends javax.swing.JFrame {
     
     private void StartBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartBTNActionPerformed
         // TODO add your handling code here:
-        this.connectDB();
-        this.getDate();
+        //this.connectDB();
+        //this.getDate();
         CellMap map = new CellMap(Integer.parseInt(this.xSizeInput.getText()), 
                 Integer.parseInt(this.ySizeInput.getText()));
         map.setVisible(true);

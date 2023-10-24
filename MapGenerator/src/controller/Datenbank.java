@@ -70,7 +70,7 @@ public class Datenbank {
     
     public void getDate() throws SQLException {
         try {
-            ResultSet result = conn.createStatement().executeQuery("SELECT * FROM 'RELATIONSHIPS'");
+            ResultSet result = conn.createStatement().executeQuery("SELECT * FROM RELATIONSHIPS");
              while(result.next()){
                 System.out.println(result.getInt("id")+" | "+
                 result.getString("type")+" | "+

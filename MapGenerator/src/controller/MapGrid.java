@@ -3,21 +3,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package controller;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import model.MapGridModel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.border.LineBorder;
-
+import javax.swing.*;
+import javax.swing.border.*;
 /**
  *
  * @author Sehri Singh
  */
 public class MapGrid extends MapGridModel{
+    
+    protected Dimension sizeDimension = new Dimension(this.xCellSize, this.yCellSize);
     
     /**
      * Constructor of the Class MapGrid
@@ -40,12 +41,16 @@ public class MapGrid extends MapGridModel{
         for(int i = 0; this.getSizeX() > i; i++){
                 cellMap.add(new ArrayList());
                 for(int j = 0; this.getSizeY() > j; j++) {
-                   JButton cell = new JButton();
-                   cell.setLocation(this.yCellPosition*i, -this.xCellPosition*j);
-                   cell.setSize(10, 10);
+                   Icon icon = new ImageIcon("..\\..\\tiles\\area\\grass1.png");
+                   File test = new File("..\\..\\ressources\\tiles\\area\\grass1.png");
+                   System.out.println(test.exists());
+                   JButton cell = new JButton(icon);
+                   cell.setLocation(this.yCellPosition*i-(this.yCellPosition*i/2), -this.xCellPosition*j-(this.xCellPosition*j/2));
                    cell.setVisible(true);
-                   cell.setText("CELL" +i+" "+j);
+                   cell.setPreferredSize(this.sizeDimension);
+                   //cell.setText("X"+this.xCellPosition*i);
                    cell.setBorder(LineBorder.createBlackLineBorder());
+                   
                    cellMap.get(i).add(cell);
 
                    cell.addActionListener(new ActionListener(){
@@ -68,6 +73,10 @@ public class MapGrid extends MapGridModel{
         return false;
     }
     
+    
+    public Dimension getSizeDimension() {
+        return this.sizeDimension;
+    }
     
     /**
      * Getter Function to retrieve all the Map Information

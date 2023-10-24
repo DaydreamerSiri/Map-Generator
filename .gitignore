@@ -9,3 +9,6 @@ MapGenerator/data/mapgen.script
 MapGenerator/nbproject/build-impl.xml
 MapGenerator/nbproject/build-impl.xml~
 MapGenerator/nbproject/project.xml
+MapGenerator/data/mapgen.lck
+MapGenerator/data/mapgen.properties
+MapGenerator/data/mapgen.script

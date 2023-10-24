@@ -4,8 +4,10 @@
  */
 package view;
 import controller.MapGrid;
+import java.awt.event.FocusEvent.Cause;
+import javax.swing.Box;
 import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
+import javax.swing.border.*;
 /**
  * The generated Map as View
  * @author Sehri Singh
@@ -25,16 +27,21 @@ public class CellMap extends javax.swing.JFrame {
     
     public void fillMap(){
         for(int i = 0; this.Map.getMapData().getSizeX()> i; i++){
-            JPanel col = new JPanel();
-            col.setVisible(true);
-            col.setSize(100, 100);
-            col.setBorder(LineBorder.createBlackLineBorder());
-            col.setLocation(100*i, 0);
-            System.out.println(col.getLocation());
-            this.add(col);
             for(int j = 0; this.Map.getMapData().getSizeY() > j; j++){
-                System.out.println(this.Map.getMapData().getCellData().get(i).get(j));
-               col.add(this.Map.getMapData().getCellData().get(i).get(j));
+                JPanel col = new JPanel();
+                col.setVisible(true);
+                col.setSize(this.Map.xCellSize+3, this.Map.yCellSize+3);
+                col.setLocation(this.Map.xCellPosition*i-(this.Map.xCellPosition*i*2/5), this.Map.yCellPosition*j-(this.Map.yCellPosition*j*2/5));
+                col.setFocusable(true);
+                col.requestFocusInWindow();
+                col.setBorder(LineBorder.createBlackLineBorder());
+                System.out.println(this.Map.xCellPosition*i-(this.Map.xCellPosition*i*1/4));
+                this.add(col);
+                //System.out.println(this.Map.getMapData().getCellData().get(i).get(j));
+                Box box = Box.createVerticalBox();
+                box.setPreferredSize(this.Map.getSizeDimension());
+                box.add(this.Map.getMapData().getCellData().get(i).get(j));
+                col.add(box);
             }
         }
     }
