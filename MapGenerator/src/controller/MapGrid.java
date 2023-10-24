@@ -12,6 +12,7 @@ import java.util.List;
 import model.MapGridModel;
 import javax.swing.*;
 import javax.swing.border.*;
+import model.Cell;
 /**
  *
  * @author Sehri Singh
@@ -36,23 +37,23 @@ public class MapGrid extends MapGridModel{
      * @return Boolean 
      */
     public boolean generateMap(){
-        List<List<JButton>> cellMap = new ArrayList();
-        if(this.getCellData() == null) {
+        List<List<Cell>> cellMap = new ArrayList();
+        if(this.getCellDataList() == null) {
         for(int i = 0; this.getSizeX() > i; i++){
                 cellMap.add(new ArrayList());
                 for(int j = 0; this.getSizeY() > j; j++) {
                    Icon icon = new ImageIcon("..\\..\\tiles\\area\\grass1.png");
                    File test = new File("..\\..\\ressources\\tiles\\area\\grass1.png");
                    System.out.println(test.exists());
-                   JButton cell = new JButton(icon);
+                   Cell cell = new Cell();
                    cell.setLocation(this.yCellPosition*i-(this.yCellPosition*i/2), -this.xCellPosition*j-(this.xCellPosition*j/2));
                    cell.setVisible(true);
                    cell.setPreferredSize(this.sizeDimension);
                    //cell.setText("X"+this.xCellPosition*i);
                    cell.setBorder(LineBorder.createBlackLineBorder());
                    
+                   cell.isCreated(true);
                    cellMap.get(i).add(cell);
-
                    cell.addActionListener(new ActionListener(){
                        @Override
                        public void actionPerformed(ActionEvent e){
@@ -66,7 +67,7 @@ public class MapGrid extends MapGridModel{
 
                 }
             }
-            this.setCellData(cellMap);
+            this.setCellDataList(cellMap);
             return true;
         }
         

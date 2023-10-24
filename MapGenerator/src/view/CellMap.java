@@ -40,7 +40,8 @@ public class CellMap extends javax.swing.JFrame {
                 //System.out.println(this.Map.getMapData().getCellData().get(i).get(j));
                 Box box = Box.createVerticalBox();
                 box.setPreferredSize(this.Map.getSizeDimension());
-                box.add(this.Map.getMapData().getCellData().get(i).get(j));
+                box.add(this.Map.getMapData().getCellDataList().get(i).get(j));
+                this.Map.getMapData().getCellDataList().get(i).get(j).isPlaced(true);
                 col.add(box);
             }
         }

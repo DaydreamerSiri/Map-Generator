@@ -1,6 +1,5 @@
-package controller;
 import view.*;
-import model.*;
+import controller.*;
 import java.util.*;
 import javax.swing.*;
 
@@ -20,7 +19,6 @@ public class MapGen {
     public static void main(String[] args) {
         
         //incert, get map presets for UI
-        int numTiles = 10;
         JFrame start = new MainMenu(new Datenbank());
         start.setVisible(true);
         

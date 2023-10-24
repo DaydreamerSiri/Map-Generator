@@ -131,6 +131,7 @@ public class MapSettings extends javax.swing.JFrame {
         }
     }
     
+    
     private void StartBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartBTNActionPerformed
         // TODO add your handling code here:
         //this.connectDB();

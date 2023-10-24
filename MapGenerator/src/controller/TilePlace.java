@@ -18,16 +18,18 @@ public class TilePlace {
         System.out.println("Tile count: " + count); */
     }
     
-    public void placeTiles() {
+    public void placeTiles(MapGrid map, int xLimit, int yLimit) {
         Random random = new Random();
 
         // start random on the board
-        int x = diceRoll.roll(100) - 51; // random x coordinate -50 and 49
-        int y = diceRoll.roll(100) - 51; // random y coordinate -50 and 49
+        int x = diceRoll.roll(xLimit); // random x coordinate -50 and 49
+        int y = diceRoll.roll(yLimit); // random y coordinate -50 and 49  # -51 für negative Bereiche im Koordinatensystem
         
-
+        ///    ### Row0Cell0 Row1Cell0 Row2Cell0 
+        ///    ### Row0Cell2 Row1Cell2 Row2Cell2  
+        ///    ### 
         // if tiles left
-        while (!tiles.isEmpty()) {
+        while (!map.getMapData().getCellDataList().get(0).get(0).isPlaced()) {
             // roll 1 to 8
             int direction = getRandomDirection();
 
@@ -67,5 +69,14 @@ public class TilePlace {
 
     private int getRandomDirection() {
         return diceRoll.roll(8); 
+    }
+    
+    
+    private void testFunc(MapGrid map){
+        for(int i = 0; map.getSizeX() > i; i++){
+            for(int j = 0; map.getSizeY() > j; j++) {
+                    map.Cell
+                }
+            }
     }
 }

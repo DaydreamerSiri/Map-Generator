@@ -11,7 +11,7 @@ import java.util.List;
  * @author jason
  */
 public class Geography {     
-    public void geographyGen(){
+    public Object[] geographyGen(){
         DiceRoll diceRoll = new DiceRoll();
         int runningBonus = 0;
         boolean mapFull = false;
@@ -26,19 +26,20 @@ public class Geography {
         System.out.println("Bonus: " + runningBonus);
         System.out.println("Number: " + num);
             
-        tableGeography(num);
-            /*numTiles--;
-            if(numTiles == 0){
-                mapFull = true;
-                System.out.println("Map is full!");
-            }*/
-            
-            //check and balance of running bonus
+        //check and balance of running bonus
         if(num >= 101){
             runningBonus = 0;
         } else {
             runningBonus +=10;
         }
+        
+        
+        return tableGeography(num);
+            /*numTiles--;
+            if(numTiles == 0){
+                mapFull = true;
+                System.out.println("Map is full!");
+            }*/
     }
     
     public Object[] tableGeography(int num){
