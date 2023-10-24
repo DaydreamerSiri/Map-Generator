@@ -1,51 +1,73 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
-package mapgen;
-import java.sql.Connection;
-import view.*;
-import javax.swing.JFrame;
+package controller;
 import controller.Geography;
-import controller.Datenbank;
-import java.sql.SQLException;
-import controller.TilePlace;
+import controller.DiceRoll;
+import java.util.*;
 
+public class TilePlace {
+    private Geography geography = new Geography();
+    private DiceRoll diceRoll = new DiceRoll(); 
 
-/**
- *
- * @author 3menk
- */
-public class MapGen {
+    public void placeTile() {
+        // use tableGeography
+        Object[] tile = geography.geographyGen();
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-
-        Datenbank db = new Datenbank();
-        
-        try {
-            Connection conn = db.connect();
-            System.out.println(conn.createStatement().execute("SELECT * FROM PUBLIC.RELATIONSHIPS"));
-        }
-        catch(SQLException e) {
-            e.printStackTrace();
-        }
-        
-        //incert, get map presets for UI
-        int numTiles = 10;
-        
-        JFrame start = new MainMenu();
-        start.setVisible(true);
-        
-        
-        //1 - Geography Generator
-        Geography geography = new Geography();
-        geography.geographyGen(numTiles);
-        
-        TilePlace tileplace = new TilePlace();
-        tileplace.placeTile();
+        // save both num and type
+        String type = (String) tile[0];
+        int count = (int) tile[1];
+/*
+        // show on console
+        System.out.println("Tile type: " + type);
+        System.out.println("Tile count: " + count); */
     }
     
+    public void placeTiles() {
+        Random random = new Random();
+
+        // start random on the board
+        int x = diceRoll.roll(100) - 51; // random x coordinate -50 and 49
+        int y = diceRoll.roll(100) - 51; // random y coordinate -50 and 49
+        
+
+        // if tiles left
+        while (!tiles.isEmpty()) {
+            // roll 1 to 8
+            int direction = getRandomDirection();
+
+            // check if blocked
+            while (blocked.contains(direction)) {
+                // if blocked, new roll
+                direction = getRandomDirection();
+            }
+
+            switch (direction) {
+                case 1: x--; break; // left
+                case 2: x--; y++; break; // left-up
+                case 3: y++; break; // up
+                case 4: x++; y++; break; // up-right
+                case 5: x++; break; // right
+                case 6: x++; y--; break; // Down-right
+                case 7: y--; break; // down
+                case 8: x--; y--; break; // down-left
+            }
+
+            // check if direction is blocked
+            if (isPositionFree(x, y)) {
+                // if not place tile and reset block counter
+                placedPositions.add(new Position(x, y));
+                blocked.clear();
+                tiles.remove(0); // removes placed tile from list
+            } else {
+                // if blocked roll again and block num
+                blocked.add(direction);
+            }
+        }
+    }
+
+    private boolean isPositionFree(int x, int y) {
+        return placedPositions.stream().noneMatch(position -> position.getX() == x && position.getY() == y);
+    }
+
+    private int getRandomDirection() {
+        return diceRoll.roll(8); 
+    }
 }
