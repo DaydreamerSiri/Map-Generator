@@ -3,11 +3,6 @@ import controller.Geography;
 import controller.DiceRoll;
 import java.util.*;
 
-/**
-*
-*@author Florian
-*/
-
 public class TilePlace {
     private Geography geography = new Geography();
     private DiceRoll diceRoll = new DiceRoll(); 
@@ -29,8 +24,9 @@ public class TilePlace {
         Random random = new Random();
 
         // start random on the board
-        int x = random.nextInt(100) - 50; // Zufällige X-Koordinate zwischen -50 und 49
-        int y = random.nextInt(100) - 50; // Zufällige Y-Koordinate zwischen -50 und 49
+        int x = diceRoll.roll(100) - 51; // random x coordinate -50 and 49
+        int y = diceRoll.roll(100) - 51; // random y coordinate -50 and 49
+        
 
         // if tiles left
         while (!tiles.isEmpty()) {
