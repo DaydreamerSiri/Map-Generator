@@ -1,9 +1,16 @@
 package controller;
 import controller.Geography;
+import controller.DiceRoll;
 import java.util.*;
+
+/**
+*
+*@author Florian
+*/
 
 public class TilePlace {
     private Geography geography = new Geography();
+    private DiceRoll diceRoll = new DiceRoll(); 
 
     public void placeTile() {
         // use tableGeography
@@ -17,6 +24,7 @@ public class TilePlace {
         System.out.println("Tile type: " + type);
         System.out.println("Tile count: " + count); */
     }
+    
     public void placeTiles() {
         Random random = new Random();
 
@@ -26,12 +34,12 @@ public class TilePlace {
 
         // if tiles left
         while (!tiles.isEmpty()) {
-            // Würfeln Sie eine Zahl von 1-8
+            // roll 1 to 8
             int direction = getRandomDirection();
 
             // check if blocked
             while (blocked.contains(direction)) {
-                // Wenn blockiert, neue Zahl würfeln
+                // if blocked, new roll
                 direction = getRandomDirection();
             }
 
@@ -64,6 +72,6 @@ public class TilePlace {
     }
 
     private int getRandomDirection() {
-        return new Random().nextInt(8) + 1;
+        return diceRoll.roll(8); 
     }
 }
