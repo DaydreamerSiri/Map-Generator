@@ -1,6 +1,4 @@
 package controller;
-import controller.Geography;
-import controller.DiceRoll;
 import java.util.*;
 
 public class TilePlace {
