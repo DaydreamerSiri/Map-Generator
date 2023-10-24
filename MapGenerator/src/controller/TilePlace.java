@@ -1,80 +1,73 @@
+package controller;
+import controller.Geography;
+import controller.DiceRoll;
 import java.util.*;
 
 public class TilePlace {
-    private List<Object[]> tiles; //Liste der Tiles die platziert werden sollen
-    private List<Position> placedPositions = new ArrayList<>(); //Liste die die Positionen aller platzierten Tiles speichert
-    private Set<Integer> blocked = new HashSet<>(); // Vorrübergehender Speicher für blockierte Richtungen (1 bis 8)
+    private Geography geography = new Geography();
+    private DiceRoll diceRoll = new DiceRoll(); 
 
-    public TilePlace(List<Object[]> tiles) {
-        this.tiles = tiles;
+    public void placeTile() {
+        // use tableGeography
+        Object[] tile = geography.geographyGen();
+
+        // save both num and type
+        String type = (String) tile[0];
+        int count = (int) tile[1];
+/*
+        // show on console
+        System.out.println("Tile type: " + type);
+        System.out.println("Tile count: " + count); */
     }
-
+    
     public void placeTiles() {
-        // Start in Board Mitte ansonsten mathematisch Mittelpunkt bestimmten
-        int x = 0;
-        int y = 0;
+        Random random = new Random();
 
-        // Zufälliges Tile in Mitte setzen
-        placedPositions.add(new Position(x, y));
+        // start random on the board
+        int x = diceRoll.roll(100) - 51; // random x coordinate -50 and 49
+        int y = diceRoll.roll(100) - 51; // random y coordinate -50 and 49
+        
 
-        // Wenn noch Tiles übrig sind
+        // if tiles left
         while (!tiles.isEmpty()) {
-            // würfel Zahl von 1-8
+            // roll 1 to 8
             int direction = getRandomDirection();
 
-            // Check ob platz blockiert
+            // check if blocked
             while (blocked.contains(direction)) {
-                // Wenn blockiert, neue Zahl würfeln
+                // if blocked, new roll
                 direction = getRandomDirection();
             }
 
-            // Update x und y auf gewählte Richtung
             switch (direction) {
-                case 1: x--; break; // Up
-                case 2: x--; y++; break; // Up-right
-                case 3: y++; break; // Right
-                case 4: x++; y++; break; // Down-right
-                case 5: x++; break; // Down
-                case 6: x++; y--; break; // Down-left
-                case 7: y--; break; // Left
-                case 8: x--; y--; break; // Up-left
+                case 1: x--; break; // left
+                case 2: x--; y++; break; // left-up
+                case 3: y++; break; // up
+                case 4: x++; y++; break; // up-right
+                case 5: x++; break; // right
+                case 6: x++; y--; break; // Down-right
+                case 7: y--; break; // down
+                case 8: x--; y--; break; // down-left
             }
 
-            // Check ob neue Richtung nicht belegt
+            // check if direction is blocked
             if (isPositionFree(x, y)) {
-                // Wenn nicht, dann Tile setzen und block counter reset
+                // if not place tile and reset block counter
                 placedPositions.add(new Position(x, y));
                 blocked.clear();
-                tiles.remove(getRandomTile());
+                tiles.remove(0); // removes placed tile from list
             } else {
-                // wenn blockiert neu würfeln und Zahl blockieren
+                // if blocked roll again and block num
                 blocked.add(direction);
             }
         }
     }
 
     private boolean isPositionFree(int x, int y) {
-        return placedPositions.stream().noneMatch(position -> position.getX() == x && position.getY() == y); //Das hier hat ein Kumpel mir so gesagt, ich hatte noch nie mit stream zu tun.
-    }
-
-    private Object[] getRandomTile() {
-        return tiles.get(new Random().nextInt(tiles.size())); //wählt zufälliges Tile via würfeln aus
+        return placedPositions.stream().noneMatch(position -> position.getX() == x && position.getY() == y);
     }
 
     private int getRandomDirection() {
-        return new Random().nextInt(8) + 1; // kein off by 1 for me bitch!
+        return diceRoll.roll(8); 
     }
-}
-
-class Position { //Klasse für Position auf dem Spielfeld. KI meinte ich soll die so unter meine andere Klasse tun da sonst kein Zugriff wäre.
-    private int x;
-    private int y;
-
-    public Position(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public int getX() { return x; }
-    public int getY() { return y; }
 }
