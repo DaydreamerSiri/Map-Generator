@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package controller;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,9 +50,9 @@ public class MapGrid extends MapGridModel{
                    cell.setLocation(this.yCellPosition*i-(this.yCellPosition*i/2), -this.xCellPosition*j-(this.xCellPosition*j/2));
                    cell.setVisible(true);
                    cell.setPreferredSize(this.sizeDimension);
-                   //cell.setText("X"+this.xCellPosition*i);
-                   cell.setBorder(LineBorder.createBlackLineBorder());
-                   
+                   cell.setText(this.toString());
+                   //cell.setBorder(LineBorder.createBlackLineBorder());
+                   cell.setBackground(Color.white);
                    cell.isCreated(true);
                    cellMap.get(i).add(cell);
                    cell.addActionListener(new ActionListener(){
@@ -60,7 +61,7 @@ public class MapGrid extends MapGridModel{
                            JFrame msg = new JFrame();
                            msg.setSize(100, 100);
                            msg.setVisible(true);
-                           msg.add(new JLabel("TEST"));
+                           msg.add(new JLabel(this.toString()));
 
                        }
                    });

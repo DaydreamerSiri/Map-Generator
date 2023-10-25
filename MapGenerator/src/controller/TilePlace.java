@@ -9,10 +9,10 @@ public class TilePlace {
     private Set<Integer> blocked = new HashSet<>();
     private Position lastPlacedPosition = null;
 
-    public void placeTile() {
-        Object[] tile = geography.geographyGen();
-        String type = (String) tile[0];
-        int count = (int) tile[1];
+    public Object[] placeTile() {
+        return geography.geographyGen();
+        //String type = (String) tile[0];
+        //int count = (int) tile[1];
     }
     
     public void placeTiles(MapGrid map, int xLimit, int yLimit) {
@@ -44,6 +44,7 @@ public class TilePlace {
 
                         if (isPositionFree(x, y)) {
                             placedPositions.add(new Position(x, y));
+                            cell.setTileInformation(this.placeTile());
                             cell.isPlaced(true);
                             lastPlacedPosition = new Position(x, y);
                             break;

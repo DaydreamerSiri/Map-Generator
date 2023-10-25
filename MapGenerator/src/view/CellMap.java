@@ -4,7 +4,8 @@
  */
 package view;
 import controller.MapGrid;
-import java.awt.event.FocusEvent.Cause;
+import controller.TilePlace;
+import java.awt.GridLayout;
 import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.border.*;
@@ -14,6 +15,8 @@ import javax.swing.border.*;
  */
 public class CellMap extends javax.swing.JFrame {
     private MapGrid Map;
+    private GridLayout gridView;
+    private TilePlace tileplacer;
     /**
      * Creates new form GeneratorPicker
      */
@@ -21,30 +24,39 @@ public class CellMap extends javax.swing.JFrame {
         this.Map = new MapGrid(sizeX, sizeY);
         this.Map.generateMap();
         System.out.println("x: "+sizeX+" y: "+sizeY);
+        this.tileplacer = new TilePlace();
+        this.tileplacer.placeTiles(Map, sizeX, sizeY);
         this.fillMap();
         initComponents();
     }
     
     public void fillMap(){
+        this.gridView = new GridLayout(this.Map.getSizeX(), this.Map.getSizeY());
+        //creating the GridPanel
+        JPanel col = new JPanel(this.gridView);
+        col.setVisible(true);
+        col.setSize(this.Map.xCellSize+100, this.Map.yCellSize+100);
+        //col.setLocation(this.Map.xCellPosition*i-(this.Map.xCellPosition*i*2/5), this.Map.yCellPosition*j-(this.Map.yCellPosition*j*2/5));
+        col.setFocusable(true);
+        col.requestFocusInWindow();
+        col.setBorder(LineBorder.createBlackLineBorder());
+        //filling the GridPanel with Cells
         for(int i = 0; this.Map.getMapData().getSizeX()> i; i++){
             for(int j = 0; this.Map.getMapData().getSizeY() > j; j++){
-                JPanel col = new JPanel();
-                col.setVisible(true);
-                col.setSize(this.Map.xCellSize+3, this.Map.yCellSize+3);
-                col.setLocation(this.Map.xCellPosition*i-(this.Map.xCellPosition*i*2/5), this.Map.yCellPosition*j-(this.Map.yCellPosition*j*2/5));
-                col.setFocusable(true);
-                col.requestFocusInWindow();
-                col.setBorder(LineBorder.createBlackLineBorder());
-                System.out.println(this.Map.xCellPosition*i-(this.Map.xCellPosition*i*1/4));
+                System.out.println(this.Map.getMapData().getCellDataList().get(i).get(j).getTileInformation()[0]);
+                this.Map.getMapData().getCellDataList().get(i).get(j).setBackground(
+                        this.Map.getMapData().getCellDataList().get(i).get(j).getTileColor(this.Map.getMapData().getCellDataList().get(i).get(j).getTileInformation()[0].toString()));
                 this.add(col);
-                //System.out.println(this.Map.getMapData().getCellData().get(i).get(j));
                 Box box = Box.createVerticalBox();
                 box.setPreferredSize(this.Map.getSizeDimension());
+                //box.setBorder(LineBorder.createBlackLineBorder());
                 box.add(this.Map.getMapData().getCellDataList().get(i).get(j));
-                this.Map.getMapData().getCellDataList().get(i).get(j).isPlaced(true);
+                //this.Map.getMapData().getCellDataList().get(i).get(j).isPlaced(true);
                 col.add(box);
             }
         }
+        
+        
     }
     
 
@@ -58,6 +70,9 @@ public class CellMap extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jButton1 = new javax.swing.JButton();
+
+        jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -127,5 +142,6 @@ public class CellMap extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }

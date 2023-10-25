@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.awt.Color;
 import javax.swing.*;
 
 /**
@@ -12,7 +13,7 @@ import javax.swing.*;
  */
 public class Cell extends JButton {
     
-    String groundType;
+    private Object[] tileInformation;
     boolean isCreated = false;
     boolean isPlaced = false;
     
@@ -20,6 +21,23 @@ public class Cell extends JButton {
         
     }
     
+    
+    public Color getTileColor(String color){
+        switch(color) {
+            case "Green" -> {return Color.GREEN;}
+            case "Yellow" -> {return Color.YELLOW;}
+            case "Gray" -> {return Color.GRAY;}
+        }
+        return null;
+    }
+    
+    public Object[] getTileInformation(){
+        return this.tileInformation;
+    }
+    
+    public void setTileInformation(Object[] tileInformation) {
+        this.tileInformation = tileInformation;
+    }
     
     /**
      * 
@@ -39,6 +57,10 @@ public class Cell extends JButton {
     
     public void isPlaced(boolean isPlaced){
         this.isPlaced = isPlaced;
+    }
+    
+    public String toString(){
+        return String.valueOf(this.tileInformation[0]);
     }
     
 }
