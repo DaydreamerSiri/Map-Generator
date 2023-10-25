@@ -1,64 +1,57 @@
 package controller;
 import java.util.*;
+import model.Cell;
 
 public class TilePlace {
     private Geography geography = new Geography();
     private DiceRoll diceRoll = new DiceRoll(); 
+    private Set<Position> placedPositions = new HashSet<>();
+    private Set<Integer> blocked = new HashSet<>();
+    private Position lastPlacedPosition = null;
 
     public void placeTile() {
-        // use tableGeography
         Object[] tile = geography.geographyGen();
-
-        // save both num and type
         String type = (String) tile[0];
         int count = (int) tile[1];
-/*
-        // show on console
-        System.out.println("Tile type: " + type);
-        System.out.println("Tile count: " + count); */
     }
     
     public void placeTiles(MapGrid map, int xLimit, int yLimit) {
         Random random = new Random();
 
-        // start random on the board
-        int x = diceRoll.roll(xLimit); // random x coordinate -50 and 49
-        int y = diceRoll.roll(yLimit); // random y coordinate -50 and 49  # -51 für negative Bereiche im Koordinatensystem
-        
-        ///    ### Row0Cell0 Row1Cell0 Row2Cell0 
-        ///    ### Row0Cell2 Row1Cell2 Row2Cell2  
-        ///    ### 
-        // if tiles left
-        while (!map.getMapData().getCellDataList().get(0).get(0).isPlaced()) {
-            // roll 1 to 8
-            int direction = getRandomDirection();
+        for (List<Cell> row : map.getMapData().getCellDataList()) {
+            for (Cell cell : row) {
+                if (!cell.isPlaced()) {
+                    int attempts = 0;
+                    while (attempts < 100) {
+                        int x, y;
+                        // If this is the first tile or a random condition is met, choose a random position
+                        if (lastPlacedPosition == null || random.nextInt(10) == 0) {
+                            x = diceRoll.roll(xLimit);
+                            y = diceRoll.roll(yLimit);
+                        } else { // Otherwise, choose a position around the last placed tile
+                            int direction = getRandomDirection();
+                            switch (direction) {
+                                case 1: x = lastPlacedPosition.getX() - 1; y = lastPlacedPosition.getY(); break; // left
+                                case 2: x = lastPlacedPosition.getX() - 1; y = lastPlacedPosition.getY() + 1; break; // left-up
+                                case 3: x = lastPlacedPosition.getX(); y = lastPlacedPosition.getY() + 1; break; // up
+                                case 4: x = lastPlacedPosition.getX() + 1; y = lastPlacedPosition.getY() + 1; break; // up-right
+                                case 5: x = lastPlacedPosition.getX() + 1; y = lastPlacedPosition.getY(); break; // right
+                                case 6: x = lastPlacedPosition.getX() + 1; y = lastPlacedPosition.getY() - 1; break; // Down-right
+                                case 7: x = lastPlacedPosition.getX(); y = lastPlacedPosition.getY() - 1; break; // down
+                                default: x = lastPlacedPosition.getX() - 1; y = lastPlacedPosition.getY() - 1; break; // down-left
+                            }
+                        }
 
-            // check if blocked
-            while (blocked.contains(direction)) {
-                // if blocked, new roll
-                direction = getRandomDirection();
-            }
+                        if (isPositionFree(x, y)) {
+                            placedPositions.add(new Position(x, y));
+                            cell.isPlaced(true);
+                            lastPlacedPosition = new Position(x, y);
+                            break;
+                        }
 
-            switch (direction) {
-                case 1: x--; break; // left
-                case 2: x--; y++; break; // left-up
-                case 3: y++; break; // up
-                case 4: x++; y++; break; // up-right
-                case 5: x++; break; // right
-                case 6: x++; y--; break; // Down-right
-                case 7: y--; break; // down
-                case 8: x--; y--; break; // down-left
-            }
-
-            // check if direction is blocked
-            if (isPositionFree(x, y)) {
-                // if not place tile and reset block counter
-                placedPositions.add(new Position(x, y));
-                blocked.clear();
-                tiles.remove(0); // removes placed tile from list
-            } else {
-                // if blocked roll again and block num
-                blocked.add(direction);
+                        attempts++;
+                    }
+                }
             }
         }
     }
@@ -69,14 +62,5 @@ public class TilePlace {
 
     private int getRandomDirection() {
         return diceRoll.roll(8); 
-    }
-    
-    
-    private void testFunc(MapGrid map){
-        for(int i = 0; map.getSizeX() > i; i++){
-            for(int j = 0; map.getSizeY() > j; j++) {
-                    map.Cell
-                }
-            }
     }
 }
