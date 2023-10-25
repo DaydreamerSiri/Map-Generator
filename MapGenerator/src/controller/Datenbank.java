@@ -70,7 +70,7 @@ public class Datenbank {
     
     public void getDate() throws SQLException {
         try {
-            ResultSet result = conn.createStatement().executeQuery("SELECT * FROM 'RELATIONSHIPS'");
+            ResultSet result = conn.createStatement().executeQuery("SELECT * FROM RELATIONSHIPS");
              while(result.next()){
                 System.out.println(result.getInt("id")+" | "+
                 result.getString("type")+" | "+
@@ -95,6 +95,27 @@ public class Datenbank {
                 stmt.executeUpdate("SHUTDOWN");
                 conn.close();
             }
+        }
+    }
+     /**
+     * Diese Methode fügt 1 - 2 Testdaten in die Tabelle RELATIONSHIPS ein.
+     * 
+     * @throws SQLException 
+     */
+    public void insertTestData() throws SQLException {
+        try {
+            // Stellen Sie sicher, dass eine Verbindung besteht
+            if (conn == null || conn.isClosed()) {
+                connect();
+            }
+
+            Statement stmt = conn.createStatement();
+
+            // Einfügen von Testdaten
+            stmt.executeUpdate("INSERT INTO RELATIONSHIPS (type, duration) VALUES ('test_type1', 'test_duration1')");
+            stmt.executeUpdate("INSERT INTO RELATIONSHIPS (type, duration) VALUES ('test_type2', 'test_duration2')");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
