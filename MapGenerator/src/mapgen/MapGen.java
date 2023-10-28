@@ -46,6 +46,5 @@ public class MapGen {
      
         TilePlace tileplace = new TilePlace();
         tileplace.placeTile();
-    }
-    
+    }   
 }
