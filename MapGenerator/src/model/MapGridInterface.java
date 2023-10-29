@@ -5,10 +5,12 @@
 package model;
 
 /**
- *
- * @author 3menk
+ *  Interface for Static Numbers of MapGrid Class
+ * @author Sehri Singh
  */
 public interface MapGridInterface {
     public int xCellPosition = 100;
     public int yCellPosition = 100;
+    public int yCellSize = 65;
+    public int xCellSize = 65;
 }

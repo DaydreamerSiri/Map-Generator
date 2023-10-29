@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.ResultSet;
 
 /**
  *
@@ -63,10 +64,23 @@ public class Datenbank {
      * 
      * @throws SQLException 
      */
-    public Connection connect() throws SQLException {
+    public void connect() throws SQLException {
         conn = DriverManager.getConnection(dbURL, "SA", "");
-        return conn;
     }
+    
+    public void getDate() throws SQLException {
+        try {
+            ResultSet result = conn.createStatement().executeQuery("SELECT * FROM RELATIONSHIPS");
+             while(result.next()){
+                System.out.println(result.getInt("id")+" | "+
+                result.getString("type")+" | "+
+                result.getString("duration"));
+         }
+        }catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
 
     /**
      * Die private Methode close schließt die Verbindung

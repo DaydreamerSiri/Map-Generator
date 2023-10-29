@@ -16,7 +16,7 @@ public class MapGridModel implements MapGridInterface{
     private int sizeX; 
     private int sizeY;
     
-    private List<List<JButton>> CellData;
+    private List<List<Cell>> CellDataList;
     
     /**
      * Constructor method taking the size of map as arguments
@@ -45,12 +45,19 @@ public class MapGridModel implements MapGridInterface{
         return this.sizeY;
     }
     
-    public List<List<JButton>> getCellData(){
-        return this.CellData;
+    /**
+     * Gets all the Cells of a Map
+     * @return List of a List with Cell Objects
+     */
+    public List<List<Cell>> getCellDataList(){
+        return this.CellDataList;
     }
     
-    public List<List<JButton>> setCellData(List<List<JButton>> cellData){
-        return this.CellData = cellData;
+    /**
+     * Sets all the Cells of a Map
+     */
+    public void setCellDataList(List<List<Cell>> cellData){
+        this.CellDataList = cellData;
     }
     
 }
