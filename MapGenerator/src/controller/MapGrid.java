@@ -5,13 +5,8 @@
 package controller;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Logger;
-import java.util.logging.Level;
 import java.util.*;
 import java.util.List;
-import javax.imageio.ImageIO;
 import model.MapGridModel;
 import javax.swing.*;
 import model.Cell;
@@ -44,19 +39,7 @@ public class MapGrid extends MapGridModel{
         for(int i = 0; this.getSizeX() > i; i++){
                 cellMap.add(new ArrayList());
                 for(int j = 0; this.getSizeY() > j; j++) {
-                   Icon icon = new ImageIcon("..\\..\\tiles\\area\\grass1.png");
-                   File test = new File("..\\..\\ressources\\tiles\\area\\grass1.png");
-                   System.out.println(test.exists());
                    Cell cell = new Cell();
-                    try{
-                       File fi = new File("..\\ressources\\grass1.png");
-                       System.out.println(fi.exists());
-                       Image img = ImageIO.read(getClass().getResource("..\\ressources\\grass1.png"));
-                       img.getSource();
-                       cell.setIcon(new ImageIcon(img));
-                   } catch (IOException e) {
-                       Logger.getLogger(MapGrid.class.getName()).log(Level.SEVERE, null, e);
-                   }
                    cell.setLocation(this.yCellPosition*i-(this.yCellPosition*i/2), -this.xCellPosition*j-(this.xCellPosition*j/2));
                    cell.setVisible(true);
                    cell.setPreferredSize(this.sizeDimension);
@@ -85,6 +68,15 @@ public class MapGrid extends MapGridModel{
         return false;
     }
     
+    
+    
+    public void SetTileImages(){
+        for(List<Cell> row : this.getCellDataList()){
+            for(Cell cell: row){
+                cell.SetTileImages(this.yCellSize, this.xCellSize);
+            }
+        }
+    }
     
     public Dimension getSizeDimension() {
         return this.sizeDimension;

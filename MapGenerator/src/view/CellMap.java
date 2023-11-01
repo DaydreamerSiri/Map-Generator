@@ -26,6 +26,7 @@ public class CellMap extends javax.swing.JFrame {
         System.out.println("x: "+sizeX+" y: "+sizeY);
         this.tileplacer = new TilePlace();
         this.tileplacer.placeTiles(Map, sizeX, sizeY);
+        this.Map.SetTileImages();
         this.fillMap();
         initComponents();
     }

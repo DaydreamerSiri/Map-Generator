@@ -4,7 +4,14 @@
  */
 package model;
 
+import controller.MapGrid;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -19,6 +26,18 @@ public class Cell extends JButton {
     
     public void Cell(){
         
+    }
+    
+    public void SetTileImages(int width, int height){
+        String imagePath = String.format("images\\tiles\\%s.png", this.tileInformation[0]);
+        try{
+            
+            Image img = ImageIO.read(new File(imagePath).getAbsoluteFile()).getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+            System.out.println(img);
+            this.setIcon(new ImageIcon(img));
+        } catch (IOException e) {
+            Logger.getLogger(MapGrid.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
     
     
