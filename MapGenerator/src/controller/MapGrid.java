@@ -61,7 +61,7 @@ public class MapGrid extends MapGridModel{
                            JFrame msg = new JFrame();
                            msg.setSize(100, 100);
                            msg.setVisible(true);
-                           msg.add(new JLabel(this.toString()));
+                           msg.add(new JLabel(cell.cellToString()));
 
                        }
                    });

@@ -59,7 +59,7 @@ public class Cell extends JButton {
         this.isPlaced = isPlaced;
     }
     
-    public String toString(){
+    public String cellToString(){
         return String.valueOf(this.tileInformation[0]);
     }
     
