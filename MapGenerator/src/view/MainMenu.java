@@ -41,6 +41,7 @@ public class MainMenu extends javax.swing.JFrame {
         MainMenuLBL = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Map Generator");
 
         StartBtn.setText("Start");
         StartBtn.addActionListener(new java.awt.event.ActionListener() {

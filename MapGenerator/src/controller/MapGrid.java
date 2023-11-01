@@ -35,7 +35,7 @@ public class MapGrid extends MapGridModel{
      */
     public boolean generateMap(){
         List<List<Cell>> cellMap = new ArrayList();
-        if(this.getCellDataList() == null) {
+        if(this.getCellDataList() == null) {   //check if Cells haven't been generated
         for(int i = 0; this.getSizeX() > i; i++){
                 cellMap.add(new ArrayList());
                 for(int j = 0; this.getSizeY() > j; j++) {
@@ -44,10 +44,10 @@ public class MapGrid extends MapGridModel{
                    cell.setVisible(true);
                    cell.setPreferredSize(this.sizeDimension);
                    cell.setText(this.toString());
-                   //cell.setBorder(LineBorder.createBlackLineBorder());
                    cell.setBackground(Color.white);
                    cell.isCreated(true);
                    cellMap.get(i).add(cell);
+                   //onClick Action Event
                    cell.addActionListener(new ActionListener(){
                        @Override
                        public void actionPerformed(ActionEvent e){
@@ -69,7 +69,9 @@ public class MapGrid extends MapGridModel{
     }
     
     
-    
+    /**
+     * Function to set the Images of all the Cells to their corresponding geoTile
+     */
     public void SetTileImages(){
         for(List<Cell> row : this.getCellDataList()){
             for(Cell cell: row){
@@ -78,6 +80,11 @@ public class MapGrid extends MapGridModel{
         }
     }
     
+    
+    /**
+     * Getter Function to get the Size Dimension (X;Y) of the created MapGrid
+     * @return Dimension of the Map Grid
+     */
     public Dimension getSizeDimension() {
         return this.sizeDimension;
     }

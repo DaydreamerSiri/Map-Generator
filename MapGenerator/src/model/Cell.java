@@ -28,6 +28,12 @@ public class Cell extends JButton {
         
     }
     
+    
+    /**
+     * Set the Image of the Cell
+     * @param width width of the Tile
+     * @param height height of the Tile
+     */
     public void SetTileImages(int width, int height){
         String imagePath = String.format("images\\tiles\\%s.png", this.tileInformation[0]);
         try{
@@ -40,7 +46,12 @@ public class Cell extends JButton {
         }
     }
     
-    
+    /**
+     * Function to set the Background Colour of the Cell
+     * @deprecated 
+     * @param color color name
+     * @return Color Object
+     */
     public Color getTileColor(String color){
         switch(color) {
             case "Green" -> {return Color.GREEN;}
@@ -50,34 +61,61 @@ public class Cell extends JButton {
         return null;
     }
     
+    
+    /**
+     * Getter Function to retrieve the geoTileInformations
+     * @return 
+     */
     public Object[] getTileInformation(){
         return this.tileInformation;
     }
     
+    
+    /**
+     * Setter Function to set the geoTileInformations
+     * @param tileInformation 
+     */
     public void setTileInformation(Object[] tileInformation) {
         this.tileInformation = tileInformation;
     }
     
     /**
-     * 
-     * @return 
+     * Creation Check Function
+     * @return boolean if it's created
      */
     public boolean isCreated(){
         return this.isCreated;
     }
-    
+    /**
+     * Placement Check Function
+     * @return boolean if it's placed
+     */
     public boolean isPlaced() {
         return this.isPlaced;
     }
     
-    public void isCreated(boolean isCreated){
-        this.isCreated = isCreated;
+    /**
+     * Creation Check Function
+     * @param isCreated boolean if it's created
+     * @return boolean if it's created
+     */
+    public boolean isCreated(boolean isCreated){
+        return this.isCreated = isCreated;
+    }
+    /**
+     * Placement Check Function
+     * @param isPlaced boolean if it's created
+     * @return boolean if it's placed
+     */
+    public boolean isPlaced(boolean isPlaced){
+        return this.isPlaced = isPlaced;
     }
     
-    public void isPlaced(boolean isPlaced){
-        this.isPlaced = isPlaced;
-    }
     
+    /**
+     * return Custom toString Method
+     * @return String Object Information
+     */
     public String cellToString(){
         return String.valueOf(this.tileInformation[0]);
     }

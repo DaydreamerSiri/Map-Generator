@@ -21,10 +21,5 @@ public class MapGen {
         //incert, get map presets for UI
         JFrame start = new MainMenu(new Datenbank());
         start.setVisible(true);
-        
-        
-        //1 - Geography Generator
-        Geography geography = new Geography();
-        geography.geographyGen();
     }
 }

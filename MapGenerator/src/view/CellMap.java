@@ -31,13 +31,15 @@ public class CellMap extends javax.swing.JFrame {
         initComponents();
     }
     
+    /**
+     * Function to fill the Map with created Cells
+     */
     public void fillMap(){
         this.gridView = new GridLayout(this.Map.getSizeX(), this.Map.getSizeY());
         //creating the GridPanel
         JPanel col = new JPanel(this.gridView);
         col.setVisible(true);
         col.setSize(this.Map.xCellSize+100, this.Map.yCellSize+100);
-        //col.setLocation(this.Map.xCellPosition*i-(this.Map.xCellPosition*i*2/5), this.Map.yCellPosition*j-(this.Map.yCellPosition*j*2/5));
         col.setFocusable(true);
         col.requestFocusInWindow();
         col.setBorder(LineBorder.createBlackLineBorder());
@@ -50,9 +52,7 @@ public class CellMap extends javax.swing.JFrame {
                 this.add(col);
                 Box box = Box.createVerticalBox();
                 box.setPreferredSize(this.Map.getSizeDimension());
-                //box.setBorder(LineBorder.createBlackLineBorder());
                 box.add(this.Map.getMapData().getCellDataList().get(i).get(j));
-                //this.Map.getMapData().getCellDataList().get(i).get(j).isPlaced(true);
                 col.add(box);
             }
         }
