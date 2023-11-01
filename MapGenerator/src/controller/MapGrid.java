@@ -3,16 +3,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package controller;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.File;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.logging.Logger;
+import java.util.logging.Level;
+import java.util.*;
 import java.util.List;
+import javax.imageio.ImageIO;
 import model.MapGridModel;
 import javax.swing.*;
-import javax.swing.border.*;
 import model.Cell;
 /**
  *
@@ -47,6 +48,15 @@ public class MapGrid extends MapGridModel{
                    File test = new File("..\\..\\ressources\\tiles\\area\\grass1.png");
                    System.out.println(test.exists());
                    Cell cell = new Cell();
+                    try{
+                       File fi = new File("..\\ressources\\grass1.png");
+                       System.out.println(fi.exists());
+                       Image img = ImageIO.read(getClass().getResource("..\\ressources\\grass1.png"));
+                       img.getSource();
+                       cell.setIcon(new ImageIcon(img));
+                   } catch (IOException e) {
+                       Logger.getLogger(MapGrid.class.getName()).log(Level.SEVERE, null, e);
+                   }
                    cell.setLocation(this.yCellPosition*i-(this.yCellPosition*i/2), -this.xCellPosition*j-(this.xCellPosition*j/2));
                    cell.setVisible(true);
                    cell.setPreferredSize(this.sizeDimension);
