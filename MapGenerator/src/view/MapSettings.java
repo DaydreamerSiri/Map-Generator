@@ -5,6 +5,7 @@
 package view;
 
 import controller.Datenbank;
+import java.io.File;
 
 /**
  *
@@ -19,6 +20,7 @@ public class MapSettings extends javax.swing.JFrame {
     public MapSettings(Datenbank db) {
        this.db = db;
        initComponents();
+       this.fillTileSettingsPanel();
        this.ySizeInput.setColumns(4);
        this.xSizeInput.setColumns(4);
        System.out.println(this.ySizeInput.getMinimumSize());
@@ -46,7 +48,6 @@ public class MapSettings extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MapGeneratorSettings");
-        setPreferredSize(new java.awt.Dimension(400, 300));
         setResizable(false);
 
         StartBTN.setText("Start");
@@ -196,6 +197,15 @@ public class MapSettings extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_PrinceAmountInputActionPerformed
 
+    private void fillTileSettingsPanel(){
+        int amount = new File("images\\tiles").listFiles().length;
+        for(int i = 0; amount >= i; i++){
+            
+        }
+        System.out.println(amount);
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
