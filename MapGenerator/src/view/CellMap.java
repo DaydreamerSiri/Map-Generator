@@ -104,7 +104,7 @@ public class CellMap extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.out.println(this.getSize());
         System.out.println(this.Map.getMapData().getCellDataList().get(0).get(0).getSize());
-        this.MapView.setSize(this.getSize());
+        this.MapView.setSize(this.getSize().width*3/4, this.getSize().height*3/4);
         this.Map.UpdateTileImages(this.getSize());
     }//GEN-LAST:event_formComponentResized
 

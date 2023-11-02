@@ -53,7 +53,10 @@ public class Cell extends JButton {
         String imagePath = String.format("images\\tiles\\%s.png", this.tileInformation[0]);
         try{
             
-            this.tileGeographyImage = ImageIO.read(new File(imagePath).getAbsoluteFile()).getScaledInstance(frameDimension.width, frameDimension.height, java.awt.Image.SCALE_SMOOTH);
+            this.tileGeographyImage = ImageIO.read(new File(imagePath)
+                    .getAbsoluteFile()).getScaledInstance(
+                            frameDimension.width*3/4, frameDimension.height*3/4, 
+                            java.awt.Image.SCALE_SMOOTH);
             System.out.println(this.tileGeographyImage);
             this.setIcon(new ImageIcon(this.tileGeographyImage));
         } catch (IOException e) {
