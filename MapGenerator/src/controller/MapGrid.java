@@ -43,7 +43,6 @@ public class MapGrid extends MapGridModel{
                    cell.setLocation(this.yCellPosition*i-(this.yCellPosition*i/2), -this.xCellPosition*j-(this.xCellPosition*j/2));
                    cell.setVisible(true);
                    cell.setPreferredSize(this.sizeDimension);
-                   cell.setText(this.toString());
                    cell.setBackground(Color.white);
                    cell.isCreated(true);
                    cellMap.get(i).add(cell);
@@ -76,6 +75,18 @@ public class MapGrid extends MapGridModel{
         for(List<Cell> row : this.getCellDataList()){
             for(Cell cell: row){
                 cell.SetTileImages(this.yCellSize, this.xCellSize);
+            }
+        }
+    }
+    
+    /**
+     * Update the Tile Images when the Frame gets resized
+     * @param frameSizeDimension the Dimension of the Frame
+     */
+    public void UpdateTileImages(Dimension frameSizeDimension){
+        for(List<Cell> row : this.getCellDataList()){
+            for(Cell cell: row){
+                cell.SetTileImages(frameSizeDimension);
             }
         }
     }

@@ -6,6 +6,7 @@ package model;
 
 import controller.MapGrid;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class Cell extends JButton {
     private Object[] tileInformation;
     boolean isCreated = false;
     boolean isPlaced = false;
+    Image tileGeographyImage;
     
     public void Cell(){
         
@@ -38,13 +40,28 @@ public class Cell extends JButton {
         String imagePath = String.format("images\\tiles\\%s.png", this.tileInformation[0]);
         try{
             
-            Image img = ImageIO.read(new File(imagePath).getAbsoluteFile()).getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
-            System.out.println(img);
-            this.setIcon(new ImageIcon(img));
+            this.tileGeographyImage = ImageIO.read(new File(imagePath).getAbsoluteFile()).getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+            this.setIcon(new ImageIcon(this.tileGeographyImage));
         } catch (IOException e) {
             Logger.getLogger(MapGrid.class.getName()).log(Level.SEVERE, null, e);
+            this.tileGeographyImage = null;
         }
     }
+    
+    
+    public void SetTileImages(Dimension frameDimension){
+        String imagePath = String.format("images\\tiles\\%s.png", this.tileInformation[0]);
+        try{
+            
+            this.tileGeographyImage = ImageIO.read(new File(imagePath).getAbsoluteFile()).getScaledInstance(frameDimension.width, frameDimension.height, java.awt.Image.SCALE_SMOOTH);
+            System.out.println(this.tileGeographyImage);
+            this.setIcon(new ImageIcon(this.tileGeographyImage));
+        } catch (IOException e) {
+            Logger.getLogger(MapGrid.class.getName()).log(Level.SEVERE, null, e);
+            this.tileGeographyImage = null;
+        }
+    }
+    
     
     /**
      * Function to set the Background Colour of the Cell

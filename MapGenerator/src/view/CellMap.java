@@ -6,9 +6,11 @@ package view;
 import controller.MapGrid;
 import controller.TilePlace;
 import java.awt.GridLayout;
+import java.util.List;
 import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.border.*;
+import model.Cell;
 /**
  * The generated Map as View
  * @author Sehri Singh
@@ -17,6 +19,7 @@ public class CellMap extends javax.swing.JFrame {
     private MapGrid Map;
     private GridLayout gridView;
     private TilePlace tileplacer;
+    private JPanel MapView;
     /**
      * Creates new form GeneratorPicker
      */
@@ -37,23 +40,23 @@ public class CellMap extends javax.swing.JFrame {
     public void fillMap(){
         this.gridView = new GridLayout(this.Map.getSizeX(), this.Map.getSizeY());
         //creating the GridPanel
-        JPanel col = new JPanel(this.gridView);
-        col.setVisible(true);
-        col.setSize(this.Map.xCellSize+100, this.Map.yCellSize+100);
-        col.setFocusable(true);
-        col.requestFocusInWindow();
-        col.setBorder(LineBorder.createBlackLineBorder());
+        this.MapView = new JPanel(this.gridView);
+        this.MapView.setVisible(true);
+        this.MapView.setSize(this.Map.xCellSize+100, this.Map.yCellSize+100);
+        this.MapView.setFocusable(true);
+        this.MapView.requestFocusInWindow();
+        this.MapView.setBorder(LineBorder.createBlackLineBorder());
         //filling the GridPanel with Cells
         for(int i = 0; this.Map.getMapData().getSizeX()> i; i++){
             for(int j = 0; this.Map.getMapData().getSizeY() > j; j++){
                 System.out.println(this.Map.getMapData().getCellDataList().get(i).get(j).getTileInformation()[0]);
                 this.Map.getMapData().getCellDataList().get(i).get(j).setBackground(
                         this.Map.getMapData().getCellDataList().get(i).get(j).getTileColor(this.Map.getMapData().getCellDataList().get(i).get(j).getTileInformation()[0].toString()));
-                this.add(col);
+                this.add(this.MapView);
                 Box box = Box.createVerticalBox();
                 box.setPreferredSize(this.Map.getSizeDimension());
                 box.add(this.Map.getMapData().getCellDataList().get(i).get(j));
-                col.add(box);
+                this.MapView.add(this.Map.getMapData().getCellDataList().get(i).get(j));
             }
         }
         
@@ -77,6 +80,11 @@ public class CellMap extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Map");
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                formComponentResized(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -91,6 +99,14 @@ public class CellMap extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
+        // TODO add your handling code here:
+        System.out.println(this.getSize());
+        System.out.println(this.Map.getMapData().getCellDataList().get(0).get(0).getSize());
+        this.MapView.setSize(this.getSize());
+        this.Map.UpdateTileImages(this.getSize());
+    }//GEN-LAST:event_formComponentResized
 
     /**
      * @param args the command line arguments
