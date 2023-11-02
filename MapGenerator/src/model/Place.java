@@ -4,6 +4,10 @@
  */
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  *
  * @author noormo
@@ -130,6 +134,34 @@ public class Place {
     public String toString() {
         return "Place{" + "ID=" + ID + ", riverNumber=" + riverNumber + ", npcID=" + npcID + ", XPos=" + XPos + ", YPos=" + YPos + ", type=" + type + ", tileNumber=" + tileNumber + ", symbol=" + symbol + ", specialFeatures=" + specialFeatures + ", ageHistory=" + ageHistory + ", difficulty=" + difficulty + '}';
     }
+    
+            public class PlaceOperations {
+    // 1. Einfügen
+    public void insertPlace(int id, int riverId, int npcId, int xPos, int yPos, String type, int tileId, String symbol, String specialFeatures, String ageHistory, String difficulty) throws SQLException {
+        String sql = "INSERT INTO Place (ID, riverId, npcId, xPos, yPos, type, tileId, symbol, specialFeatures, ageHistory, difficulty) VALUES (" + id + ", " + riverId + ", " + npcId + ", " + xPos + ", " + yPos + ", '" + type + "', " + tileId + ", '" + symbol + "', '" + specialFeatures + "', '" + ageHistory + "', '" + difficulty + "')";
+        Statement stmt = conn.createStatement();
+        stmt.executeUpdate(sql);
+    }
+
+    // 2. Abfragen
+    public ResultSet getPlace() throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM Place");
+    }
+
+    // 3. Aktualisieren
+    public void updatePlace(int ID, String type, int tileId, String symbol, String specialFeatures, String ageHistory, String difficulty) throws SQLException {
+        String sql = "UPDATE Place SET type = '" + type + "', tileId = " + tileId + ", symbol = '" + symbol + "', specialFeatures = '" + specialFeatures + "', ageHistory = '" + ageHistory + "', difficulty = '" + difficulty + "' WHERE ID = " + ID;
+        Statement stmt = conn.createStatement();
+        stmt.executeUpdate(sql);
+    }
+
+    // 4. Löschen
+    public void deletePlace(int ID) throws SQLException {
+        String sql = "DELETE FROM Place WHERE ID = " + ID;
+        Statement stmt = conn.createStatement();
+        stmt.executeUpdate(sql);
+    }
+}
     
     
     
