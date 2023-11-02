@@ -4,11 +4,13 @@
  */
 package controller;
 
+import java.lang.management.PlatformLoggingMXBean;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.time.chrono.ThaiBuddhistEra;
 
 /**
  *
@@ -62,10 +64,14 @@ public class Datenbank {
      * Die private Methode connect stellt die Verbindung mit
      * der Datenbank her.
      * 
-     * @throws SQLException 
+     *
      */
-    public void connect() throws SQLException {
-        conn = DriverManager.getConnection(dbURL, "SA", "");
+    public void connect(){
+        try{
+            conn = DriverManager.getConnection(dbURL, "SA", "");
+        }catch(SQLException ex){
+            System.out.println(ex);
+        }
     }
     
     public void getDate() throws SQLException {
@@ -103,9 +109,9 @@ public class Datenbank {
     /**
      * Diese Methode fügt Testdaten in die Tabelle RELATIONSHIPS ein.
      * 
-     * @throws SQLException 
+     * 
      */
-    public void insertTestData() throws SQLException {
+    public void insertTestData(){
         try {
 
             if (conn == null || conn.isClosed()) {
@@ -114,25 +120,39 @@ public class Datenbank {
 
             Statement stmt = conn.createStatement();
 
-            
-            stmt.executeUpdate("INSERT INTO RELATIONSHIPS (type, duration) VALUES ('test_type1', 'test_duration1')");
-            stmt.executeUpdate("INSERT INTO RELATIONSHIPS (type, duration) VALUES ('test_type2', 'test_duration2')");
+            stmt.executeUpdate("DELETE FROM RELATIONSHIPS");
+            stmt.executeUpdate("INSERT INTO RELATIONSHIPS (id, type, duration) VALUES (0, 'test_type1', 'test_duration1')");
+            stmt.executeUpdate("INSERT INTO RELATIONSHIPS (id, type, duration) VALUES (1, 'test_type2', 'test_duration2')");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-
-    // Für die Tabelle "NPC":
-        public class NPCOperations {
-
-    // 1. Einfügen 
-        public void insertNPC(int id, String realm, String name, int age, String race, String subType, String career, String stageOfCareer, String goal, int mobHP, String mobType, String title, int xPos, int yPos, String personality, String ruler) throws SQLException {
-        String sql = "INSERT INTO NPC (ID, realm, name, age, race, subType, career, stageOfCareer, goal, mobHP, mobType, title, xPos, yPos, personality, ruler) VALUES (" + id + ", '" + realm + "', '" + name + "', " + age + ", '" + race + "', '" + subType + "', '" + career + "', '" + stageOfCareer + "', '" + goal + "', " + mobHP + ", '" + mobType + "', '" + title + "', " + xPos + ", " + yPos + ", '" + personality + "', '" + ruler + "')";
-        Statement stmt = conn.createStatement();
-        stmt.executeUpdate(sql);
+    
+    public void insertNPC(int id, String realm, String name, int age, String race, 
+            String subType, String career, String stageOfCareer, String goal, int mobHP, 
+            String mobType, String title, int xPos, int yPos, String personality, String ruler){
+        NPCOperations npco = new NPCOperations();
+        try {
+            String sql = npco.insertNPC(id, realm, 
+                name, age, race, subType, career,
+                stageOfCareer, goal, mobHP, mobType, 
+                title, xPos, yPos, personality, ruler);
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
-
+    // Für die Tabelle "NPC":
+        static class NPCOperations {
+    // 1. Einfügen 
+        public String insertNPC(int id, String realm, String name, int age, String race, String subType, String career, String stageOfCareer, String goal, int mobHP, String mobType, String title, int xPos, int yPos, String personality, String ruler) throws SQLException {
+        String sql = "INSERT INTO NPC (ID, realm, name, age, race, sub_type, career, stage_of_career, goal, mob_number, mobtype, title, x_Pos, y_Pos, personality, ruler) VALUES (" + id + ", '" + realm + "', '" + name + "', " + age + ", '" + race + "', '" + subType + "', '" + career + "', '" + stageOfCareer + "', '" + goal + "', " + mobHP + ", '" + mobType + "', '" + title + "', " + xPos + ", " + yPos + ", '" + personality + "', '" + ruler + "')";
+        return sql;
+    }
+        }
+}
+/**
     // 2. Abrufen 
     public ResultSet getNPC() throws SQLException {
         
@@ -241,5 +261,5 @@ public class Datenbank {
     }
 }
 
+**/
 
-}
