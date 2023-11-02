@@ -151,8 +151,9 @@ public class Datenbank {
         return sql;
     }
         }
-}
-/**
+        
+
+
     // 2. Abrufen 
     public ResultSet getNPC() throws SQLException {
         
@@ -174,15 +175,29 @@ public class Datenbank {
         Statement stmt = conn.createStatement();
         stmt.executeUpdate(sql);
     }
-}
+
+
         
-        public class PlaceOperations {
     // 1. Einfügen
     public void insertPlace(int id, int riverId, int npcId, int xPos, int yPos, String type, int tileId, String symbol, String specialFeatures, String ageHistory, String difficulty) throws SQLException {
-        String sql = "INSERT INTO Place (ID, riverId, npcId, xPos, yPos, type, tileId, symbol, specialFeatures, ageHistory, difficulty) VALUES (" + id + ", " + riverId + ", " + npcId + ", " + xPos + ", " + yPos + ", '" + type + "', " + tileId + ", '" + symbol + "', '" + specialFeatures + "', '" + ageHistory + "', '" + difficulty + "')";
+        PlaceOperations placeo = new PlaceOperations();
+        try {
+             String sql = placeo.insertPlace(id, riverId, npcId, xPos, yPos, type, tileId, symbol, specialFeatures, ageHistory, difficulty);
         Statement stmt = conn.createStatement();
         stmt.executeUpdate(sql);
+      } catch (Exception ex) {
+            System.out.println(ex);
     }
+    }
+        // Für die Tabelle "Place":
+        static class PlaceOperations {
+    // 1. Einfügen 
+        public String insertPlace(int id, int riverId, int npcId, int xPos, int yPos, String type, int tileId, String symbol, String specialFeatures, String ageHistory, String difficulty) throws SQLException {
+        String sql = "INSERT INTO Place (ID, riverId, npcId, xPos, yPos, type, tileId, symbol, specialFeatures, ageHistory, difficulty) VALUES (" + id + ", " + riverId + ", " + npcId + ", " + xPos + ", " + yPos + ", '" + type + "', " + tileId + ", '" + symbol + "', '" + specialFeatures + "', '" + ageHistory + "', '" + difficulty + "')";
+        return sql;
+    }
+        }
+    
 
     // 2. Abfragen
     public ResultSet getPlace() throws SQLException {
@@ -202,14 +217,26 @@ public class Datenbank {
         Statement stmt = conn.createStatement();
         stmt.executeUpdate(sql);
     }
-}
+
         
-        public class GroupOperations {
-    // 1. Einfügen
-    public void insertGroup(int relationshipId, String relationshipType, int relationshipDuration) throws SQLException {
-        String sql = "INSERT INTO Groups (relationship_ID, relationship_type, relationship_duration) VALUES (" + relationshipId + ", '" + relationshipType + "', " + relationshipDuration + ")";
+        
+           
+        public void insertGroup(int relationshipId, String relationshipType, int relationshipDuration) throws SQLException {
+        GroupOperations groupo = new GroupOperations();
+        try {
+             String sql = groupo.insertGroup(relationship_ID, relationship_type, relationship_duration);
         Statement stmt = conn.createStatement();
         stmt.executeUpdate(sql);
+      } catch (Exception ex) {
+            System.out.println(ex);
+            
+            
+}
+    Static class GroupOperations {
+    // 1. Einfügen
+    public String insertGroup(int relationshipId, String relationshipType, int relationshipDuration) throws SQLException {
+        String sql = "INSERT INTO Groups (relationship_ID, relationship_type, relationship_duration) VALUES (" + relationshipId + ", '" + relationshipType + "', " + relationshipDuration + ")";
+        return sql;
     }
 
     // 2. Abfragen
@@ -231,15 +258,34 @@ public class Datenbank {
         stmt.executeUpdate(sql);
     }
 }
+        }
         
-        public class RelationshipOperations {
+            
+        
     
     // 1. Einfügen
-    public void insertRelationship(int relationshipId, String relationshipType, int relationshipDuration) throws SQLException {
-        String sql = "INSERT INTO RELATIONSHIPS (relationship_ID, relationship_type, relationship_duration) VALUES (" + relationshipId + ", '" + relationshipType + "', " + relationshipDuration + ")";
-        Statement stmt = conn.createStatement();
-        stmt.executeUpdate(sql);
+        public void insertRelationship(int relationshipId, String relationshipType, int relationshipDuration) throws SQLException {
+            String sql = "INSERT INTO RELATIONSHIPS (relationship_ID, relationship_type, relationship_duration) VALUES (" + relationshipId + ", '" + relationshipType + "', " + relationshipDuration + ")";
+            RelationshipOperations rso = new RelationshipOperations();
+            try { 
+                sql = rso.insertRelationship(relationshipId, relationshipType, relationshipDuration);
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(sql);
+            } catch ( Exception ex) {
+                System.out.println(ex);
+            }
+        }
+
+    
+    // Für die Tabelle "Relationship":
+        static class RelationshipOperations {
+    // 1. Einfügen 
+        public String insertRelationship(int relationshipId, String relationshipType, int relationshipDuration) throws SQLException {
+            String sql = "INSERT INTO RELATIONSHIPS (relationship_ID, relationship_type, relationship_duration) VALUES (" + relationshipId + ", '" + relationshipType + "', " + relationshipDuration + ")";
+            return sql;
     }
+}
+        
 
     // 2. Abfragen
     public ResultSet getRelationship() throws SQLException {
@@ -261,5 +307,5 @@ public class Datenbank {
     }
 }
 
-**/
+
 
