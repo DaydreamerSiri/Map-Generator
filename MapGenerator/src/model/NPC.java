@@ -35,11 +35,10 @@ public class NPC {
     
 
     
-   public NPC(int ID, String realm, String name, int age, String race, String subType, 
+   public NPC(String realm, String name, int age, String race, String subType, 
                String career, String stageOfCareer, String goal, int mobNumber, 
                String mobType, String title, int xPos, int yPos, String personality, 
                String ruler, int relationshipID) {
-        this.ID = ID;
         this.realm = realm;
         this.name = name;
         this.age = age;
@@ -56,8 +55,6 @@ public class NPC {
         this.personality = personality;
         this.ruler = ruler;
         this.relationshipID = relationshipID;
-       
-       
    }
 
     public int getID() {
