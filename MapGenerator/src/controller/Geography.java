@@ -82,7 +82,7 @@ public class Geography {
             case 97 -> {System.out.println("Barren Mountains"); tileGeoType = "Barren Mountains"; roll = diceRoll.roll(maxRoll*5);}
             case 98 -> {System.out.println("Scrubland Swamps"); tileGeoType = "Scrubland Swamps"; roll = diceRoll.roll(maxRoll*5);}
             case 99 -> {System.out.println("Barren Badlands"); tileGeoType = "Barren Badlands"; roll = diceRoll.roll(maxRoll*5);}
-            case 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 -> {System.out.println("River"); tileGeoType = "River"; roll = 1;}
+            case 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 -> {System.out.println("River"); tileGeoType = "River"; diceRoll.roll(maxRoll);}
             default -> {System.out.println("Special Feture"); tableSpecialFeatures(); tileGeoType = "Special Feture"; roll = 1;} // Default case
         }
         
