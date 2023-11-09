@@ -220,25 +220,33 @@ public class Datenbank {
 
         
         
-           
-        public void insertGroup(int relationshipId, String relationshipType, int relationshipDuration) throws SQLException {
-        GroupOperations groupo = new GroupOperations();
-        try {
-             String sql = groupo.insertGroup(relationship_ID, relationship_type, relationship_duration);
-        Statement stmt = conn.createStatement();
-        stmt.executeUpdate(sql);
-      } catch (Exception ex) {
+
+        
+        public void insertGroup(Group group){
+            try {
+                connect();
+                String sql = "INSERT INTO Groups (relationship_ID, relationship_type, relationship_duration)"
+                        + "VALUES ('"
+                        + group.getrelationshipID() + "', '" + group.getRelationshipType() + "', '" + group.getRelationshipDuration() + "')";
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+                ResultSet rst = stmt.getGeneratedKeys();
+                if(rst.next()){
+                    group.setID(rst.getInt(1));
+                }
+            } catch (Exception ex) {
             System.out.println(ex);
-            
-            
-}
-    Static class GroupOperations {
-    // 1. Einfügen
-    public String insertGroup(int relationshipId, String relationshipType, int relationshipDuration) throws SQLException {
+            }
+        }
+    static class GroupOperations {
+    // 1. Einfügen        
+    public void insertGroup(int relationshipId, String relationshipType, int relationshipDuration) throws SQLException {
         String sql = "INSERT INTO Groups (relationship_ID, relationship_type, relationship_duration) VALUES (" + relationshipId + ", '" + relationshipType + "', " + relationshipDuration + ")";
         return sql;
     }
-
+    }
+            
+            
     // 2. Abfragen
     public ResultSet getGroup() throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM Groups");
@@ -257,34 +265,41 @@ public class Datenbank {
         Statement stmt = conn.createStatement();
         stmt.executeUpdate(sql);
     }
-}
-        }
+
+        
         
             
         
     
     // 1. Einfügen
-        public void insertRelationship(int relationshipId, String relationshipType, int relationshipDuration) throws SQLException {
-            String sql = "INSERT INTO RELATIONSHIPS (relationship_ID, relationship_type, relationship_duration) VALUES (" + relationshipId + ", '" + relationshipType + "', " + relationshipDuration + ")";
-            RelationshipOperations rso = new RelationshipOperations();
-            try { 
-                sql = rso.insertRelationship(relationshipId, relationshipType, relationshipDuration);
+            public void insertRelationship(Relationship relationship){
+                try {
+                    connect();
+                    String sql = "INSERT INTO RELATIONSHIPS (relationship_ID, relationship_type, relationship_duration) VALUES ('" 
+                            + relationship.getRelationshipId() + "', '" + relationship.getRelationshipType + "', '" + relationship.getRelationshipDuration + "')";
                 Statement stmt = conn.createStatement();
-                stmt.executeUpdate(sql);
-            } catch ( Exception ex) {
+                stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+                ResultSet rst = stmt.getGeneratedKeys();
+                if(rst.next()){
+                    relationship.setID(rst.getInt(1));
+                }
+                close();
+            } catch (Exception ex) {
                 System.out.println(ex);
             }
-        }
+            }
 
-    
     // Für die Tabelle "Relationship":
         static class RelationshipOperations {
     // 1. Einfügen 
         public String insertRelationship(int relationshipId, String relationshipType, int relationshipDuration) throws SQLException {
-            String sql = "INSERT INTO RELATIONSHIPS (relationship_ID, relationship_type, relationship_duration) VALUES (" + relationshipId + ", '" + relationshipType + "', " + relationshipDuration + ")";
-            return sql;
+        String sql = "INSERT INTO RELATIONSHIP (relationship_ID, relationship_type, relationship_duration) VALUES (" + relationshipId + ", '" + relationshipType + "', " + relationshipDuration + ")";
+        return sql;
     }
-}
+        }
+
+
+
         
 
     // 2. Abfragen

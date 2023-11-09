@@ -39,8 +39,6 @@ public class MapSettings extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         StartBTN = new javax.swing.JButton();
         BackBTN = new javax.swing.JButton();
-        ConDbBtn = new javax.swing.JButton();
-        FillNpcsBTN = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MapGeneratorSettings");
@@ -69,28 +67,10 @@ public class MapSettings extends javax.swing.JFrame {
             }
         });
 
-        ConDbBtn.setText("Connect DB");
-        ConDbBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ConDbBtnActionPerformed(evt);
-            }
-        });
-
-        FillNpcsBTN.setText("Fill NPC DB");
-        FillNpcsBTN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FillNpcsBTNActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(StartBTN)
-                .addGap(30, 30, 30))
             .addGroup(layout.createSequentialGroup()
                 .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -102,13 +82,12 @@ public class MapSettings extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ySizeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(BackBTN)
-                        .addGap(68, 68, 68)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(FillNpcsBTN)
-                            .addComponent(ConDbBtn))))
-                .addContainerGap(157, Short.MAX_VALUE))
+                    .addComponent(BackBTN, javax.swing.GroupLayout.Alignment.LEADING))
+                .addContainerGap(168, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(StartBTN)
+                .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,13 +100,10 @@ public class MapSettings extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(xSizeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ySizeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
-                .addComponent(FillNpcsBTN)
-                .addGap(49, 49, 49)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(StartBTN)
-                    .addComponent(BackBTN)
-                    .addComponent(ConDbBtn))
+                    .addComponent(BackBTN))
                 .addGap(22, 22, 22))
         );
 
@@ -159,7 +135,9 @@ public class MapSettings extends javax.swing.JFrame {
     private void FillNpcsBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FillNpcsBTNActionPerformed
         // TODO add your handling code here:
         this.db.insertNPC(1, "Deutschland", "Germany", 100, "Mensch", "Kartoffel", "Baecker", "100", "Rentenversicherung", 1000, "Humans", "Vaterland", 100, 100, "Doof", "Olaf Scholz");
-        
+        this.db.insertGroup();
+        this.db.insertPlace(WIDTH, WIDTH, WIDTH, ERROR, ERROR, type, WIDTH, symbol, specialFeatures, ageHistory, difficulty);
+        this.db.insertRelationship(this);
     }//GEN-LAST:event_FillNpcsBTNActionPerformed
 
     /**
@@ -199,8 +177,6 @@ public class MapSettings extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackBTN;
-    private javax.swing.JButton ConDbBtn;
-    private javax.swing.JButton FillNpcsBTN;
     private javax.swing.JButton StartBTN;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
