@@ -90,6 +90,17 @@ public class MapGrid extends MapGridModel{
             }
         }
     }
+    /**
+     * Update the POI Images when the Frame gets resized
+     * @param frameSizeDimension the Dimension of the Frame
+     */
+    public void UpdatePOIImages(Dimension frameSizeDimension){
+        for(List<POI> row : this.getCellDataList()){
+            for(Cell cell: row){
+                cell.SetTileImages(frameSizeDimension);
+            }
+        }
+    }
     
     
     /**
