@@ -67,7 +67,7 @@ public class MapGridModel implements MapGridInterface{
         this.POIDataList = poiList;
     }
     
-    public List<POI> getPOIList(List<POI> poiList){
+    public List<POI> getPOIList(){
         return this.POIDataList;
     }
     

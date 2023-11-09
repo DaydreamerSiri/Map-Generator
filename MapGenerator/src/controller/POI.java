@@ -45,6 +45,21 @@ public class POI extends POIModel{
         this.setSize(width, height);
     }
     
+    public void setPOIImage(Dimension frameDimension){
+    String imagePath = String.format("images\\POIs\\%s.png", this.Type);
+    this.setImageLocation(imagePath);
+        try{
+            
+            this.POIImage = ImageIO.read(new File(imagePath).getAbsoluteFile()).getScaledInstance(frameDimension.width,frameDimension.height, java.awt.Image.SCALE_SMOOTH);
+            this.setIcon(new ImageIcon(POIImage));
+        } catch (IOException e) {
+            Logger.getLogger(MapGrid.class.getName()).log(Level.SEVERE, null, e);
+            this.POIImage = null;
+        }
+        this.setSize(frameDimension.width, frameDimension.height);
+    }
+    
+    
     public void setDescription(String desc){
         Description = desc;
     }

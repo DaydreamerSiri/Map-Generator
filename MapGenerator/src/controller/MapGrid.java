@@ -95,10 +95,8 @@ public class MapGrid extends MapGridModel{
      * @param frameSizeDimension the Dimension of the Frame
      */
     public void UpdatePOIImages(Dimension frameSizeDimension){
-        for(List<POI> row : this.getCellDataList()){
-            for(Cell cell: row){
-                cell.SetTileImages(frameSizeDimension);
-            }
+        for(List<POI> poi : this.getPOIList()){
+            poi.SetTileImages(frameSizeDimension);
         }
     }
     
