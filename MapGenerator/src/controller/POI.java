@@ -6,6 +6,8 @@ package controller;
 
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -13,6 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import model.POIModel;
 
 /**
@@ -28,7 +32,7 @@ public class POI extends POIModel{
         super(type, xLoc, yLoc);
         this.setOpaque(false);
         this.setContentAreaFilled(false);
-        this.setBorderPainted(true);
+        this.setBorderPainted(false);
     }
     
     public void setPOIImage(int width, int height){
@@ -64,7 +68,16 @@ public class POI extends POIModel{
         Description = desc;
     }
     
-    public String POIDescprition(){
+    public void setClickEvent(){
+        addActionListener((ActionEvent e) -> {
+            JFrame msg = new JFrame();
+            msg.setSize(100, 100);
+            msg.setVisible(true);
+            msg.add(new JLabel(this.POIDescription()));
+        });
+    }
+    
+    public String POIDescription(){
         return this.Description;
     }
     

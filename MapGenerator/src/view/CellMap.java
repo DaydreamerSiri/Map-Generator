@@ -47,7 +47,8 @@ public class CellMap extends javax.swing.JFrame {
         //creating the GridPanel
         this.LayerView = new JLayeredPane();
         this.LayerView.setVisible(true);
-        this.LayerView.setSize(this.Map.xCellSize+300, this.Map.yCellSize+300);
+        this.LayerView.setOpaque(false);
+        this.LayerView.setSize(this.Map.LayerViewSize, this.Map.LayerViewSize);
         //filling the GridPanel with Cells
         this.fillTiles();
         this.fillPOIs();
@@ -62,10 +63,13 @@ public class CellMap extends javax.swing.JFrame {
         this.POIView.setVisible(true);
         this.POIView.setSize(this.Map.xCellSize+100, this.Map.yCellSize+100);
         this.POIView.setOpaque(false);
+        this.POIView.setFocusable(false);
         
         POI house = new POI("House", 2,2);
+        house.setDescription("A little House !");
         house.setSize(50,50);
         house.setPOIImage(50, 50);
+        house.setClickEvent();
         this.POIView.add(house);
     }
     
@@ -74,16 +78,15 @@ public class CellMap extends javax.swing.JFrame {
         this.CellView  = new JPanel();
         this.CellView.setLayout(gridView);
         this.CellView.setVisible(true);
-        this.CellView.setSize(this.Map.xCellSize+100, this.Map.yCellSize+100);
-        this.CellView.setFocusable(true);
+        this.CellView.setSize(this.Map.xCellSize, this.Map.yCellSize);
+        //this.CellView.setFocusable(true);
         this.CellView.requestFocusInWindow();
-        this.CellView.setBorder(LineBorder.createBlackLineBorder());
-        
+        //this.CellView.setBorder(LineBorder.createBlackLineBorder());
         for(int i = 0; this.Map.getMapData().getSizeX()> i; i++){
             for(int j = 0; this.Map.getMapData().getSizeY() > j; j++){
                 System.out.println(this.Map.getMapData().getCellDataList().get(i).get(j).getTileInformation()[0]);
-                this.Map.getMapData().getCellDataList().get(i).get(j).setBackground(
-                        this.Map.getMapData().getCellDataList().get(i).get(j).getTileColor(this.Map.getMapData().getCellDataList().get(i).get(j).getTileInformation()[0].toString()));
+                //this.Map.getMapData().getCellDataList().get(i).get(j).setBackground(
+                //        this.Map.getMapData().getCellDataList().get(i).get(j).getTileColor(this.Map.getMapData().getCellDataList().get(i).get(j).getTileInformation()[0].toString()));
                 //Box box = Box.createVerticalBox();
                 //box.setPreferredSize(this.Map.getSizeDimension());
                 //box.add(this.Map.getMapData().getCellDataList().get(i).get(j));

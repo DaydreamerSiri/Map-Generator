@@ -27,7 +27,10 @@ public class Cell extends JButton {
     Image tileGeographyImage;
     
     public void Cell(){
-        
+        this.setOpaque(false);
+        this.setContentAreaFilled(false);
+        this.setBorderPainted(false);
+        this.setFocusable(false);
     }
     
     
@@ -38,8 +41,13 @@ public class Cell extends JButton {
      */
     public void SetTileImages(int width, int height){
         String imagePath = String.format("images\\tiles\\%s.png", this.tileInformation[0]);
+        if(width == 0 && height == 0){
+            width = 100;
+            height = 100;
+        
+        }
+        
         try{
-            
             this.tileGeographyImage = ImageIO.read(new File(imagePath).getAbsoluteFile()).getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
             this.setIcon(new ImageIcon(this.tileGeographyImage));
         } catch (IOException e) {
@@ -57,31 +65,13 @@ public class Cell extends JButton {
                     .getAbsoluteFile()).getScaledInstance(
                             frameDimension.width*3/4, frameDimension.height*3/4, 
                             java.awt.Image.SCALE_SMOOTH);
-            System.out.println(this.tileGeographyImage);
             this.setIcon(new ImageIcon(this.tileGeographyImage));
         } catch (IOException e) {
             Logger.getLogger(MapGrid.class.getName()).log(Level.SEVERE, null, e);
             this.tileGeographyImage = null;
         }
     }
-    
-    
-    /**
-     * Function to set the Background Colour of the Cell
-     * @deprecated 
-     * @param color color name
-     * @return Color Object
-     */
-    public Color getTileColor(String color){
-        switch(color) {
-            case "Green" -> {return Color.GREEN;}
-            case "Yellow" -> {return Color.YELLOW;}
-            case "Gray" -> {return Color.GRAY;}
-        }
-        return null;
-    }
-    
-    
+       
     /**
      * Getter Function to retrieve the geoTileInformations
      * @return 
