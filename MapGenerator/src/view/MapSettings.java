@@ -6,6 +6,7 @@ package view;
 
 import controller.Datenbank;
 import java.io.File;
+import model.NPC;
 
 /**
  *
@@ -183,13 +184,16 @@ public class MapSettings extends javax.swing.JFrame {
 
     private void ConDbBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConDbBtnActionPerformed
         // TODO add your handling code here:
-        this.db.connect();
         
     }//GEN-LAST:event_ConDbBtnActionPerformed
 
     private void FillNpcsBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FillNpcsBTNActionPerformed
         // TODO add your handling code here:
-        this.db.insertNPC(1, "Deutschland", "Germany", 100, "Mensch", "Kartoffel", "Baecker", "100", "Rentenversicherung", 1000, "Humans", "Vaterland", 100, 100, "Doof", "Olaf Scholz");
+        NPC npc = new NPC("Deutschland", "Germany", 100,
+                "Mensch", "Kartoffel", "Baecker", "100",
+                "Rentenversicherung", 1000, "Humans", "Vaterland",
+                100, 100, "Doof", "Olaf Scholz", 1);
+        this.db.insertNPC(npc);
         
     }//GEN-LAST:event_FillNpcsBTNActionPerformed
 

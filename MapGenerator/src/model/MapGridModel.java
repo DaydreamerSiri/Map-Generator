@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
+import controller.POI;
 import java.lang.IllegalArgumentException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,8 @@ public class MapGridModel implements MapGridInterface{
     private int sizeY;
     
     private List<List<Cell>> CellDataList;
+    private List<POI> POIDataList;
+    
     
     /**
      * Constructor method taking the size of map as arguments
@@ -58,6 +61,14 @@ public class MapGridModel implements MapGridInterface{
      */
     public void setCellDataList(List<List<Cell>> cellData){
         this.CellDataList = cellData;
+    }
+    
+    public void setPOIList(List<POI> poiList){
+        this.POIDataList = poiList;
+    }
+    
+    public List<POI> getPOIList(){
+        return this.POIDataList;
     }
     
 }

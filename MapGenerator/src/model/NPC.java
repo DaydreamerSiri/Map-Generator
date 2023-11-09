@@ -25,15 +25,7 @@ public class NPC {
     private int yPos;
     private String personality;
     private String ruler;
-    private int relationshipID; 
-    
-    
-    
-
-    public NPC() {}
-
-    
-
+    private int relationshipID;
     
    public NPC(String realm, String name, int age, String race, String subType, 
                String career, String stageOfCareer, String goal, int mobNumber, 

@@ -13,4 +13,5 @@ public interface MapGridInterface {
     public int yCellPosition = 100;
     public int yCellSize = 65;
     public int xCellSize = 65;
+    public int LayerViewSize = 500;
 }
