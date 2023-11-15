@@ -2,6 +2,11 @@ package controller;
 import java.util.*;
 import model.Cell;
 
+/**
+ *
+ * @author Autmn Decker
+ */
+
 public class TilePlace {
     private Geography geography = new Geography();
     private DiceRoll diceRoll = new DiceRoll(); 
