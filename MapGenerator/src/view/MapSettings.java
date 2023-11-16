@@ -5,7 +5,19 @@
 package view;
 
 import controller.Datenbank;
+import controller.MapGrid;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import model.NPC;
 
 /**
@@ -21,7 +33,7 @@ public class MapSettings extends javax.swing.JFrame {
     public MapSettings(Datenbank db) {
        this.db = db;
        initComponents();
-       this.fillTileSettingsPanel();
+       this.fillTileSettingsPanel(30,30);
        this.ySizeInput.setColumns(4);
        this.xSizeInput.setColumns(4);
        System.out.println(this.ySizeInput.getMinimumSize());
@@ -45,7 +57,7 @@ public class MapSettings extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         PrinceAmountInput = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        TileSettingsPanel = new javax.swing.JPanel();
+        tileSettingsPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MapGeneratorSettings");
@@ -87,7 +99,7 @@ public class MapSettings extends javax.swing.JFrame {
         SettingsPanelLayout.setHorizontalGroup(
             SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SettingsPanelLayout.createSequentialGroup()
-                .addContainerGap(48, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(PrinceAmountInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -116,19 +128,19 @@ public class MapSettings extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addComponent(PrinceAmountInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(242, Short.MAX_VALUE))
+                .addContainerGap(254, Short.MAX_VALUE))
         );
 
-        TileSettingsPanel.setBackground(new java.awt.Color(255, 255, 255));
+        tileSettingsPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout TileSettingsPanelLayout = new javax.swing.GroupLayout(TileSettingsPanel);
-        TileSettingsPanel.setLayout(TileSettingsPanelLayout);
-        TileSettingsPanelLayout.setHorizontalGroup(
-            TileSettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 378, Short.MAX_VALUE)
+        javax.swing.GroupLayout tileSettingsPanelLayout = new javax.swing.GroupLayout(tileSettingsPanel);
+        tileSettingsPanel.setLayout(tileSettingsPanelLayout);
+        tileSettingsPanelLayout.setHorizontalGroup(
+            tileSettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 354, Short.MAX_VALUE)
         );
-        TileSettingsPanelLayout.setVerticalGroup(
-            TileSettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        tileSettingsPanelLayout.setVerticalGroup(
+            tileSettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
@@ -138,8 +150,8 @@ public class MapSettings extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(TileSettingsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tileSettingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(27, 27, 27)
                 .addComponent(SettingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -155,8 +167,8 @@ public class MapSettings extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(SettingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(TileSettingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                    .addComponent(tileSettingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BackBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(StartBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -201,12 +213,37 @@ public class MapSettings extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_PrinceAmountInputActionPerformed
 
-    private void fillTileSettingsPanel(){
-        int amount = new File("images\\tiles").listFiles().length;
-        for(int i = 0; amount >= i; i++){
-            
+    /**
+     * Function to fill the TileSettingsPanel with all Images available as Tile
+     * @param x x Size for Icon Image
+     * @param y y Size for Icon Image
+     */
+    private void fillTileSettingsPanel(int x, int y){
+        File[] files = new File("images\\tiles").listFiles();
+        tileSettingsPanel.setLayout(new GridLayout(files.length/2, files.length/2));
+        for(int i = 0; files.length > i; i++){
+            JButton tileImage = new JButton();
+            tileImage.setSize(x,y);
+            tileImage.setVisible(true);
+            tileImage.setBackground(Color.RED);
+            tileImage.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    //your actions
+                    if(tileImage.getBackground() == Color.GREEN){tileImage.setBackground(Color.RED);}
+                    else if (tileImage.getBackground() == Color.RED){tileImage.setBackground(Color.GREEN);}
+                }
+            });
+            try{
+                Image icon = ImageIO.read(files[i].getAbsoluteFile()).getScaledInstance(x, y, java.awt.Image.SCALE_SMOOTH);
+                tileImage.setIcon(new ImageIcon(icon));
+            } catch (IOException e) {
+                Logger.getLogger(MapGrid.class.getName()).log(Level.SEVERE, null, e);
+            }
+            tileSettingsPanel.add(tileImage);
         }
-        System.out.println(amount);
+        tileSettingsPanel.repaint();
+        System.out.println(files.length);
     }
     
     
@@ -250,10 +287,10 @@ public class MapSettings extends javax.swing.JFrame {
     private javax.swing.JTextField PrinceAmountInput;
     private javax.swing.JPanel SettingsPanel;
     private javax.swing.JButton StartBTN;
-    private javax.swing.JPanel TileSettingsPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel tileSettingsPanel;
     private javax.swing.JTextField xSizeInput;
     private javax.swing.JTextField ySizeInput;
     // End of variables declaration//GEN-END:variables
