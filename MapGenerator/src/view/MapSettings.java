@@ -135,9 +135,9 @@ public class MapSettings extends javax.swing.JFrame {
     private void FillNpcsBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FillNpcsBTNActionPerformed
         // TODO add your handling code here:
         this.db.insertNPC(1, "Deutschland", "Germany", 100, "Mensch", "Kartoffel", "Baecker", "100", "Rentenversicherung", 1000, "Humans", "Vaterland", 100, 100, "Doof", "Olaf Scholz");
-        this.db.insertGroup();
+        this.db.insertGroups(EXIT_ON_CLOSE, relationshipType, PROPERTIES);
         this.db.insertPlace(WIDTH, WIDTH, WIDTH, ERROR, ERROR, type, WIDTH, symbol, specialFeatures, ageHistory, difficulty);
-        this.db.insertRelationship(this);
+        this.db.insertRelationship(EXIT_ON_CLOSE, relationshipType, PROPERTIES);
     }//GEN-LAST:event_FillNpcsBTNActionPerformed
 
     /**

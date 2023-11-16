@@ -176,7 +176,7 @@ public class Datenbank {
         stmt.executeUpdate(sql);
     }
 
-
+////////////////////////////////////////////
         
     // 1. Einfügen
     public void insertPlace(int id, int riverId, int npcId, int xPos, int yPos, String type, int tileId, String symbol, String specialFeatures, String ageHistory, String difficulty) throws SQLException {
@@ -187,7 +187,7 @@ public class Datenbank {
         stmt.executeUpdate(sql);
       } catch (Exception ex) {
             System.out.println(ex);
-    }
+        }
     }
         // Für die Tabelle "Place":
         static class PlaceOperations {
@@ -222,28 +222,23 @@ public class Datenbank {
         
 
         
-        public void insertGroup(Group group){
+        public void insertGroups(int relationshipId, String relationshipType, int relationshipDuration){
+            GroupsOperations Groupso = new GroupsOperations();
             try {
-                connect();
-                String sql = "INSERT INTO Groups (relationship_ID, relationship_type, relationship_duration)"
-                        + "VALUES ('"
-                        + group.getrelationshipID() + "', '" + group.getRelationshipType() + "', '" + group.getRelationshipDuration() + "')";
+                String sql = Groupso.insertGroup(relationshipId, relationshipType, relationshipDuration);
                 Statement stmt = conn.createStatement();
-                stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
-                ResultSet rst = stmt.getGeneratedKeys();
-                if(rst.next()){
-                    group.setID(rst.getInt(1));
-                }
+                stmt.executeUpdate(sql);
             } catch (Exception ex) {
-            System.out.println(ex);
+                System.out.println(ex);
             }
         }
-    static class GroupOperations {
-    // 1. Einfügen        
-    public void insertGroup(int relationshipId, String relationshipType, int relationshipDuration) throws SQLException {
+    // Für die Tabelle "Groups":    
+        static class GroupsOperations {
+    // 1. Einfügen
+        public String insertGroup(int relationshipId, String relationshipType, int relationshipDuration) throws SQLException {
         String sql = "INSERT INTO Groups (relationship_ID, relationship_type, relationship_duration) VALUES (" + relationshipId + ", '" + relationshipType + "', " + relationshipDuration + ")";
         return sql;
-    }
+        }
     }
             
             
@@ -272,21 +267,15 @@ public class Datenbank {
         
     
     // 1. Einfügen
-            public void insertRelationship(Relationship relationship){
+            public void insertRelationship(int relationshipId, String relationshipType, int relationshipDuration){
+                RelationshipOperations relationshipo = new RelationshipOperations();
                 try {
-                    connect();
-                    String sql = "INSERT INTO RELATIONSHIPS (relationship_ID, relationship_type, relationship_duration) VALUES ('" 
-                            + relationship.getRelationshipId() + "', '" + relationship.getRelationshipType + "', '" + relationship.getRelationshipDuration + "')";
-                Statement stmt = conn.createStatement();
-                stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
-                ResultSet rst = stmt.getGeneratedKeys();
-                if(rst.next()){
-                    relationship.setID(rst.getInt(1));
-                }
-                close();
-            } catch (Exception ex) {
-                System.out.println(ex);
-            }
+                    String sql = relationshipo.insertRelationship(relationshipId, relationshipType, relationshipDuration);
+                    Statement stmt = conn.createStatement();
+                    stmt.executeUpdate(sql);
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                    }
             }
 
     // Für die Tabelle "Relationship":
