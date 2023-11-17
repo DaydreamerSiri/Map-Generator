@@ -82,8 +82,8 @@ public class Geography {
             case 97 -> {System.out.println("Barren Mountains"); tileGeoType = "Barren_Mountains"; roll = diceRoll.roll(maxRoll*5);}
             case 98 -> {System.out.println("Scrubland Swamps"); tileGeoType = "Scrubland_Swamps"; roll = diceRoll.roll(maxRoll*5);}
             case 99 -> {System.out.println("Barren Badlands"); tileGeoType = "Barren_Badlands"; roll = diceRoll.roll(maxRoll*5);}
-            case 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 -> {System.out.println("River"); tileGeoType = "River"; diceRoll.roll(maxRoll/10);}
-            default -> {System.out.println("Special Feture"); tableSpecialFeatures(); tileGeoType = "Special_Feature"; roll = 1;} // Default case
+            case 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 -> {System.out.println("River"); tileGeoType = "River"; roll = diceRoll.roll(maxRoll/10);}
+            default -> {System.out.println("Special Feture"); tileGeoType = tableSpecialFeatures(); roll = 1;} // Default case
         }
         
         System.out.println("Number of tiles: " + roll);
@@ -95,21 +95,21 @@ public class Geography {
         return tileInfo;
     }
     
-    public void tableSpecialFeatures(){
+    public String tableSpecialFeatures(){
         DiceRoll diceRoll = new DiceRoll();
         int roll = diceRoll.roll(10);
+        String SpecialFeature = "";
         
         switch(roll){
-            case 1 -> System.out.println("Caves, d% squares");
+            case 1 -> System.out.println("Caves");
             case 2 -> System.out.println("Cliff");
             case 3 -> System.out.println("Fertile Valley");
-            case 4 -> System.out.println("Geyser");
-            case 5 -> System.out.println("Isolated Mountain");
-            case 6 -> System.out.println("Pool");
-            case 7 -> System.out.println("Tor");
-            case 8 -> System.out.println("Volcano");
-            case 9 -> System.out.println("Waterfall");
-            case 10 -> System.out.println("Whirlpool");
+            case 4 -> System.out.println("Pool");
+            case 5 -> System.out.println("Tor");
+            case 6 -> System.out.println("Volcano");
+            case 7 -> System.out.println("Waterfall");
+            case 8 -> System.out.println("Whirlpool");
         }
+        return SpecialFeature;
     }
 }
