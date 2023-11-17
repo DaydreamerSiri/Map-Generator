@@ -27,8 +27,8 @@ public class TilePlace {
                 tilePack[2] = maxTiles;
                 xPos = 0;
                 yPos = 0;
-                while (xPos <= x){
-                    while(yPos <= y){
+                while (xPos < x){
+                    while(yPos < y){
                         if (grid[xPos][yPos] == null){grid[xPos][yPos] = (String) tilePack[1];}
                         yPos++;
                     }
@@ -37,7 +37,8 @@ public class TilePlace {
             }
             runningBonus = (int) tilePack[0];
             int downCounter = (int) tilePack[2];
-            
+            xPos--;
+            yPos--;
             // If this is the first tile or a random condition is met, choose a random position
             if (grid[xPos][yPos] != null) {
                 xPos = diceRoll.roll(grid.length);
