@@ -54,7 +54,7 @@ public class CellMap extends javax.swing.JFrame {
         this.fillPOIs();
         this.LayerView.add(CellView, JLayeredPane.DEFAULT_LAYER);
         this.LayerView.add(POIView, JLayeredPane.DRAG_LAYER);
-        this.add(this.LayerView);
+        this.jScrollPaneCellMap.add(this.LayerView);
     }
     
     private void fillPOIs(){
@@ -107,26 +107,90 @@ public class CellMap extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jButton1 = new javax.swing.JButton();
+        jScrollPaneCellMap = new javax.swing.JScrollPane();
+        JTabPaneFunctions = new javax.swing.JTabbedPane();
+        jPanelPOI = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Map");
+        setResizable(false);
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
                 formComponentResized(evt);
             }
         });
 
+        JTabPaneFunctions.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanelPOILayout = new javax.swing.GroupLayout(jPanelPOI);
+        jPanelPOI.setLayout(jPanelPOILayout);
+        jPanelPOILayout.setHorizontalGroup(
+            jPanelPOILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 187, Short.MAX_VALUE)
+        );
+        jPanelPOILayout.setVerticalGroup(
+            jPanelPOILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 419, Short.MAX_VALUE)
+        );
+
+        JTabPaneFunctions.addTab("POIs", jPanelPOI);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 187, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 419, Short.MAX_VALUE)
+        );
+
+        JTabPaneFunctions.addTab("Princes", jPanel1);
+
+        jMenu1.setText("File");
+
+        jMenuItem1.setText("Load");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPaneCellMap, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JTabPaneFunctions)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(JTabPaneFunctions)
+                    .addComponent(jScrollPaneCellMap))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
@@ -139,6 +203,10 @@ public class CellMap extends javax.swing.JFrame {
         this.CellView.setSize(this.getSize().width*3/4, this.getSize().height*3/4);
         this.Map.UpdateTileImages(this.getSize());
     }//GEN-LAST:event_formComponentResized
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -191,7 +259,15 @@ public class CellMap extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTabbedPane JTabPaneFunctions;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelPOI;
+    private javax.swing.JScrollPane jScrollPaneCellMap;
     // End of variables declaration//GEN-END:variables
 }
