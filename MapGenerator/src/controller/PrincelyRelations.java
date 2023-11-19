@@ -6,10 +6,10 @@ import java.util.ArrayList;
 public class PrincelyRelations {
 
     //for testing in console
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         PrincelyRelations princelyRelations = new PrincelyRelations();
         Object[] prince = princelyRelations.relationsGen(5);
-    }
+    }*/
 
     public Object[][] relationsGen(int numPrinces) {
         Object[][] relations = new Object[numPrinces + 1][numPrinces + 1];
