@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 //@author jason
 public class Principalities {
-
     private String principalityName = "Please enter name...";
     private int numOfSquares = 0;
     private boolean hasTown = false;
@@ -12,10 +11,10 @@ public class Principalities {
     private String feature = "";
 
     //for testing in console
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         Principalities principality = new Principalities();
         Principalities[] principalities = principality.principalityGen(5);
-    }*/
+    }
 
     public Principalities[] principalityGen(int numPrinces) {
         Principalities[] principality = new Principalities[numPrinces];
