@@ -33,7 +33,7 @@ public class CellMap extends javax.swing.JFrame {
         this.Map.generateMap();
         System.out.println("x: "+sizeX+" y: "+sizeY);
         this.tileplacer = new TilePlace();
-        this.tileplacer.placeTile(sizeX, sizeY);
+        this.Map.insertGeoType(this.tileplacer.placeTile(sizeX, sizeY));
         this.Map.SetTileImages();
         this.fillMap();
         initComponents();
