@@ -4,7 +4,7 @@ import model.Cell;
 
 /**
  *
- * @author Autmn Decker
+ * @author Autmn
  */
 
 public class TilePlace {
@@ -12,7 +12,6 @@ public class TilePlace {
     private DiceRoll diceRoll = new DiceRoll(); 
     //private Set<Position> placedPositions = new HashSet<>();
     private Set<Integer> blocked = new HashSet<>();
-    private Position lastPlacedPosition = null;
   
     public Object[][] placeTile(int x,int y) {
         int runningBonus = 0;
@@ -47,18 +46,24 @@ public class TilePlace {
                 downCounter--;
                 while(downCounter > 0){
                     int direction = diceRoll.roll(8);
+                    int newXPos = xPos;
+                    int newYPos = yPos;
                     switch (direction) {
-                        case 1: xPos = xPos - 1; break; // left
-                        case 2: xPos = xPos - 1; yPos = yPos + 1; break; // left-up
-                        case 3: yPos = yPos + 1; break; // up
-                        case 4: xPos = xPos + 1; yPos = yPos + 1; break; // up-right
-                        case 5: xPos = xPos + 1;  break; // right
-                        case 6: xPos = xPos + 1; yPos = yPos - 1; break; // Down-right
-                        case 7: yPos = yPos - 1; break; // down
-                        default: xPos = xPos - 1; yPos = yPos - 1; break; // down-left
+                        case 1: newXPos = xPos - 1; break; // left
+                        case 2: newXPos = xPos - 1; newYPos = yPos + 1; break; // left-up
+                        case 3: newYPos = yPos + 1; break; // up
+                        case 4: newXPos = xPos + 1; newYPos = yPos + 1; break; // up-right
+                        case 5: newXPos = xPos + 1;  break; // right
+                        case 6: newXPos = xPos + 1; newYPos = yPos - 1; break; // Down-right
+                        case 7: newYPos = yPos - 1; break; // down
+                        default: newXPos = xPos - 1; newYPos = yPos - 1; break; // down-left
                     }
-                    grid[xPos][yPos] = (String) tilePack[1];
-                    downCounter--;
+                    if(newXPos >= 0 && newXPos < x && newYPos >= 0 && newYPos < y) {
+                        xPos = newXPos;
+                        yPos = newYPos;
+                        grid[xPos][yPos] = (String) tilePack[1];
+                        downCounter--;
+                    }
                 }
                 maxTiles = maxTiles - (int) tilePack[2];
             }
