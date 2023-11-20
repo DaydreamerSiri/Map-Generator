@@ -4,6 +4,10 @@
  */
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  *
  * @author noormo
@@ -131,6 +135,7 @@ public class Place {
         return "Place{" + "ID=" + ID + ", riverNumber=" + riverNumber + ", npcID=" + npcID + ", XPos=" + XPos + ", YPos=" + YPos + ", type=" + type + ", tileNumber=" + tileNumber + ", symbol=" + symbol + ", specialFeatures=" + specialFeatures + ", ageHistory=" + ageHistory + ", difficulty=" + difficulty + '}';
     }
     
+
     
     
     

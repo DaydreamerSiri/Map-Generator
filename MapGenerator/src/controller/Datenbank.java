@@ -4,11 +4,14 @@
  */
 package controller;
 
+import java.lang.management.PlatformLoggingMXBean;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.time.chrono.ThaiBuddhistEra;
+import model.NPC;
 
 /**
  *
@@ -62,22 +65,13 @@ public class Datenbank {
      * Die private Methode connect stellt die Verbindung mit
      * der Datenbank her.
      * 
-     * @throws SQLException 
+     *
      */
-    public void connect() throws SQLException {
-        conn = DriverManager.getConnection(dbURL, "SA", "");
-    }
-    
-    public void getDate() throws SQLException {
-        try {
-            ResultSet result = conn.createStatement().executeQuery("SELECT * FROM RELATIONSHIPS");
-             while(result.next()){
-                System.out.println(result.getInt("id")+" | "+
-                result.getString("type")+" | "+
-                result.getString("duration"));
-         }
-        }catch(SQLException e) {
-            e.printStackTrace();
+    private void connect(){
+        try{
+            conn = DriverManager.getConnection(dbURL, "SA", "");
+        }catch(SQLException ex){
+            System.out.println(ex);
         }
     }
     
@@ -88,7 +82,7 @@ public class Datenbank {
      * 
      * @throws SQLException 
      */
-    public void close() throws SQLException {
+    private void close() throws SQLException {
         if (conn != null) {
             if (!conn.isClosed()) {
                 Statement stmt = conn.createStatement();
@@ -97,8 +91,206 @@ public class Datenbank {
             }
         }
     }
-
- 
-  
+     
     
+    
+    /**
+     * Diese Methode fügt Testdaten in die Tabelle RELATIONSHIPS ein.
+     * 
+     * 
+     */
+    public void insertTestData(){
+        try {
+
+            if (conn == null || conn.isClosed()) {
+                connect();
+            }
+
+            Statement stmt = conn.createStatement();
+
+            stmt.executeUpdate("DELETE FROM RELATIONSHIPS");
+            stmt.executeUpdate("INSERT INTO RELATIONSHIPS (id, type, duration) VALUES (0, 'test_type1', 'test_duration1')");
+            stmt.executeUpdate("INSERT INTO RELATIONSHIPS (id, type, duration) VALUES (1, 'test_type2', 'test_duration2')");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void insertNPC(NPC npc){
+        try {
+            connect();
+            String sql = "INSERT INTO NPC (realm, name, age, race, sub_type,"
+                    + " career, stage_of_career, goal, mob_number, mobtype, title, "
+                    + "x_Pos, y_Pos, personality, ruler) VALUES ('" 
+                    + npc.getRealm() + "', '" + npc.getName() + "', " + npc.getAge() + ", '" + npc.getRace() + "', '" 
+                    + npc.getSubType()+ "', '" + npc.getCareer() + "', '" + npc.getStageOfCareer() + "', '" 
+                    + npc.getGoal()+ "', " + npc.getMobNumber() + ", '" + npc.getMobType() + "', '" + npc.getTitle() + "', " 
+                    + npc.getxPos() + ", " + npc.getyPos() + ", '" + npc.getPersonality() + "', '" + npc.getRuler() + "')";
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+            ResultSet rst = stmt.getGeneratedKeys();
+            if(rst.next()){
+                npc.setID(rst.getInt(1));
+            }
+            close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        
+    }
+    // 2. Abrufen 
+    public ResultSet getNPC() throws SQLException {
+        
+        return conn.createStatement().executeQuery("SELECT * FROM NPC");
+    }
+
+    // 3. Aktualisieren 
+    public void updateNPC(int ID, String realm, String name, int age, String race, String subType, String career, String stageOfCareer, String goal, int mobHP, String mobType, String title, int xPos, int yPos, String personality, String ruler) throws SQLException {
+        
+        String sql = "UPDATE NPC SET realm = '" + realm + "', name = '" + name + " WHERE ID = " + ID;
+        Statement stmt = conn.createStatement();
+        stmt.executeUpdate(sql);
+    }
+
+    // 4. Löschen 
+    public void deleteNPC(int ID) throws SQLException {
+        
+        String sql = "DELETE FROM NPC WHERE ID = " + ID;
+        Statement stmt = conn.createStatement();
+        stmt.executeUpdate(sql);
+    }
+
+
+        
+    // 1. Einfügen
+    public void insertPlace(int id, int riverId, int npcId, int xPos, int yPos, String type, int tileId, String symbol, String specialFeatures, String ageHistory, String difficulty) throws SQLException {
+        PlaceOperations placeo = new PlaceOperations();
+        try {
+             String sql = placeo.insertPlace(id, riverId, npcId, xPos, yPos, type, tileId, symbol, specialFeatures, ageHistory, difficulty);
+        Statement stmt = conn.createStatement();
+        stmt.executeUpdate(sql);
+      } catch (Exception ex) {
+            System.out.println(ex);
+    }
+    }
+        // Für die Tabelle "Place":
+        static class PlaceOperations {
+    // 1. Einfügen 
+        public String insertPlace(int id, int riverId, int npcId, int xPos, int yPos, String type, int tileId, String symbol, String specialFeatures, String ageHistory, String difficulty) throws SQLException {
+        String sql = "INSERT INTO Place (ID, riverId, npcId, xPos, yPos, type, tileId, symbol, specialFeatures, ageHistory, difficulty) VALUES (" + id + ", " + riverId + ", " + npcId + ", " + xPos + ", " + yPos + ", '" + type + "', " + tileId + ", '" + symbol + "', '" + specialFeatures + "', '" + ageHistory + "', '" + difficulty + "')";
+        return sql;
+    }
+        }
+    
+
+    // 2. Abfragen
+    public ResultSet getPlace() throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM Place");
+    }
+
+    // 3. Aktualisieren
+    public void updatePlace(int ID, String type, int tileId, String symbol, String specialFeatures, String ageHistory, String difficulty) throws SQLException {
+        String sql = "UPDATE Place SET type = '" + type + "', tileId = " + tileId + ", symbol = '" + symbol + "', specialFeatures = '" + specialFeatures + "', ageHistory = '" + ageHistory + "', difficulty = '" + difficulty + "' WHERE ID = " + ID;
+        Statement stmt = conn.createStatement();
+        stmt.executeUpdate(sql);
+    }
+
+    // 4. Löschen
+    public void deletePlace(int ID) throws SQLException {
+        String sql = "DELETE FROM Place WHERE ID = " + ID;
+        Statement stmt = conn.createStatement();
+        stmt.executeUpdate(sql);
+    }
+
+        
+        
+           
+//        public void insertGroup(int relationshipId, String relationshipType, int relationshipDuration) throws SQLException {
+//        GroupOperations groupo = new GroupOperations();
+//        try {
+//             String sql = groupo.insertGroup(relationship_ID, relationship_type, relationship_duration);
+//        Statement stmt = conn.createStatement();
+//        stmt.executeUpdate(sql);
+//      } catch (Exception ex) {
+//            System.out.println(ex);
+//            
+//            
+//}   
+//    
+//    static class GroupOperations {
+//    // 1. Einfügen
+//    public String insertGroup(int relationshipId, String relationshipType, int relationshipDuration) throws SQLException {
+//        String sql = "INSERT INTO Groups (relationship_ID, relationship_type, relationship_duration) VALUES (" + relationshipId + ", '" + relationshipType + "', " + relationshipDuration + ")";
+//        return sql;
+//    }
+//
+//    // 2. Abfragen
+//    public ResultSet getGroup() throws SQLException {
+//        return conn.createStatement().executeQuery("SELECT * FROM Groups");
+//    }
+//
+//    // 3. Aktualisieren
+//    public void updateGroup(int relationshipId, String relationshipType, int relationshipDuration) throws SQLException {
+//        String sql = "UPDATE Groups SET relationship_type = '" + relationshipType + "', relationship_duration = " + relationshipDuration + " WHERE relationship_ID = " + relationshipId;
+//        Statement stmt = conn.createStatement();
+//        stmt.executeUpdate(sql);
+//    }
+//
+//    // 4. Löschen
+//    public void deleteGroup(int relationshipId) throws SQLException {
+//        String sql = "DELETE FROM Groups WHERE relationship_ID = " + relationshipId;
+//        Statement stmt = conn.createStatement();
+//        stmt.executeUpdate(sql);
+//    }
+//}
+//        }
+//        
+//            
+//        
+//    
+//    // 1. Einfügen
+//        public void insertRelationship(int relationshipId, String relationshipType, int relationshipDuration) throws SQLException {
+//            String sql = "INSERT INTO RELATIONSHIPS (relationship_ID, relationship_type, relationship_duration) VALUES (" + relationshipId + ", '" + relationshipType + "', " + relationshipDuration + ")";
+//            RelationshipOperations rso = new RelationshipOperations();
+//            try { 
+//                sql = rso.insertRelationship(relationshipId, relationshipType, relationshipDuration);
+//                Statement stmt = conn.createStatement();
+//                stmt.executeUpdate(sql);
+//            } catch ( Exception ex) {
+//                System.out.println(ex);
+//            }
+//        }
+//
+//    
+//    // Für die Tabelle "Relationship":
+//        static class RelationshipOperations {
+//    // 1. Einfügen 
+//        public String insertRelationship(int relationshipId, String relationshipType, int relationshipDuration) throws SQLException {
+//            String sql = "INSERT INTO RELATIONSHIPS (relationship_ID, relationship_type, relationship_duration) VALUES (" + relationshipId + ", '" + relationshipType + "', " + relationshipDuration + ")";
+//            return sql;
+//    }
+//}
+//        
+//
+//    // 2. Abfragen
+//    public ResultSet getRelationship() throws SQLException {
+//        return conn.createStatement().executeQuery("SELECT * FROM RELATIONSHIPS");
+//    }
+//
+//    // 3. Aktualisieren
+//    public void updateRelationship(int relationshipId, String relationshipType, int relationshipDuration) throws SQLException {
+//        String sql = "UPDATE RELATIONSHIPS SET relationship_type = '" + relationshipType + "', relationship_duration = " + relationshipDuration + " WHERE relationship_ID = " + relationshipId;
+//        Statement stmt = conn.createStatement();
+//        stmt.executeUpdate(sql);
+//    }
+//
+//    // 4. Löschen
+//    public void deleteRelationship(int relationshipId) throws SQLException {
+//        String sql = "DELETE FROM RELATIONSHIPS WHERE relationship_ID = " + relationshipId;
+//        Statement stmt = conn.createStatement();
+//        stmt.executeUpdate(sql);
+//    }
 }
+
+
+

@@ -3,16 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package controller;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.ArrayList;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
 import java.util.List;
 import model.MapGridModel;
 import javax.swing.*;
-import javax.swing.border.*;
 import model.Cell;
 /**
  *
@@ -39,29 +35,25 @@ public class MapGrid extends MapGridModel{
      */
     public boolean generateMap(){
         List<List<Cell>> cellMap = new ArrayList();
-        if(this.getCellDataList() == null) {
+        if(this.getCellDataList() == null) {   //check if Cells haven't been generated
         for(int i = 0; this.getSizeX() > i; i++){
                 cellMap.add(new ArrayList());
                 for(int j = 0; this.getSizeY() > j; j++) {
-                   Icon icon = new ImageIcon("..\\..\\tiles\\area\\grass1.png");
-                   File test = new File("..\\..\\ressources\\tiles\\area\\grass1.png");
-                   System.out.println(test.exists());
                    Cell cell = new Cell();
-                   cell.setLocation(this.yCellPosition*i-(this.yCellPosition*i/2), -this.xCellPosition*j-(this.xCellPosition*j/2));
+                   //cell.setLocation(this.yCellPosition*i-(this.yCellPosition*i/2), -this.xCellPosition*j-(this.xCellPosition*j/2));
                    cell.setVisible(true);
                    cell.setPreferredSize(this.sizeDimension);
-                   cell.setText(this.toString());
-                   //cell.setBorder(LineBorder.createBlackLineBorder());
-                   cell.setBackground(Color.white);
+                   //cell.setBackground(Color.white);
                    cell.isCreated(true);
                    cellMap.get(i).add(cell);
+                   //onClick Action Event
                    cell.addActionListener(new ActionListener(){
                        @Override
                        public void actionPerformed(ActionEvent e){
                            JFrame msg = new JFrame();
                            msg.setSize(100, 100);
                            msg.setVisible(true);
-                           msg.add(new JLabel(this.toString()));
+                           msg.add(new JLabel(cell.cellToString()));
 
                        }
                    });
@@ -76,6 +68,45 @@ public class MapGrid extends MapGridModel{
     }
     
     
+    /**
+     * Function to set the Images of all the Cells to their corresponding geoTile
+     */
+    public void SetTileImages(){
+        for(List<Cell> row : this.getCellDataList()){
+            for(Cell cell: row){
+                cell.SetTileImages(cell.getSize().width, cell.getSize().height);
+                System.out.println();
+                System.out.println(this.xCellSize);
+            }
+        }
+    }
+    
+    /**
+     * Update the Tile Images when the Frame gets resized
+     * @param frameSizeDimension the Dimension of the Frame
+     */
+    public void UpdateTileImages(Dimension frameSizeDimension){
+        for(List<Cell> row : this.getCellDataList()){
+            for(Cell cell: row){
+                cell.SetTileImages(frameSizeDimension);
+            }
+        }
+    }
+    /**
+     * Update the POI Images when the Frame gets resized
+     * @param frameSizeDimension the Dimension of the Frame
+     */
+    public void UpdatePOIImages(Dimension frameSizeDimension){
+        for(POI poi : this.getPOIList()){
+            poi.setPOIImage(frameSizeDimension);
+        }
+    }
+    
+    
+    /**
+     * Getter Function to get the Size Dimension (X;Y) of the created MapGrid
+     * @return Dimension of the Map Grid
+     */
     public Dimension getSizeDimension() {
         return this.sizeDimension;
     }
