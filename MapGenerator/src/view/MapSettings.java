@@ -39,6 +39,7 @@ public class MapSettings extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         StartBTN = new javax.swing.JButton();
         BackBTN = new javax.swing.JButton();
+        FillNpcsBTN = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MapGeneratorSettings");
@@ -67,13 +68,21 @@ public class MapSettings extends javax.swing.JFrame {
             }
         });
 
+        FillNpcsBTN.setText("DB TEST");
+        FillNpcsBTN.setToolTipText("");
+        FillNpcsBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FillNpcsBTNActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -82,7 +91,10 @@ public class MapSettings extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ySizeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2)))
-                    .addComponent(BackBTN, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(BackBTN)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(FillNpcsBTN)))
                 .addContainerGap(168, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -103,7 +115,8 @@ public class MapSettings extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(StartBTN)
-                    .addComponent(BackBTN))
+                    .addComponent(BackBTN)
+                    .addComponent(FillNpcsBTN))
                 .addGap(22, 22, 22))
         );
 
@@ -126,18 +139,12 @@ public class MapSettings extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_BackBTNActionPerformed
 
-    private void ConDbBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConDbBtnActionPerformed
-        // TODO add your handling code here:
-        this.db.connect();
-        
-    }//GEN-LAST:event_ConDbBtnActionPerformed
-
     private void FillNpcsBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FillNpcsBTNActionPerformed
         // TODO add your handling code here:
         this.db.insertNPC(1, "Deutschland", "Germany", 100, "Mensch", "Kartoffel", "Baecker", "100", "Rentenversicherung", 1000, "Humans", "Vaterland", 100, 100, "Doof", "Olaf Scholz");
-        this.db.insertGroups(EXIT_ON_CLOSE, relationshipType, PROPERTIES);
-        this.db.insertPlace(WIDTH, WIDTH, WIDTH, ERROR, ERROR, type, WIDTH, symbol, specialFeatures, ageHistory, difficulty);
-        this.db.insertRelationship(EXIT_ON_CLOSE, relationshipType, PROPERTIES);
+        this.db.insertGroups(EXIT_ON_CLOSE, "Test", PROPERTIES);
+        //this.db.insertPlace(WIDTH, WIDTH, WIDTH, ERROR, ERROR, type, WIDTH, symbol, specialFeatures, ageHistory, difficulty);
+        //this.db.insertRelationship(EXIT_ON_CLOSE, relationshipType, PROPERTIES);
     }//GEN-LAST:event_FillNpcsBTNActionPerformed
 
     /**
@@ -177,6 +184,7 @@ public class MapSettings extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackBTN;
+    private javax.swing.JButton FillNpcsBTN;
     private javax.swing.JButton StartBTN;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
