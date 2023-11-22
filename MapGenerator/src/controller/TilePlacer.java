@@ -11,8 +11,6 @@ public class TilePlacer {
 
     private Geography geography = new Geography();
     private DiceRoll diceRoll = new DiceRoll();
-    //private Set<Position> placedPositions = new HashSet<>();
-    private Set<Integer> blocked = new HashSet<>();
 
     public Object[][] placeTileSet(int x, int y) {
         System.out.println("Initialize placeTileSet method...");
@@ -70,8 +68,8 @@ public class TilePlacer {
 
             System.out.println("xPos:" + xPos + "yPos:" + yPos);
 
-            // if not empty, choose a random position
-            if (grid[xPos][yPos] != null) {
+            //while not empty, choose a random position
+            while (grid[xPos][yPos] != null) {
                 xPos = diceRoll.roll(grid.length);
                 yPos = diceRoll.roll(grid[0].length);
                 System.out.println("new xPos:" + xPos + "new yPos:" + yPos);
@@ -79,71 +77,88 @@ public class TilePlacer {
 
             // Otherwise, choose a position around the last placed tile 
             grid[xPos][yPos] = (String) tileSet[1]; //insert tile type into cell
-
             downCounter--;
 
             while (downCounter > 0) {
-                int direction = diceRoll.roll(8);
                 int newXPos = 0;
                 int newYPos = 0;
-
-                newCoordinates = randomAround(xPos, yPos);
                 
+                //place around untill full spiral or hits not null
+
+
+                //while cell not null and not out of bounds
+                while (grid[xPos][yPos] != null) {
+                    DiceRoll direction = new DiceRoll();
+                    int roll = direction.roll(8);
+                    //remember to filter out chosen numbers from 1 to 8
+                    newCoordinates = randomAround(xPos, yPos, roll);
+                    //check if is in grid bound
+                    if (newXPos < 0 ) {
+                        newXPos++;
+                    }
+                    if (newYPos < 0 ){
+                        newYPos++;
+                    }
+                    if (newXPos >= x){
+                        newXPos--;
+                    }
+                    if (newYPos >= y){
+                        newYPos--;
+                    }
+                }
+                
+                //move to new outer circle
+
                 newXPos = (int) newCoordinates[0];
                 newYPos = (int) newCoordinates[1];
-                
-                //check if is in grid bound
-                if (newXPos >= 0 && newXPos < x && newYPos >= 0 && newYPos < y) {
-                    xPos = newXPos;
-                    yPos = newYPos;
-                    grid[xPos][yPos] = (String) tileSet[1]; //insert tile type into cell
-                    downCounter--;
-                } else {
+
+                xPos = newXPos;
+                yPos = newYPos;
+                grid[xPos][yPos] = (String) tileSet[1]; //insert tile type into cell
+                downCounter--;
+
+                //reduce maxTile of amount in tileSet[2]
+                maxTiles = maxTiles - (int) tileSet[2];
             }
-
-            //reduce maxTile of amount in tileSet[2]
-            maxTiles = maxTiles - (int) tileSet[2];
         }
-
+        
         //return filled grid
         return grid;
     }
 
-    public Object[] randomAround(int oldX, int oldY) {
+    public Object[] randomAround(int oldX, int oldY, int direction) {
         Object[] coordinates = new Object[2];
 
         switch (direction) {
             case 1:
-                newXPos = xPos - 1;
+                coordinates[0] = oldX - 1;
                 break; // left
             case 2:
-                newXPos = xPos - 1;
-                newYPos = yPos + 1;
+                coordinates[0] = oldX - 1;
+                coordinates[1] = oldY + 1;
                 break; // left-up
             case 3:
-                newYPos = yPos + 1;
+                coordinates[1] = oldY + 1;
                 break; // up
             case 4:
-                newXPos = xPos + 1;
-                newYPos = yPos + 1;
+                coordinates[0] = oldX + 1;
+                coordinates[1] = oldY + 1;
                 break; // up-right
             case 5:
-                newXPos = xPos + 1;
+                coordinates[0] = oldX + 1;
                 break; // right
             case 6:
-                newXPos = xPos + 1;
-                newYPos = yPos - 1;
+                coordinates[0] = oldX + 1;
+                coordinates[1] = oldY - 1;
                 break; // Down-right
             case 7:
-                newYPos = yPos - 1;
+                coordinates[1] = oldY - 1;
                 break; // down
             default:
-                newXPos = xPos - 1;
-                newYPos = yPos - 1;
+                coordinates[0] = oldX - 1;
+                coordinates[1] = oldY - 1;
                 break; // down-left
-        
-                       }
-        
+        }
         return coordinates;
     }
 }
