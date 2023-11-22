@@ -29,6 +29,7 @@ public class CellMap extends javax.swing.JFrame {
      * Creates new form GeneratorPicker
      */
     public CellMap(int sizeX, int sizeY) {
+        initComponents();
         this.Map = new MapGrid(sizeX, sizeY);
         this.Map.generateMap();
         System.out.println("x: "+sizeX+" y: "+sizeY);
@@ -36,7 +37,7 @@ public class CellMap extends javax.swing.JFrame {
         this.Map.insertGeoType(this.tileplacer.placeTile(sizeX, sizeY));
         this.Map.SetTileImages();
         this.fillMap();
-        initComponents();
+        this.repaint();
     }
     
     /**
@@ -52,9 +53,11 @@ public class CellMap extends javax.swing.JFrame {
         //filling the GridPanel with Cells
         this.fillTiles();
         this.fillPOIs();
-        this.LayerView.add(CellView, JLayeredPane.DEFAULT_LAYER);
-        this.LayerView.add(POIView, JLayeredPane.DRAG_LAYER);
+        this.LayerView.add(CellView, JLayeredPane.DEFAULT_LAYER, 0);
+        this.LayerView.add(POIView, JLayeredPane.PALETTE_LAYER,0);
         this.jScrollPaneCellMap.add(this.LayerView);
+        this.LayerView.repaint();
+        this.jScrollPaneCellMap.repaint();
     }
     
     private void fillPOIs(){
@@ -127,6 +130,10 @@ public class CellMap extends javax.swing.JFrame {
             }
         });
 
+        jScrollPaneCellMap.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPaneCellMap.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jScrollPaneCellMap.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
         JTabPaneFunctions.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanelPOILayout = new javax.swing.GroupLayout(jPanelPOI);
@@ -178,8 +185,8 @@ public class CellMap extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPaneCellMap, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPaneCellMap, javax.swing.GroupLayout.DEFAULT_SIZE, 844, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(JTabPaneFunctions)
                 .addContainerGap())
         );
