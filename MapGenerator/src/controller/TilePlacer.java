@@ -53,7 +53,7 @@ public class TilePlacer {
                     xPos++;
                 }
 
-                //rest to in bound for array
+                //reset to in bound for array
                 if (xPos == x) {
                     xPos--;
                 }
@@ -82,51 +82,52 @@ public class TilePlacer {
             while (downCounter > 0) {
                 int newXPos = 0;
                 int newYPos = 0;
-                
-                //place around untill full spiral or hits not null
+                int direction = 1;
 
-
-                //while cell not null and not out of bounds
-                while (grid[xPos][yPos] != null) {
-                    DiceRoll direction = new DiceRoll();
-                    int roll = direction.roll(8);
-                    //remember to filter out chosen numbers from 1 to 8
-                    newCoordinates = randomAround(xPos, yPos, roll);
-                    //check if is in grid bound
-                    if (newXPos < 0 ) {
-                        newXPos++;
-                    }
-                    if (newYPos < 0 ){
-                        newYPos++;
-                    }
-                    if (newXPos >= x){
-                        newXPos--;
-                    }
-                    if (newYPos >= y){
-                        newYPos--;
-                    }
+                //check if is in grid bound
+                if (newXPos < 0) {
+                    newXPos++;
+                }
+                if (newYPos < 0) {
+                    newYPos++;
+                }
+                if (newXPos >= x) {
+                    newXPos--;
+                }
+                if (newYPos >= y) {
+                    newYPos--;
                 }
                 
-                //move to new outer circle
+                //TODO - place around untill full spiral or hits not null
+                //while cell null and not out of bounds
+                while (grid[xPos][yPos] == null) {
 
-                newXPos = (int) newCoordinates[0];
-                newYPos = (int) newCoordinates[1];
+                    
+                    
+                    xPos = newXPos;
+                    yPos = newYPos;
+                    grid[xPos][yPos] = (String) tileSet[1]; //insert tile type into cell
+                    downCounter--;
 
-                xPos = newXPos;
-                yPos = newYPos;
-                grid[xPos][yPos] = (String) tileSet[1]; //insert tile type into cell
-                downCounter--;
+                    newCoordinates = goAround(xPos, yPos, direction);
+                    direction++;
 
-                //reduce maxTile of amount in tileSet[2]
-                maxTiles = maxTiles - (int) tileSet[2];
+                    //save new positions
+                    newXPos = (int) newCoordinates[0];
+                    newYPos = (int) newCoordinates[1];
+
+                    //TODO move to new outer circle
+                }
             }
+            //reduce maxTile of amount in tileSet[2]
+            maxTiles = maxTiles - (int) tileSet[2];
         }
-        
+
         //return filled grid
         return grid;
     }
 
-    public Object[] randomAround(int oldX, int oldY, int direction) {
+    public Object[] goAround(int oldX, int oldY, int direction) {
         Object[] coordinates = new Object[2];
 
         switch (direction) {
