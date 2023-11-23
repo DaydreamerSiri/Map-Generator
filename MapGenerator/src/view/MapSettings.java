@@ -224,7 +224,7 @@ public class MapSettings extends javax.swing.JFrame {
      * @param y y Size for Icon Image
      */
     private void fillTileSettingsPanel(int x, int y){
-        File[] files = new File("images\\tiles").listFiles();
+        File[] files = new File("Images//Tiles").listFiles();
         tileSettingsPanel.setLayout(new GridLayout(files.length/2, files.length/2));
         for(int i = 0; files.length > i; i++){
             JButton tileImage = new JButton();
