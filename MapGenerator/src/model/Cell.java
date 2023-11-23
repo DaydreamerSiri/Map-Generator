@@ -54,6 +54,7 @@ public class Cell extends JButton {
             Logger.getLogger(MapGrid.class.getName()).log(Level.SEVERE, null, e);
             this.tileGeographyImage = null;
         }
+        repaint();
     }
     
     
@@ -70,6 +71,7 @@ public class Cell extends JButton {
             Logger.getLogger(MapGrid.class.getName()).log(Level.SEVERE, null, e);
             this.tileGeographyImage = null;
         }
+        repaint();
     }
        
     /**

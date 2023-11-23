@@ -36,7 +36,7 @@ public class CellMap extends javax.swing.JFrame {
         this.tileplacer = new TilePlace();
         this.Map.insertGeoType(this.tileplacer.placeTile(sizeX, sizeY));
         this.Map.SetTileImages();
-        this.fillMap();
+        fillMap();
         this.repaint();
     }
     
@@ -49,14 +49,14 @@ public class CellMap extends javax.swing.JFrame {
         this.LayerView = new JLayeredPane();
         this.LayerView.setVisible(true);
         this.LayerView.setOpaque(false);
+        this.LayerView.setFocusable(true);
         this.LayerView.setSize(this.Map.LayerViewSize, this.Map.LayerViewSize);
         //filling the GridPanel with Cells
         this.fillTiles();
         this.fillPOIs();
         this.LayerView.add(CellView, JLayeredPane.DEFAULT_LAYER, 0);
         this.LayerView.add(POIView, JLayeredPane.PALETTE_LAYER,0);
-        this.jScrollPaneCellMap.add(this.LayerView);
-        this.LayerView.repaint();
+        this.jScrollPaneCellMap.add(this.CellView);
         this.jScrollPaneCellMap.repaint();
     }
     
