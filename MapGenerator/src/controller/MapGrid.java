@@ -40,11 +40,10 @@ public class MapGrid extends MapGridModel{
                 cellMap.add(new ArrayList());
                 for(int j = 0; this.getSizeY() > j; j++) {
                    Cell cell = new Cell();
-                   cell.setLocation(this.yCellPosition*i-(this.yCellPosition*i/2), -this.xCellPosition*j-(this.xCellPosition*j/2));
+                   //cell.setLocation(this.yCellPosition*i-(this.yCellPosition*i/2), -this.xCellPosition*j-(this.xCellPosition*j/2));
                    cell.setVisible(true);
                    cell.setPreferredSize(this.sizeDimension);
-                   cell.setText(this.toString());
-                   cell.setBackground(Color.white);
+                   //cell.setBackground(Color.white);
                    cell.isCreated(true);
                    cellMap.get(i).add(cell);
                    //onClick Action Event
@@ -75,8 +74,31 @@ public class MapGrid extends MapGridModel{
     public void SetTileImages(){
         for(List<Cell> row : this.getCellDataList()){
             for(Cell cell: row){
-                cell.SetTileImages(this.yCellSize, this.xCellSize);
+                cell.SetTileImages(cell.getSize().width, cell.getSize().height);
+                System.out.println();
+                System.out.println(this.xCellSize);
             }
+        }
+    }
+    
+    /**
+     * Update the Tile Images when the Frame gets resized
+     * @param frameSizeDimension the Dimension of the Frame
+     */
+    public void UpdateTileImages(Dimension frameSizeDimension){
+        for(List<Cell> row : this.getCellDataList()){
+            for(Cell cell: row){
+                cell.SetTileImages(frameSizeDimension);
+            }
+        }
+    }
+    /**
+     * Update the POI Images when the Frame gets resized
+     * @param frameSizeDimension the Dimension of the Frame
+     */
+    public void UpdatePOIImages(Dimension frameSizeDimension){
+        for(POI poi : this.getPOIList()){
+            poi.setPOIImage(frameSizeDimension);
         }
     }
     

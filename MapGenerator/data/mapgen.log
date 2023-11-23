@@ -1,0 +1,3 @@
+/*C2*/SET SCHEMA PUBLIC
+INSERT INTO NPC VALUES(1,'Deutschland','Germany',100,'Mensch','Kartoffel','Baecker','100','Rentenversicherung',1000,'Humans','Vaterland',100,100,'Doof','Olaf Scholz',NULL)
+COMMIT

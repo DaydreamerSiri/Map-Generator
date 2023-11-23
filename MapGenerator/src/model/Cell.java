@@ -6,6 +6,7 @@ package model;
 
 import controller.MapGrid;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -23,9 +24,13 @@ public class Cell extends JButton {
     private Object[] tileInformation;
     boolean isCreated = false;
     boolean isPlaced = false;
+    Image tileGeographyImage;
     
     public void Cell(){
-        
+        this.setOpaque(false);
+        this.setContentAreaFilled(false);
+        this.setBorderPainted(false);
+        this.setFocusable(false);
     }
     
     
@@ -36,32 +41,37 @@ public class Cell extends JButton {
      */
     public void SetTileImages(int width, int height){
         String imagePath = String.format("images\\tiles\\%s.png", this.tileInformation[0]);
+        if(width == 0 && height == 0){
+            width = 100;
+            height = 100;
+        
+        }
+        
         try{
-            
-            Image img = ImageIO.read(new File(imagePath).getAbsoluteFile()).getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
-            System.out.println(img);
-            this.setIcon(new ImageIcon(img));
+            this.tileGeographyImage = ImageIO.read(new File(imagePath).getAbsoluteFile()).getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+            this.setIcon(new ImageIcon(this.tileGeographyImage));
         } catch (IOException e) {
             Logger.getLogger(MapGrid.class.getName()).log(Level.SEVERE, null, e);
+            this.tileGeographyImage = null;
         }
     }
     
-    /**
-     * Function to set the Background Colour of the Cell
-     * @deprecated 
-     * @param color color name
-     * @return Color Object
-     */
-    public Color getTileColor(String color){
-        switch(color) {
-            case "Green" -> {return Color.GREEN;}
-            case "Yellow" -> {return Color.YELLOW;}
-            case "Gray" -> {return Color.GRAY;}
+    
+    public void SetTileImages(Dimension frameDimension){
+        String imagePath = String.format("images\\tiles\\%s.png", this.tileInformation[0]);
+        try{
+            
+            this.tileGeographyImage = ImageIO.read(new File(imagePath)
+                    .getAbsoluteFile()).getScaledInstance(
+                            frameDimension.width*3/4, frameDimension.height*3/4, 
+                            java.awt.Image.SCALE_SMOOTH);
+            this.setIcon(new ImageIcon(this.tileGeographyImage));
+        } catch (IOException e) {
+            Logger.getLogger(MapGrid.class.getName()).log(Level.SEVERE, null, e);
+            this.tileGeographyImage = null;
         }
-        return null;
     }
-    
-    
+       
     /**
      * Getter Function to retrieve the geoTileInformations
      * @return 

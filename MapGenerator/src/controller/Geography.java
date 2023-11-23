@@ -11,9 +11,9 @@ import java.util.List;
  * @author jason
  */
 public class Geography {     
-    public Object[] geographyGen(){
+    public Object[] geographyGen(int runningBonus){
         DiceRoll diceRoll = new DiceRoll();
-        int runningBonus = 0;
+        //int runningBonus = 0;
         
         int roll = diceRoll.roll(100);
         int num = roll + runningBonus;
@@ -30,15 +30,15 @@ public class Geography {
         }
         
         
-        return tableGeography(num);
+        return tableGeography(num, runningBonus);
     }
     
-    public Object[] tableGeography(int num){
-        Object[] typeAndNum = new Object[2];
+    public Object[] tableGeography(int num, int runningBonus){
+        Object[] tileInfo = new Object[4];
         DiceRoll diceRoll = new DiceRoll();
         String tileGeoType = "Blank";
         int roll = 0;
-        int maxRoll = 10;
+        int maxRoll = 100;
         
         switch (num) {
             case 1, 11, 21, 31, 41, 51, 61 -> {System.out.println("Barren Plains"); tileGeoType = "Barren_Plains"; roll = diceRoll.roll(maxRoll);}
@@ -82,14 +82,17 @@ public class Geography {
             case 97 -> {System.out.println("Barren Mountains"); tileGeoType = "Barren_Mountains"; roll = diceRoll.roll(maxRoll*5);}
             case 98 -> {System.out.println("Scrubland Swamps"); tileGeoType = "Scrubland_Swamps"; roll = diceRoll.roll(maxRoll*5);}
             case 99 -> {System.out.println("Barren Badlands"); tileGeoType = "Barren_Badlands"; roll = diceRoll.roll(maxRoll*5);}
-            case 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 -> {System.out.println("River"); tileGeoType = "River"; roll = 1;}
-            default -> {System.out.println("Special Feture"); tableSpecialFeatures(); tileGeoType = "Special_Feture"; roll = 1;} // Default case
+            case 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 -> {System.out.println("River"); tileGeoType = "River"; diceRoll.roll(maxRoll/10);}
+            default -> {System.out.println("Special Feture"); tableSpecialFeatures(); tileGeoType = "Special_Feature"; roll = 1;} // Default case
         }
         
-        typeAndNum[0] = tileGeoType;
-        typeAndNum[1] = roll;
+        System.out.println("Number of tiles: " + roll);
         
-        return typeAndNum;
+        tileInfo[0] = runningBonus;
+        tileInfo[1] = tileGeoType;
+        tileInfo[2] = roll;
+        
+        return tileInfo;
     }
     
     public void tableSpecialFeatures(){

@@ -4,11 +4,16 @@
  */
 package view;
 import controller.MapGrid;
+import controller.POI;
 import controller.TilePlace;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.List;
 import javax.swing.Box;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.*;
+import model.Cell;
 /**
  * The generated Map as View
  * @author Sehri Singh
@@ -17,6 +22,9 @@ public class CellMap extends javax.swing.JFrame {
     private MapGrid Map;
     private GridLayout gridView;
     private TilePlace tileplacer;
+    private JLayeredPane LayerView;
+    private JPanel CellView;
+    private JPanel POIView;
     /**
      * Creates new form GeneratorPicker
      */
@@ -25,7 +33,7 @@ public class CellMap extends javax.swing.JFrame {
         this.Map.generateMap();
         System.out.println("x: "+sizeX+" y: "+sizeY);
         this.tileplacer = new TilePlace();
-        this.tileplacer.placeTiles(Map, sizeX, sizeY);
+        this.tileplacer.placeTile(sizeX, sizeY);
         this.Map.SetTileImages();
         this.fillMap();
         initComponents();
@@ -37,30 +45,57 @@ public class CellMap extends javax.swing.JFrame {
     public void fillMap(){
         this.gridView = new GridLayout(this.Map.getSizeX(), this.Map.getSizeY());
         //creating the GridPanel
-        JPanel col = new JPanel(this.gridView);
-        col.setVisible(true);
-        col.setSize(this.Map.xCellSize+100, this.Map.yCellSize+100);
-        col.setFocusable(true);
-        col.requestFocusInWindow();
-        col.setBorder(LineBorder.createBlackLineBorder());
+        this.LayerView = new JLayeredPane();
+        this.LayerView.setVisible(true);
+        this.LayerView.setOpaque(false);
+        this.LayerView.setSize(this.Map.LayerViewSize, this.Map.LayerViewSize);
         //filling the GridPanel with Cells
+        this.fillTiles();
+        this.fillPOIs();
+        this.LayerView.add(CellView, JLayeredPane.DEFAULT_LAYER);
+        this.LayerView.add(POIView, JLayeredPane.DRAG_LAYER);
+        this.add(this.LayerView);
+    }
+    
+    private void fillPOIs(){
+        this.POIView  = new JPanel();
+        //this.POIView.setLayout(gridView);
+        this.POIView.setVisible(true);
+        this.POIView.setSize(this.Map.xCellSize+100, this.Map.yCellSize+100);
+        this.POIView.setOpaque(false);
+        this.POIView.setFocusable(false);
+        
+        POI house = new POI("House", 2,2);
+        house.setDescription("A little House !");
+        house.setSize(50,50);
+        house.setPOIImage(50, 50);
+        house.setClickEvent();
+        this.POIView.add(house);
+    }
+    
+    private void fillTiles(){
+        
+        this.CellView  = new JPanel();
+        this.CellView.setLayout(gridView);
+        this.CellView.setVisible(true);
+        this.CellView.setSize(this.Map.xCellSize, this.Map.yCellSize);
+        //this.CellView.setFocusable(true);
+        this.CellView.requestFocusInWindow();
+        //this.CellView.setBorder(LineBorder.createBlackLineBorder());
         for(int i = 0; this.Map.getMapData().getSizeX()> i; i++){
             for(int j = 0; this.Map.getMapData().getSizeY() > j; j++){
                 System.out.println(this.Map.getMapData().getCellDataList().get(i).get(j).getTileInformation()[0]);
-                this.Map.getMapData().getCellDataList().get(i).get(j).setBackground(
-                        this.Map.getMapData().getCellDataList().get(i).get(j).getTileColor(this.Map.getMapData().getCellDataList().get(i).get(j).getTileInformation()[0].toString()));
-                this.add(col);
-                Box box = Box.createVerticalBox();
-                box.setPreferredSize(this.Map.getSizeDimension());
-                box.add(this.Map.getMapData().getCellDataList().get(i).get(j));
-                col.add(box);
+                //this.Map.getMapData().getCellDataList().get(i).get(j).setBackground(
+                //        this.Map.getMapData().getCellDataList().get(i).get(j).getTileColor(this.Map.getMapData().getCellDataList().get(i).get(j).getTileInformation()[0].toString()));
+                //Box box = Box.createVerticalBox();
+                //box.setPreferredSize(this.Map.getSizeDimension());
+                //box.add(this.Map.getMapData().getCellDataList().get(i).get(j));
+                this.CellView.add(this.Map.getMapData().getCellDataList().get(i).get(j));
             }
         }
-        
-        
     }
     
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -77,6 +112,11 @@ public class CellMap extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Map");
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                formComponentResized(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -91,6 +131,14 @@ public class CellMap extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
+        // TODO add your handling code here:
+        System.out.println(this.getSize());
+        System.out.println(this.Map.getMapData().getCellDataList().get(0).get(0).getSize());
+        this.CellView.setSize(this.getSize().width*3/4, this.getSize().height*3/4);
+        this.Map.UpdateTileImages(this.getSize());
+    }//GEN-LAST:event_formComponentResized
 
     /**
      * @param args the command line arguments
