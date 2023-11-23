@@ -67,6 +67,26 @@ public class MapGrid extends MapGridModel{
         return false;
     }
     
+    /**
+     * Inserting new GeoType into the tileInformations of Cells
+     * @param grid the new tilePlaced Grid with GeoTypes
+     */
+    public boolean insertGeoType(Object[][] grid){
+        ArrayList<ArrayList<Object>> tileInfoColumn = new ArrayList<>();
+        for(int i = 0 ; this.getCellDataList().size() > i; i++){
+            ArrayList<Object> tileInfoRow = new ArrayList<>();
+            tileInfoColumn.add(tileInfoRow);
+            for(int j = 0; this.getCellDataList().get(i).size() > j; j++){
+                if(Objects.isNull(grid[i][j])){
+                    tileInfoRow.add("Special_Feature");
+                }else{
+                    tileInfoRow.add(grid[i][j].toString());
+                }
+                this.getCellDataList().get(i).get(j).setTileInformation(tileInfoRow.toArray());
+            }
+        }
+        return true;
+    }
     
     /**
      * Function to set the Images of all the Cells to their corresponding geoTile

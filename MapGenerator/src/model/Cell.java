@@ -5,11 +5,11 @@
 package model;
 
 import controller.MapGrid;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -54,6 +54,7 @@ public class Cell extends JButton {
             Logger.getLogger(MapGrid.class.getName()).log(Level.SEVERE, null, e);
             this.tileGeographyImage = null;
         }
+        repaint();
     }
     
     
@@ -70,6 +71,7 @@ public class Cell extends JButton {
             Logger.getLogger(MapGrid.class.getName()).log(Level.SEVERE, null, e);
             this.tileGeographyImage = null;
         }
+        repaint();
     }
        
     /**
