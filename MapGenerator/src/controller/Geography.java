@@ -92,14 +92,14 @@ public class Geography {
         String SpecialFeature = "";
         
         switch(roll){
-            case 1 -> System.out.println("Caves");
-            case 2 -> System.out.println("Cliff");
-            case 3 -> System.out.println("Fertile Valley");
-            case 4 -> System.out.println("Pool");
-            case 5 -> System.out.println("Tor");
-            case 6 -> System.out.println("Volcano");
-            case 7 -> System.out.println("Waterfall");
-            case 8 -> System.out.println("Whirlpool");
+            case 1 -> SpecialFeature = "Caves";
+            case 2 -> SpecialFeature = "Cliff";
+            case 3 -> SpecialFeature = "Fertile Valley";
+            case 4 -> SpecialFeature = "Pool";
+            case 5 -> SpecialFeature = "Tor";
+            case 6 -> SpecialFeature = "Volcano";
+            case 7 -> SpecialFeature = "Waterfall";
+            case 8 -> SpecialFeature = "Whirlpool";
         }
         return SpecialFeature;
     }

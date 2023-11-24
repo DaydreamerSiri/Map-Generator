@@ -5,7 +5,7 @@
 package view;
 import controller.MapGrid;
 import controller.POI;
-import controller.TilePlace;
+import controller.TilePlacer;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.List;
@@ -21,7 +21,7 @@ import model.Cell;
 public class CellMap extends javax.swing.JFrame {
     private MapGrid Map;
     private GridLayout gridView;
-    private TilePlace tileplacer;
+    private TilePlacer tileplacer;
     private JLayeredPane LayerView;
     private JPanel CellView;
     private JPanel POIView;
@@ -32,8 +32,8 @@ public class CellMap extends javax.swing.JFrame {
         this.Map = new MapGrid(sizeX, sizeY);
         this.Map.generateMap();
         System.out.println("x: "+sizeX+" y: "+sizeY);
-        this.tileplacer = new TilePlace();
-        this.tileplacer.placeTile(sizeX, sizeY);
+        this.tileplacer = new TilePlacer();
+        this.tileplacer.placeTileSet(sizeX, sizeY);
         this.Map.SetTileImages();
         this.fillMap();
         initComponents();
