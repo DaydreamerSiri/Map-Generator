@@ -60,7 +60,6 @@ public class CellMap extends javax.swing.JFrame {
         //this.LayerView.add(CellView, JLayeredPane.DEFAULT_LAYER, 0);
         //this.LayerView.add(POIView, JLayeredPane.PALETTE_LAYER,0);
         this.jScrollPaneCellMap.getViewport().add(this.CellView);
-        System.out.println(this.jScrollPaneCellMap.getViewport().getSize());
         this.jScrollPaneCellMap.revalidate();
     }
     
