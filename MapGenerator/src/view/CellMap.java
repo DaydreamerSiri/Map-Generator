@@ -8,7 +8,8 @@ import controller.POI;
 import controller.TilePlace;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.JButton;
@@ -20,7 +21,7 @@ import javax.swing.JPanel;
  */
 public class CellMap extends javax.swing.JFrame {
     private MapGrid Map;
-    private GridLayout gridView;
+    private GridBagLayout gridLayout;
     private TilePlace tileplacer;
     private JLayeredPane LayerView;
     private JPanel CellView;
@@ -45,8 +46,8 @@ public class CellMap extends javax.swing.JFrame {
      * Function to fill the Map with created Cells
      */
     public void fillMap(){
-        this.gridView = new GridLayout(this.Map.getAmountX(), this.Map.getAmountY());
-        //this.jScrollPaneCellMap.setLayout(this.gridView);
+        this.gridLayout = new GridBagLayout();
+        //this.jScrollPaneCellMap.setLayout(this.gridLayout);
         //creating the GridPanel
         //this.LayerView = new JLayeredPane();
         //this.LayerView.setVisible(true);
@@ -63,31 +64,11 @@ public class CellMap extends javax.swing.JFrame {
         this.jScrollPaneCellMap.revalidate();
     }
     
-    private void buttonresize(){
-        this.jScrollPaneCellMap.addComponentListener(new ComponentAdapter() {
-                @Override
-                public void componentResized(ComponentEvent e) {
-                    Dimension size = jScrollPaneCellMap.getSize();
-                    int buttonSize = Math.min(size.width / 3, size.height / 3);
-
-                    // Setzen Sie eine feste Größe für jeden Button basierend auf der Größe des JScrollPanes
-                    for (Component component : CellView.getComponents()) {
-                        if (component instanceof JButton) {
-                            JButton button = (JButton) component;
-                            button.setPreferredSize(new Dimension(buttonSize, buttonSize));
-                        }
-                    }
-
-                    jScrollPaneCellMap.revalidate();
-                }
-            });
-    
-    
-    }
-    
     private void fillPOIs(){
+        
+        
         this.POIView  = new JPanel();
-        //this.POIView.setLayout(gridView);
+        //this.POIView.setLayout(gridLayout);
         this.POIView.setVisible(true);
         this.POIView.setSize(this.Map.xCellSize, this.Map.yCellSize);
         this.POIView.setOpaque(false);
@@ -102,18 +83,17 @@ public class CellMap extends javax.swing.JFrame {
     }
     
     private void fillTiles(){
-        
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
         this.CellView  = new JPanel();
-        this.CellView.setLayout(gridView);
+        this.CellView.setLayout(gridLayout);
         this.CellView.setVisible(true);
-        //this.CellView.setPreferredSize(new Dimension(this.Map.xCellSize, this.Map.yCellSize));
-        //this.CellView.setFocusable(true);
-        //this.CellView.requestFocusInWindow();
-        //this.CellView.setBorder(LineBorder.createBlackLineBorder());
         for(int i = 0; this.Map.getMapData().getAmountX()> i; i++){
             for(int j = 0; this.Map.getMapData().getAmountY() > j; j++){
-               // this.Map.getMapData().getCellDataList().get(i).get(j).setPreferredSize(new Dimension(400,400));
-                this.CellView.add(this.Map.getMapData().getCellDataList().get(i).get(j));
+                gbc.gridx = j;
+                gbc.gridy = i;
+                this.CellView.add(this.Map.getMapData().getCellDataList().get(i).get(j), gbc);
+                this.Map.getMapData().getCellDataList().get(i).get(j).setPreferredSize( this.Map.getSizeDimension());
             }
         }
     }
