@@ -14,8 +14,8 @@ import javax.swing.JButton;
  * @author Sehri
  */
 public class MapGridModel implements MapGridInterface{
-    private int sizeX; 
-    private int sizeY;
+    private int AmountX; 
+    private int AmountY;
     
     private List<List<Cell>> CellDataList;
     private List<POI> POIDataList;
@@ -30,22 +30,22 @@ public class MapGridModel implements MapGridInterface{
         if(sizeX != sizeY){
             throw new IllegalArgumentException("Please use correct Map Size");
         }
-        this.sizeX = sizeX;
-        this.sizeY = sizeY;
+        this.AmountX = sizeX;
+        this.AmountY = sizeY;
     }
     /**
      * Gets the SizeX
      * @return the X size of map 
      */
-    public int getSizeX(){
-        return this.sizeX;
+    public int getAmountX(){
+        return this.AmountX;
     }
     /**
      * Gets the SizeY
      * @return the Y size of map 
      */
-    public int getSizeY(){
-        return this.sizeY;
+    public int getAmountY(){
+        return this.AmountY;
     }
     
     /**

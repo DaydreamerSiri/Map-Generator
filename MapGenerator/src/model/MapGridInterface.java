@@ -11,7 +11,7 @@ package model;
 public interface MapGridInterface {
     public int xCellPosition = 100;
     public int yCellPosition = 100;
-    public int yCellSize = 65;
-    public int xCellSize = 65;
+    public int yCellSize = 100;
+    public int xCellSize = 100;
     public int LayerViewSize = 500;
 }

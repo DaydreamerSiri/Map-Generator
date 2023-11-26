@@ -6,14 +6,14 @@ package view;
 import controller.MapGrid;
 import controller.POI;
 import controller.TilePlace;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.List;
-import javax.swing.Box;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.border.*;
-import model.Cell;
 /**
  * The generated Map as View
  * @author Sehri Singh
@@ -27,14 +27,15 @@ public class CellMap extends javax.swing.JFrame {
     private JPanel POIView;
     /**
      * Creates new form GeneratorPicker
+     * @param AmountX
+     * @param AmountY
      */
-    public CellMap(int sizeX, int sizeY) {
+    public CellMap(int AmountX, int AmountY) {
         initComponents();
-        this.Map = new MapGrid(sizeX, sizeY);
+        this.Map = new MapGrid(AmountX, AmountY);
         this.Map.generateMap();
-        System.out.println("x: "+sizeX+" y: "+sizeY);
         this.tileplacer = new TilePlace();
-        this.Map.insertGeoType(this.tileplacer.placeTile(sizeX, sizeY));
+        this.Map.insertGeoType(this.tileplacer.placeTile(AmountX, AmountY));
         this.Map.SetTileImages();
         fillMap();
         this.repaint();
@@ -44,27 +45,51 @@ public class CellMap extends javax.swing.JFrame {
      * Function to fill the Map with created Cells
      */
     public void fillMap(){
-        this.gridView = new GridLayout(this.Map.getSizeX(), this.Map.getSizeY());
+        this.gridView = new GridLayout(this.Map.getAmountX(), this.Map.getAmountY());
+        //this.jScrollPaneCellMap.setLayout(this.gridView);
         //creating the GridPanel
-        this.LayerView = new JLayeredPane();
-        this.LayerView.setVisible(true);
-        this.LayerView.setOpaque(false);
-        this.LayerView.setFocusable(true);
-        this.LayerView.setSize(this.Map.LayerViewSize, this.Map.LayerViewSize);
+        //this.LayerView = new JLayeredPane();
+        //this.LayerView.setVisible(true);
+        //this.LayerView.setOpaque(false);
+        //this.LayerView.setFocusable(true);
+        //this.LayerView.setSize(this.Map.LayerViewSize, this.Map.LayerViewSize);
         //filling the GridPanel with Cells
         this.fillTiles();
-        this.fillPOIs();
-        this.LayerView.add(CellView, JLayeredPane.DEFAULT_LAYER, 0);
-        this.LayerView.add(POIView, JLayeredPane.PALETTE_LAYER,0);
-        this.jScrollPaneCellMap.add(this.CellView);
-        this.jScrollPaneCellMap.repaint();
+        //this.fillPOIs();
+        //this.LayerView.add(CellView, JLayeredPane.DEFAULT_LAYER, 0);
+        //this.LayerView.add(POIView, JLayeredPane.PALETTE_LAYER,0);
+        this.jScrollPaneCellMap.getViewport().add(this.CellView);
+        System.out.println(this.jScrollPaneCellMap.getViewport().getSize());
+        this.jScrollPaneCellMap.revalidate();
+    }
+    
+    private void buttonresize(){
+        this.jScrollPaneCellMap.addComponentListener(new ComponentAdapter() {
+                @Override
+                public void componentResized(ComponentEvent e) {
+                    Dimension size = jScrollPaneCellMap.getSize();
+                    int buttonSize = Math.min(size.width / 3, size.height / 3);
+
+                    // Setzen Sie eine feste Größe für jeden Button basierend auf der Größe des JScrollPanes
+                    for (Component component : CellView.getComponents()) {
+                        if (component instanceof JButton) {
+                            JButton button = (JButton) component;
+                            button.setPreferredSize(new Dimension(buttonSize, buttonSize));
+                        }
+                    }
+
+                    jScrollPaneCellMap.revalidate();
+                }
+            });
+    
+    
     }
     
     private void fillPOIs(){
         this.POIView  = new JPanel();
         //this.POIView.setLayout(gridView);
         this.POIView.setVisible(true);
-        this.POIView.setSize(this.Map.xCellSize+100, this.Map.yCellSize+100);
+        this.POIView.setSize(this.Map.xCellSize, this.Map.yCellSize);
         this.POIView.setOpaque(false);
         this.POIView.setFocusable(false);
         
@@ -81,18 +106,13 @@ public class CellMap extends javax.swing.JFrame {
         this.CellView  = new JPanel();
         this.CellView.setLayout(gridView);
         this.CellView.setVisible(true);
-        this.CellView.setSize(this.Map.xCellSize, this.Map.yCellSize);
+        //this.CellView.setPreferredSize(new Dimension(this.Map.xCellSize, this.Map.yCellSize));
         //this.CellView.setFocusable(true);
-        this.CellView.requestFocusInWindow();
+        //this.CellView.requestFocusInWindow();
         //this.CellView.setBorder(LineBorder.createBlackLineBorder());
-        for(int i = 0; this.Map.getMapData().getSizeX()> i; i++){
-            for(int j = 0; this.Map.getMapData().getSizeY() > j; j++){
-                System.out.println(this.Map.getMapData().getCellDataList().get(i).get(j).getTileInformation()[0]);
-                //this.Map.getMapData().getCellDataList().get(i).get(j).setBackground(
-                //        this.Map.getMapData().getCellDataList().get(i).get(j).getTileColor(this.Map.getMapData().getCellDataList().get(i).get(j).getTileInformation()[0].toString()));
-                //Box box = Box.createVerticalBox();
-                //box.setPreferredSize(this.Map.getSizeDimension());
-                //box.add(this.Map.getMapData().getCellDataList().get(i).get(j));
+        for(int i = 0; this.Map.getMapData().getAmountX()> i; i++){
+            for(int j = 0; this.Map.getMapData().getAmountY() > j; j++){
+               // this.Map.getMapData().getCellDataList().get(i).get(j).setPreferredSize(new Dimension(400,400));
                 this.CellView.add(this.Map.getMapData().getCellDataList().get(i).get(j));
             }
         }
@@ -133,18 +153,21 @@ public class CellMap extends javax.swing.JFrame {
         jScrollPaneCellMap.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPaneCellMap.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPaneCellMap.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPaneCellMap.setMaximumSize(new java.awt.Dimension(845, 452));
 
         JTabPaneFunctions.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanelPOI.setMaximumSize(new java.awt.Dimension(190, 419));
 
         javax.swing.GroupLayout jPanelPOILayout = new javax.swing.GroupLayout(jPanelPOI);
         jPanelPOI.setLayout(jPanelPOILayout);
         jPanelPOILayout.setHorizontalGroup(
             jPanelPOILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 187, Short.MAX_VALUE)
+            .addGap(0, 201, Short.MAX_VALUE)
         );
         jPanelPOILayout.setVerticalGroup(
             jPanelPOILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 419, Short.MAX_VALUE)
+            .addGap(0, 471, Short.MAX_VALUE)
         );
 
         JTabPaneFunctions.addTab("POIs", jPanelPOI);
@@ -153,11 +176,11 @@ public class CellMap extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 187, Short.MAX_VALUE)
+            .addGap(0, 201, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 419, Short.MAX_VALUE)
+            .addGap(0, 471, Short.MAX_VALUE)
         );
 
         JTabPaneFunctions.addTab("Princes", jPanel1);
@@ -184,20 +207,21 @@ public class CellMap extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPaneCellMap, javax.swing.GroupLayout.DEFAULT_SIZE, 844, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(JTabPaneFunctions)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPaneCellMap, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JTabPaneFunctions, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(JTabPaneFunctions)
-                    .addComponent(jScrollPaneCellMap))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addComponent(jScrollPaneCellMap, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(JTabPaneFunctions)
+                .addContainerGap())
         );
 
         pack();
@@ -205,10 +229,9 @@ public class CellMap extends javax.swing.JFrame {
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
         // TODO add your handling code here:
-        System.out.println(this.getSize());
-        System.out.println(this.Map.getMapData().getCellDataList().get(0).get(0).getSize());
-        this.CellView.setSize(this.getSize().width*3/4, this.getSize().height*3/4);
-        this.Map.UpdateTileImages(this.getSize());
+        //this.CellView.setSize(this.getSize().width*3/4, this.getSize().height*3/4);
+        //Dimension dm = this.Map.getMapData().getCellDataList().get(0).get(0).getPreferredSize();
+        //this.Map.UpdateTileImages(dm);
     }//GEN-LAST:event_formComponentResized
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed

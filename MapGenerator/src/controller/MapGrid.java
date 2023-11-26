@@ -36,9 +36,9 @@ public class MapGrid extends MapGridModel{
     public boolean generateMap(){
         List<List<Cell>> cellMap = new ArrayList();
         if(this.getCellDataList() == null) {   //check if Cells haven't been generated
-        for(int i = 0; this.getSizeX() > i; i++){
+        for(int i = 0; this.getAmountX() > i; i++){
                 cellMap.add(new ArrayList());
-                for(int j = 0; this.getSizeY() > j; j++) {
+                for(int j = 0; this.getAmountY() > j; j++) {
                    Cell cell = new Cell();
                    //cell.setLocation(this.yCellPosition*i-(this.yCellPosition*i/2), -this.xCellPosition*j-(this.xCellPosition*j/2));
                    cell.setVisible(true);
@@ -95,8 +95,6 @@ public class MapGrid extends MapGridModel{
         for(List<Cell> row : this.getCellDataList()){
             for(Cell cell: row){
                 cell.SetTileImages(cell.getSize().width, cell.getSize().height);
-                System.out.println();
-                System.out.println(this.xCellSize);
             }
         }
     }

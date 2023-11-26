@@ -50,11 +50,12 @@ public class Cell extends JButton {
         try{
             this.tileGeographyImage = ImageIO.read(new File(imagePath).getAbsoluteFile()).getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
             this.setIcon(new ImageIcon(this.tileGeographyImage));
+            this.setPreferredSize(new Dimension(width, height));
+            this.getSize();
         } catch (IOException e) {
             Logger.getLogger(MapGrid.class.getName()).log(Level.SEVERE, null, e);
             this.tileGeographyImage = null;
         }
-        repaint();
     }
     
     
