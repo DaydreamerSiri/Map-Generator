@@ -71,7 +71,7 @@ public class MapGrid extends MapGridModel{
     public boolean insertGeoType(Cell[][] grid){
         for(int i = 0 ; this.getCellDataList().length > i; i++){
             for(int j = 0; this.getCellDataList()[i].length > j; j++){
-                if(Objects.isNull(grid[i][j])){
+                if((grid[i][j].getTileInformation().isEmpty())){
                     this.getCellDataList()[i][j].setTileInformation("Special_Feature");
                 }
             }
