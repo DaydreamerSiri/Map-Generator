@@ -21,11 +21,11 @@ public class TilePlacer {
         grid = tilePlacer.placeTileSet(x, y);
     }
 
-    public Object[][] placeTileSet(int x, int y) {
+    public Cell[][] placeTileSet(int x, int y) {
         System.out.println("Initialize placeTileSet method...");
         int runningBonus = 0;
         int maxTiles = x * y;
-        Object[][] grid = new Object[x][y];
+        Cell[][] grid = new Cell[x][y];
         Object[] tileSet = new Object[3];
 
         //set random position
@@ -59,7 +59,8 @@ public class TilePlacer {
                         //System.out.println("xPos:" + xPos + "yPos:" + yPos);
                         //if empty, insert tile type
                         if (grid[xPos][yPos] == null) {
-                            grid[xPos][yPos] = (String) tileSet[1];
+                            grid[xPos][yPos] = new Cell();
+                            grid[xPos][yPos].setTileInformation((String) tileSet[1]);
                             counter++;
                         }
                         if (xPos <= x) {
@@ -97,7 +98,8 @@ public class TilePlacer {
             newCoordinates = goAround(x, y, xPos, yPos, (tilesToPlaceNum - upCounter));
 
             // Otherwise, choose a position around the last placed tile 
-            grid[xPos][yPos] = (String) tileSet[1]; //insert tile type into cell
+            grid[xPos][yPos] = new Cell();
+            grid[xPos][yPos].setTileInformation((String) tileSet[1]); //insert tile type into cell
             upCounter++;
 
             int newXPos = 0;
@@ -128,7 +130,8 @@ public class TilePlacer {
 
                     //if cell null
                     if (grid[xPos][yPos] == null) {
-                        grid[xPos][yPos] = (String) tileSet[1]; //insert tile type into cell
+                        grid[xPos][yPos] = new Cell();
+                        grid[xPos][yPos].setTileInformation((String) tileSet[1]); //insert tile type into cell
                         upCounter++;
                     }
                 }

@@ -17,7 +17,7 @@ public class MapGridModel implements MapGridInterface{
     private int AmountX; 
     private int AmountY;
     
-    private List<List<Cell>> CellDataList;
+    private Cell[][] CellDataList;
     private List<POI> POIDataList;
     
     
@@ -52,14 +52,14 @@ public class MapGridModel implements MapGridInterface{
      * Gets all the Cells of a Map
      * @return List of a List with Cell Objects
      */
-    public List<List<Cell>> getCellDataList(){
+    public Cell[][] getCellDataList(){
         return this.CellDataList;
     }
     
     /**
      * Sets all the Cells of a Map
      */
-    public void setCellDataList(List<List<Cell>> cellData){
+    public void setCellDataList(Cell[][] cellData){
         this.CellDataList = cellData;
     }
     

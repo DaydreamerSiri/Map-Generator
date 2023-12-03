@@ -5,16 +5,12 @@
 package view;
 import controller.MapGrid;
 import controller.POI;
-import controller.TilePlace;
-import java.awt.Component;
-import java.awt.Dimension;
+import controller.TilePlacer;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import model.Cell;
 /**
  * The generated Map as View
  * @author Sehri Singh
@@ -22,7 +18,7 @@ import javax.swing.JPanel;
 public class CellMap extends javax.swing.JFrame {
     private MapGrid Map;
     private GridBagLayout gridLayout;
-    private TilePlace tileplacer;
+    private TilePlacer tileplacer;
     private JLayeredPane LayerView;
     private JPanel CellView;
     private JPanel POIView;
@@ -33,10 +29,11 @@ public class CellMap extends javax.swing.JFrame {
      */
     public CellMap(int AmountX, int AmountY) {
         initComponents();
+        this.tileplacer = new TilePlacer();
+        Cell[][] cellMap = this.tileplacer.placeTileSet(AmountX, AmountY);
         this.Map = new MapGrid(AmountX, AmountY);
-        this.Map.generateMap();
-        this.tileplacer = new TilePlace();
-        this.Map.insertGeoType(this.tileplacer.placeTile(AmountX, AmountY));
+        this.Map.generateMap(cellMap);
+        this.Map.insertGeoType(cellMap);
         this.Map.SetTileImages();
         fillMap();
         this.repaint();
@@ -91,8 +88,8 @@ public class CellMap extends javax.swing.JFrame {
             for(int j = 0; this.Map.getMapData().getAmountY() > j; j++){
                 gbc.gridx = j;
                 gbc.gridy = i;
-                this.CellView.add(this.Map.getMapData().getCellDataList().get(i).get(j), gbc);
-                this.Map.getMapData().getCellDataList().get(i).get(j).setPreferredSize( this.Map.getSizeDimension());
+                this.CellView.add(this.Map.getMapData().getCellDataList()[i][j], gbc);
+                this.Map.getMapData().getCellDataList()[i][j].setPreferredSize( this.Map.getSizeDimension());
             }
         }
     }

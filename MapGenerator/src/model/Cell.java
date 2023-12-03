@@ -21,12 +21,13 @@ import javax.swing.*;
  */
 public class Cell extends JButton {
     
-    private Object[] tileInformation;
+    private String tileInformation;
     boolean isCreated = false;
     boolean isPlaced = false;
     Image tileGeographyImage;
     
     public void Cell(){
+        tileInformation = "";
         this.setOpaque(false);
         this.setContentAreaFilled(false);
         this.setBorderPainted(false);
@@ -40,7 +41,7 @@ public class Cell extends JButton {
      * @param height height of the Tile
      */
     public void SetTileImages(int width, int height){
-        String imagePath = String.format("images\\tiles\\%s.png", this.tileInformation[0]);
+        String imagePath = String.format("images\\tiles\\%s.png", this.tileInformation);
         if(width == 0 && height == 0){
             width = 100;
             height = 100;
@@ -58,7 +59,7 @@ public class Cell extends JButton {
     
     
     public void SetTileImages(Dimension frameDimension){
-        String imagePath = String.format("images\\tiles\\%s.png", this.tileInformation[0]);
+        String imagePath = String.format("images\\tiles\\%s.png", this.tileInformation);
         try{
             
             this.tileGeographyImage = ImageIO.read(new File(imagePath)
@@ -77,7 +78,7 @@ public class Cell extends JButton {
      * Getter Function to retrieve the geoTileInformations
      * @return 
      */
-    public Object[] getTileInformation(){
+    public String getTileInformation(){
         return this.tileInformation;
     }
     
@@ -86,7 +87,7 @@ public class Cell extends JButton {
      * Setter Function to set the geoTileInformations
      * @param tileInformation 
      */
-    public void setTileInformation(Object[] tileInformation) {
+    public void setTileInformation(String tileInformation) {
         this.tileInformation = tileInformation;
     }
     
@@ -128,7 +129,7 @@ public class Cell extends JButton {
      * @return String Object Information
      */
     public String cellToString(){
-        return String.valueOf(this.tileInformation[0]);
+        return this.tileInformation;
     }
     
 }
