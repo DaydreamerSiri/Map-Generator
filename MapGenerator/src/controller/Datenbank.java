@@ -8,10 +8,14 @@ import java.lang.management.PlatformLoggingMXBean;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.time.chrono.ThaiBuddhistEra;
 import model.NPC;
+import java.util.List;
+import java.util.ArrayList;
+        
 
 /**
  *
@@ -67,58 +71,13 @@ public class Datenbank {
      * 
      *
      */
-    private void connect(){
-        try{
-            conn = DriverManager.getConnection(dbURL, "SA", "");
-        }catch(SQLException ex){
-            System.out.println(ex);
-        }
+    private Connection connect() throws SQLException {
+        return DriverManager.getConnection(dbURL, "SA", "");
     }
     
 
-    /**
-     * Die private Methode close schließt die Verbindung
-     * zur Datenbank.
-     * 
-     * @throws SQLException 
-     */
-    private void close() throws SQLException {
-        if (conn != null) {
-            if (!conn.isClosed()) {
-                Statement stmt = conn.createStatement();
-                stmt.executeUpdate("SHUTDOWN");
-                conn.close();
-            }
-        }
-    }
-     
-    
-    
-    /**
-     * Diese Methode fügt Testdaten in die Tabelle RELATIONSHIPS ein.
-     * 
-     * 
-     */
-    public void insertTestData(){
-        try {
+        public void insertNPC(NPC npc){
 
-            if (conn == null || conn.isClosed()) {
-                connect();
-            }
-
-            Statement stmt = conn.createStatement();
-
-            stmt.executeUpdate("DELETE FROM RELATIONSHIPS");
-            stmt.executeUpdate("INSERT INTO RELATIONSHIPS (id, type, duration) VALUES (0, 'test_type1', 'test_duration1')");
-            stmt.executeUpdate("INSERT INTO RELATIONSHIPS (id, type, duration) VALUES (1, 'test_type2', 'test_duration2')");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public void insertNPC(NPC npc){
-        try {
-            connect();
             String sql = "INSERT INTO NPC (realm, name, age, race, sub_type,"
                     + " career, stage_of_career, goal, mob_number, mobtype, title, "
                     + "x_Pos, y_Pos, personality, ruler) VALUES ('" 
@@ -126,18 +85,77 @@ public class Datenbank {
                     + npc.getSubType()+ "', '" + npc.getCareer() + "', '" + npc.getStageOfCareer() + "', '" 
                     + npc.getGoal()+ "', " + npc.getMobNumber() + ", '" + npc.getMobType() + "', '" + npc.getTitle() + "', " 
                     + npc.getxPos() + ", " + npc.getyPos() + ", '" + npc.getPersonality() + "', '" + npc.getRuler() + "')";
-            Statement stmt = conn.createStatement();
-            stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
-            ResultSet rst = stmt.getGeneratedKeys();
-            if(rst.next()){
-                npc.setID(rst.getInt(1));
-            }
-            close();
-        } catch (Exception ex) {
-            System.out.println(ex);
+        try (Connection conn = this.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        
+        pstmt.setString(1, npc.getRealm());
+        pstmt.setString(2, npc.getName());
+        pstmt.setInt(3, npc.getAge());
+        pstmt.setString(4, npc.getRace());
+        pstmt.setString(5, npc.getSubType());
+        pstmt.setString(6, npc.getCareer());
+        pstmt.setString(7, npc.getStageOfCareer());
+        pstmt.setString(8, npc.getGoal());
+        pstmt.setInt(9, npc.getMobNumber());
+        pstmt.setString(10, npc.getMobType());
+        pstmt.setString(11, npc.getTitle());
+        pstmt.setInt(12, npc.getxPos());
+        pstmt.setInt(13, npc.getyPos());
+        pstmt.setString(14, npc.getPersonality());
+        pstmt.setString(15, npc.getRuler());
+        
+        int affectedRows = pstmt.executeUpdate();
+        
+        if (affectedRows == 0) {
+            throw new SQLException("Creating NPC failed, no rows affected.");
         }
         
+        try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                npc.setID(generatedKeys.getInt(1));
+            } else {
+                throw new SQLException("Creating NPC failed, no ID obtained.");
+            }
+        }
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
     }
+}
+        
+        
+            public List<NPC> getAllNPCs() {
+        List<NPC> npcList = new ArrayList<>();
+        String sql = "SELECT * FROM NPC";
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            
+            while (rs.next()) {
+                NPC npc = new NPC();
+                npc.setID(rs.getInt("ID"));
+                npc.setRealm(rs.getString("realm"));
+                npc.setAge(rs.getInt("age"));
+                npc.setRace(rs.getString("race"));
+                npc.setSubType(rs.getString("subType"));
+                npc.setCareer(rs.getString("career"));
+                npc.setStageOfCareer(rs.getString("stageOfCareer"));
+                npc.setGoal(rs.getString("goal"));
+                npc.setMobNumber(rs.getInt("mobNumber"));
+                npc.setMobType(rs.getString("mobtype"));
+                npc.setTitle(rs.getString("title"));
+                npc.setxPos(rs.getInt("xPos"));
+                npc.setyPos(rs.getInt("yPos"));
+                npc.setPersonality(rs.getString("personalty"));
+                npc.setRuler(rs.getString("ruler"));
+                npcList.add(npc);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return npcList;
+    }
+
+    
     // 2. Abrufen 
     public ResultSet getNPC() throws SQLException {
         
