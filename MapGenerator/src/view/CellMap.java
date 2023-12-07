@@ -109,7 +109,9 @@ public class CellMap extends javax.swing.JFrame {
         jScrollPaneCellMap = new javax.swing.JScrollPane();
         JTabPaneFunctions = new javax.swing.JTabbedPane();
         jPanelPOI = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        jPanelPrinces = new javax.swing.JPanel();
+        loadPrincesBTN = new javax.swing.JButton();
+        savePrincesBTN = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -148,18 +150,42 @@ public class CellMap extends javax.swing.JFrame {
 
         JTabPaneFunctions.addTab("POIs", jPanelPOI);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 201, Short.MAX_VALUE)
+        loadPrincesBTN.setText("Laden");
+        loadPrincesBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadPrincesBTNActionPerformed(evt);
+            }
+        });
+
+        savePrincesBTN.setText("Speichern");
+        savePrincesBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                savePrincesBTNActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelPrincesLayout = new javax.swing.GroupLayout(jPanelPrinces);
+        jPanelPrinces.setLayout(jPanelPrincesLayout);
+        jPanelPrincesLayout.setHorizontalGroup(
+            jPanelPrincesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPrincesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(loadPrincesBTN)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(savePrincesBTN)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 471, Short.MAX_VALUE)
+        jPanelPrincesLayout.setVerticalGroup(
+            jPanelPrincesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPrincesLayout.createSequentialGroup()
+                .addContainerGap(432, Short.MAX_VALUE)
+                .addGroup(jPanelPrincesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(loadPrincesBTN)
+                    .addComponent(savePrincesBTN))
+                .addGap(16, 16, 16))
         );
 
-        JTabPaneFunctions.addTab("Princes", jPanel1);
+        JTabPaneFunctions.addTab("Princes", jPanelPrinces);
 
         jMenu1.setText("File");
 
@@ -213,6 +239,14 @@ public class CellMap extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void loadPrincesBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadPrincesBTNActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_loadPrincesBTNActionPerformed
+
+    private void savePrincesBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savePrincesBTNActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_savePrincesBTNActionPerformed
 
     /**
      * @param args the command line arguments
@@ -272,8 +306,10 @@ public class CellMap extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelPOI;
+    private javax.swing.JPanel jPanelPrinces;
     private javax.swing.JScrollPane jScrollPaneCellMap;
+    private javax.swing.JButton loadPrincesBTN;
+    private javax.swing.JButton savePrincesBTN;
     // End of variables declaration//GEN-END:variables
 }
