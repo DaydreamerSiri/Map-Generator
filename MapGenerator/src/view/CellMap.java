@@ -11,6 +11,11 @@ import java.awt.GridBagLayout;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import model.Cell;
+import controller.Datenbank;
+import java.awt.Label;
+import java.util.ArrayList;
+import java.util.List;
+import model.NPC;
 /**
  * The generated Map as View
  * @author Sehri Singh
@@ -112,6 +117,7 @@ public class CellMap extends javax.swing.JFrame {
         jPanelPrinces = new javax.swing.JPanel();
         loadPrincesBTN = new javax.swing.JButton();
         savePrincesBTN = new javax.swing.JButton();
+        viewPrincesjPanel = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -164,21 +170,38 @@ public class CellMap extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout viewPrincesjPanelLayout = new javax.swing.GroupLayout(viewPrincesjPanel);
+        viewPrincesjPanel.setLayout(viewPrincesjPanelLayout);
+        viewPrincesjPanelLayout.setHorizontalGroup(
+            viewPrincesjPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        viewPrincesjPanelLayout.setVerticalGroup(
+            viewPrincesjPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 408, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanelPrincesLayout = new javax.swing.GroupLayout(jPanelPrinces);
         jPanelPrinces.setLayout(jPanelPrincesLayout);
         jPanelPrincesLayout.setHorizontalGroup(
             jPanelPrincesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPrincesLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(33, 33, 33)
                 .addComponent(loadPrincesBTN)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(30, 30, 30)
                 .addComponent(savePrincesBTN)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
+            .addGroup(jPanelPrincesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(viewPrincesjPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanelPrincesLayout.setVerticalGroup(
             jPanelPrincesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPrincesLayout.createSequentialGroup()
-                .addContainerGap(432, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(viewPrincesjPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanelPrincesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(loadPrincesBTN)
                     .addComponent(savePrincesBTN))
@@ -242,10 +265,22 @@ public class CellMap extends javax.swing.JFrame {
 
     private void loadPrincesBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadPrincesBTNActionPerformed
         // TODO add your handling code here:
+        List<NPC> npcList = new ArrayList<>();
+        Datenbank db = new Datenbank();
+        npcList = db.getAllNPCs();
+        Label princLbl = new Label(npcList.get(0).getName()); 
+        this.viewPrincesjPanel.add(princLbl);
+        
     }//GEN-LAST:event_loadPrincesBTNActionPerformed
 
     private void savePrincesBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savePrincesBTNActionPerformed
         // TODO add your handling code here:
+        Datenbank db = new Datenbank();
+        NPC npc = new NPC("Deutschland", "Germany", 100,
+                "Mensch", "Kartoffel", "Baecker", "100",
+                "Rentenversicherung", 1000, "Humans", "Vaterland",
+                100, 100, "Doof", "Olaf Scholz");
+        db.insertNPC(npc);
     }//GEN-LAST:event_savePrincesBTNActionPerformed
 
     /**
@@ -311,5 +346,6 @@ public class CellMap extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPaneCellMap;
     private javax.swing.JButton loadPrincesBTN;
     private javax.swing.JButton savePrincesBTN;
+    private javax.swing.JPanel viewPrincesjPanel;
     // End of variables declaration//GEN-END:variables
 }
