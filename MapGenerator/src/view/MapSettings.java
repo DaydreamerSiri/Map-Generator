@@ -209,7 +209,7 @@ public class MapSettings extends javax.swing.JFrame {
         NPC npc = new NPC("Deutschland", "Germany", 100,
                 "Mensch", "Kartoffel", "Baecker", "100",
                 "Rentenversicherung", 1000, "Humans", "Vaterland",
-                100, 100, "Doof", "Olaf Scholz", 1);
+                100, 100, "Doof", "Olaf Scholz");
         this.db.insertNPC(npc);
         
     }//GEN-LAST:event_FillNpcsBTNActionPerformed
@@ -224,7 +224,7 @@ public class MapSettings extends javax.swing.JFrame {
      * @param y y Size for Icon Image
      */
     private void fillTileSettingsPanel(int x, int y){
-        File[] files = new File("images\\tiles").listFiles();
+        File[] files = new File("Images//Tiles").listFiles();
         tileSettingsPanel.setLayout(new GridLayout(files.length/2, files.length/2));
         for(int i = 0; files.length > i; i++){
             JButton tileImage = new JButton();
