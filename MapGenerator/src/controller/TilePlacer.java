@@ -58,7 +58,7 @@ public class TilePlacer {
                     while (xPos < x) {
                         //System.out.println("xPos:" + xPos + "yPos:" + yPos);
                         //if empty, insert tile type
-                        if (grid[xPos][yPos] == null) {
+                        if (grid[xPos][yPos] == null && !tileSet[1].equals("River")) {
                             grid[xPos][yPos] = new Cell();
                             grid[xPos][yPos].setTileInformation((String) tileSet[1]);
                             counter++;
@@ -86,7 +86,7 @@ public class TilePlacer {
             int upCounter = 0;
 
             //while not empty, choose a random position
-            while (grid[xPos][yPos] != null) {
+            while (grid[xPos][yPos] != null ) {
                 //System.out.println("no empty cell, reroll.");
                 xPos = diceRoll.roll(x - 1);
                 yPos = diceRoll.roll(y - 1);
@@ -98,9 +98,13 @@ public class TilePlacer {
             newCoordinates = goAround(x, y, xPos, yPos, (tilesToPlaceNum - upCounter));
 
             // Otherwise, choose a position around the last placed tile 
+            if (!tileSet[1].equals("River")){
             grid[xPos][yPos] = new Cell();
             grid[xPos][yPos].setTileInformation((String) tileSet[1]); //insert tile type into cell
-            upCounter++;
+            upCounter++; 
+            } else if (tileSet[1].equals("River")) {
+               upCounter = tilesToPlaceNum;
+            }
 
             int newXPos = 0;
             int newYPos = 0;
@@ -129,7 +133,7 @@ public class TilePlacer {
                     //System.out.println("YPos: " + yPos);
 
                     //if cell null
-                    if (grid[xPos][yPos] == null) {
+                    if (grid[xPos][yPos] == null && !tileSet[1].equals("River")) {
                         grid[xPos][yPos] = new Cell();
                         grid[xPos][yPos].setTileInformation((String) tileSet[1]); //insert tile type into cell
                         upCounter++;
