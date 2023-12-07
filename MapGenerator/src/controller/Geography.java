@@ -25,7 +25,7 @@ public class Geography {
     }
     
     public Object[] tableGeography(int num, int runningBonus){
-        Object[] tileInfo = new Object[4];
+        Object[] tileInfo = new Object[3];
         DiceRoll diceRoll = new DiceRoll();
         String tileGeoType = "Blank";
         int roll = 0;
