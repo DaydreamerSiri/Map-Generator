@@ -144,6 +144,7 @@ public class Datenbank {
 //                100, 100, "Doof", "Olaf Scholz"
                 npc.setID(rs.getInt("ID"));
                 npc.setRealm(rs.getString("realm"));
+                npc.setName(rs.getString("name"));
                 npc.setAge(rs.getInt("age"));
                 npc.setRace(rs.getString("race"));
                 npc.setSubType(rs.getString("subType"));
