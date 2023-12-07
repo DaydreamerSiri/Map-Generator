@@ -26,6 +26,11 @@ public class NPC {
     private String personality;
     private String ruler;
     
+    public NPC() {
+        
+    }
+
+    
     
    public NPC(String realm, String name, int age, String race, String subType, 
                String career, String stageOfCareer, String goal, int mobNumber, 
