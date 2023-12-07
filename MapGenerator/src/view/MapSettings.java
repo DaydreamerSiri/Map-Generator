@@ -209,7 +209,7 @@ public class MapSettings extends javax.swing.JFrame {
         NPC npc = new NPC("Deutschland", "Germany", 100,
                 "Mensch", "Kartoffel", "Baecker", "100",
                 "Rentenversicherung", 1000, "Humans", "Vaterland",
-                100, 100, "Doof", "Olaf Scholz", 1);
+                100, 100, "Doof", "Olaf Scholz");
         this.db.insertNPC(npc);
         
     }//GEN-LAST:event_FillNpcsBTNActionPerformed

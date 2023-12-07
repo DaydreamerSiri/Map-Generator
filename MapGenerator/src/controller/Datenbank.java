@@ -129,9 +129,19 @@ public class Datenbank {
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
-            
+            int i = 0;
             while (rs.next()) {
-                NPC npc = new NPC();
+                NPC npc = new NPC(npcList.get(i).getRealm(), npcList.get(i).getName(),
+                npcList.get(i).getAge(), npcList.get(i).getRace(),
+             npcList.get(i).getSubType(), npcList.get(i).getCareer(),
+        npcList.get(i).getStageOfCareer(),
+               npcList.get(i).getGoal(), npcList.get(i).getMobNumber(), npcList.get(i).getMobType(),
+              npcList.get(i).getTitle(), npcList.get(i).getxPos(), npcList.get(i).getyPos(),
+          npcList.get(i).getPersonality(), npcList.get(i).getRuler());
+//                "Deutschland", "Germany", 100,
+//                "Mensch", "Kartoffel", "Baecker", "100",
+//                "Rentenversicherung", 1000, "Humans", "Vaterland",
+//                100, 100, "Doof", "Olaf Scholz"
                 npc.setID(rs.getInt("ID"));
                 npc.setRealm(rs.getString("realm"));
                 npc.setAge(rs.getInt("age"));
