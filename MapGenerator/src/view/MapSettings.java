@@ -77,9 +77,9 @@ public class MapSettings extends javax.swing.JFrame {
             }
         });
 
-        xSizeInput.setText("3");
+        xSizeInput.setText("20");
 
-        ySizeInput.setText("3");
+        ySizeInput.setText("20");
 
         jLabel1.setText("X Size");
 
