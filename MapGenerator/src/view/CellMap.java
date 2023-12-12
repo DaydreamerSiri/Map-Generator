@@ -12,9 +12,11 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import model.Cell;
 import controller.Datenbank;
+import java.awt.Dimension;
 import java.awt.Label;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ScrollPaneLayout;
 import model.NPC;
 /**
  * The generated Map as View
@@ -37,10 +39,10 @@ public class CellMap extends javax.swing.JFrame {
         this.tileplacer = new TilePlacer();
         Object[] objList = new Object[1];
         this.Map = new MapGrid(AmountX, AmountY);
-        Cell[][][] cellList = this.tileplacer.placeTileSet(AmountX, AmountY);
-        this.Map.setPOIList(this.Map.createPOIObjects(cellList));
+        Cell[][] cellList = this.tileplacer.placeTileSet(AmountX, AmountY);
+        //this.Map.setPOIList(this.Map.createPOIObjects(cellList));
         this.Map.generateMap(cellList);
-        this.Map.insertGeoType(this.Map.getCellDataList());
+        this.Map.insertGeoType(cellList);
         this.Map.SetTileImages();
         fillMap();
         this.repaint();
@@ -53,18 +55,27 @@ public class CellMap extends javax.swing.JFrame {
         this.gridLayout = new GridBagLayout();
         //this.jScrollPaneCellMap.setLayout(this.gridLayout);
         //creating the GridPanel
-        //this.LayerView = new JLayeredPane();
-        //this.LayerView.setVisible(true);
-        //this.LayerView.setOpaque(false);
-        //this.LayerView.setFocusable(true);
-        //this.LayerView.setSize(this.Map.LayerViewSize, this.Map.LayerViewSize);
+        
+        //Dimension mapComponentSize = this.Map.getSizeDimension();
+        //this.LayerView.setSize(mapComponentSize.height*this.Map.getAmountX(), mapComponentSize.width*this.Map.getAmountY());
         //filling the GridPanel with Cells
         this.fillTiles();
-        //this.fillPOIs();
-        //this.LayerView.add(CellView, JLayeredPane.DEFAULT_LAYER, 0);
-        //this.LayerView.add(POIView, JLayeredPane.PALETTE_LAYER,0);
-        this.jScrollPaneCellMap.getViewport().add(this.CellView);
-        this.jScrollPaneCellMap.revalidate();
+        this.fillPOIs();
+        Dimension layeredViewDimension = new Dimension(CellView.getSize().width, 
+                CellView.getSize().height);
+        //POIView.setBounds(0, 0, this.POIView.getWidth(), this.POIView.getHeight());
+        //CellView.setBounds(0, 0, this.CellView.getWidth(), this.CellView.getHeight());
+        this.LayerView = new JLayeredPane();
+        this.LayerView.setVisible(true);
+        this.LayerView.setOpaque(true);
+        this.LayerView.setFocusable(true);
+        this.POIView.setLocation(this.jScrollPaneCellMap.getLocation());
+        this.CellView.setLocation(this.jScrollPaneCellMap.getLocation());
+        this.LayerView.setPreferredSize(layeredViewDimension);
+        this.LayerView.add(CellView, JLayeredPane.DEFAULT_LAYER);
+        this.LayerView.add(POIView, JLayeredPane.PALETTE_LAYER);
+        this.jScrollPaneCellMap.getViewport().add(this.LayerView);
+        //this.jScrollPaneCellMap.revalidate();
     }
     
     private void fillPOIs(){
@@ -73,31 +84,35 @@ public class CellMap extends javax.swing.JFrame {
         this.POIView  = new JPanel();
         //this.POIView.setLayout(gridLayout);
         this.POIView.setVisible(true);
-        this.POIView.setSize(this.Map.xCellSize, this.Map.yCellSize);
+        this.POIView.setSize(this.Map.getSizeDimension().height, this.Map.getSizeDimension().width);
         this.POIView.setOpaque(false);
         this.POIView.setFocusable(false);
         
-        for(POI[] poiList : this.Map.getPOIList()){
-            for(POI poi : poiList){
-                poi.setSize(50, 50);
-                poi.setPOIImage(50, 50);
-                poi.setClickEvent();
-                poi.setDescription(poi.getText());
-                this.POIView.add(poi);
-            }
-        }
+//        for(POI[] poiList : this.Map.getPOIList()){
+//            for(POI poi : poiList){
+//                poi.setSize(50, 50);
+//                poi.setPOIImage(50, 50);
+//                poi.setClickEvent();
+//                poi.setDescription(poi.getText());
+//                this.POIView.add(poi);
+//            }
+//        }
         POI house = new POI("House", 2,2);
         house.setDescription("A little House !");
         house.setSize(50,50);
         house.setPOIImage(50, 50);
         house.setClickEvent();
-        //this.POIView.add(house);
+        this.POIView.add(house);
     }
     
     private void fillTiles(){
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         this.CellView  = new JPanel();
+        this.CellView.setSize(new Dimension(this.Map.getSizeDimension().height * this.Map.getCellDataList().length, 
+              this.Map.getSizeDimension().width * this.Map.getCellDataList().length));
+//        this.CellView.setPreferredSize(new Dimension(this.Map.getSizeDimension().height * this.Map.getCellDataList().length, 
+//                this.Map.getSizeDimension().width * this.Map.getCellDataList().length));
         this.CellView.setLayout(gridLayout);
         this.CellView.setVisible(true);
         for(int i = 0; this.Map.getMapData().getAmountX()> i; i++){
