@@ -21,11 +21,11 @@ public class TilePlacer {
         grid = tilePlacer.placeTileSet(x, y);
     }
 
-    public Cell[][] placeTileSet(int x, int y) {
+    public Cell[][][] placeTileSet(int x, int y) {
         System.out.println("Initialize placeTileSet method...");
         int runningBonus = 0;
         int maxTiles = x * y;
-        Cell[][] grid = new Cell[x][y];
+        Cell[][][] grid = new Cell[x][y][2];
         Object[] tileSet = new Object[3];
 
         //set random position
@@ -38,6 +38,11 @@ public class TilePlacer {
         while (maxTiles > 0) {
             //get new TileSet
             tileSet = geography.geographyGen(runningBonus);
+            
+            //TODO: Auffang River
+            //TODO: Neue Ebene erzeugen
+            //TODO: River Logic
+            
             int[] newCoordinates = new int[(int) tileSet[2] * 2];
 
             //at almost end check what is left, compare tileSet[2] "amount" with rest of maxTiles
@@ -59,8 +64,8 @@ public class TilePlacer {
                         //System.out.println("xPos:" + xPos + "yPos:" + yPos);
                         //if empty, insert tile type
                         if (grid[xPos][yPos] == null && !tileSet[1].equals("River")) {
-                            grid[xPos][yPos] = new Cell();
-                            grid[xPos][yPos].setTileInformation((String) tileSet[1]);
+                            grid[xPos][yPos][0] = new Cell();
+                            grid[xPos][yPos][0].setTileInformation((String) tileSet[1]);
                             counter++;
                         }
                         if (xPos <= x) {
@@ -99,8 +104,8 @@ public class TilePlacer {
 
             // Otherwise, choose a position around the last placed tile 
             if (!tileSet[1].equals("River")){
-            grid[xPos][yPos] = new Cell();
-            grid[xPos][yPos].setTileInformation((String) tileSet[1]); //insert tile type into cell
+            grid[xPos][yPos][0] = new Cell();
+            grid[xPos][yPos][0].setTileInformation((String) tileSet[1]); //insert tile type into cell
             upCounter++; 
             } else if (tileSet[1].equals("River")) {
                upCounter = tilesToPlaceNum;
@@ -134,8 +139,8 @@ public class TilePlacer {
 
                     //if cell null
                     if (grid[xPos][yPos] == null && !tileSet[1].equals("River")) {
-                        grid[xPos][yPos] = new Cell();
-                        grid[xPos][yPos].setTileInformation((String) tileSet[1]); //insert tile type into cell
+                        grid[xPos][yPos][0] = new Cell();
+                        grid[xPos][yPos][0].setTileInformation((String) tileSet[1]); //insert tile type into cell
                         upCounter++;
                     }
                 }
@@ -348,4 +353,7 @@ public class TilePlacer {
         co[1] = ++y;
         return co;
     }
+    
+    //TODO: riverPlacer() Methode
+    
 }
