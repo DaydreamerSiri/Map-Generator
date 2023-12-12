@@ -25,12 +25,17 @@ public class NPC {
     private int yPos;
     private String personality;
     private String ruler;
-    private int relationshipID;
+    
+    public NPC() {
+        
+    }
+
+    
     
    public NPC(String realm, String name, int age, String race, String subType, 
                String career, String stageOfCareer, String goal, int mobNumber, 
                String mobType, String title, int xPos, int yPos, String personality, 
-               String ruler, int relationshipID) {
+               String ruler) {
         this.realm = realm;
         this.name = name;
         this.age = age;
@@ -46,7 +51,7 @@ public class NPC {
         this.yPos = yPos;
         this.personality = personality;
         this.ruler = ruler;
-        this.relationshipID = relationshipID;
+
    }
 
     public int getID() {
@@ -177,17 +182,10 @@ public class NPC {
         this.ruler = ruler;
     }
 
-    public int getRelationshipID() {
-        return relationshipID;
-    }
-
-    public void setRelationshipID(int relationshipID) {
-        this.relationshipID = relationshipID;
-    }
 
     @Override
     public String toString() {
-        return "NPC{" + "ID=" + ID + ", realm=" + realm + ", name=" + name + ", age=" + age + ", race=" + race + ", subType=" + subType + ", career=" + career + ", stageOfCareer=" + stageOfCareer + ", goal=" + goal + ", mobNumber=" + mobNumber + ", mobType=" + mobType + ", title=" + title + ", xPos=" + xPos + ", yPos=" + yPos + ", personality=" + personality + ", ruler=" + ruler + ", relationshipID=" + relationshipID + '}';
+        return "NPC{" + "ID=" + ID + ", realm=" + realm + ", name=" + name + ", age=" + age + ", race=" + race + ", subType=" + subType + ", career=" + career + ", stageOfCareer=" + stageOfCareer + ", goal=" + goal + ", mobNumber=" + mobNumber + ", mobType=" + mobType + ", title=" + title + ", xPos=" + xPos + ", yPos=" + yPos + ", personality=" + personality + ", ruler=" + ruler + '}';
     }
     
     

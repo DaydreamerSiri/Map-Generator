@@ -12,7 +12,7 @@ public class Groups {
     private int relationshipID;
     private String relationshipType;
     private int relationshipDuration;
-    private int npcID;
+    
     
     public Groups() {}
 
@@ -20,7 +20,7 @@ public class Groups {
         this.relationshipID = relationshipID;
         this.relationshipType = relationshipType;
         this.relationshipDuration = relationshipDuration;
-        this.npcID = npcID;
+        
     }
 
     public int getRelationshipID() {
@@ -47,17 +47,11 @@ public class Groups {
         this.relationshipDuration = relationshipDuration;
     }
 
-    public int getNpcID() {
-        return npcID;
-    }
 
-    public void setNpcID(int npcID) {
-        this.npcID = npcID;
-    }
 
     @Override
     public String toString() {
-        return "Groups{" + "relationshipID=" + relationshipID + ", relationshipType=" + relationshipType + ", relationshipDuration=" + relationshipDuration + ", npcID=" + npcID + '}';
+        return "Groups{" + "relationshipID=" + relationshipID + ", relationshipType=" + relationshipType + ", relationshipDuration=" + relationshipDuration + '}';
     }
     
     
