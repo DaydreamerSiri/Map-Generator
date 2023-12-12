@@ -35,10 +35,12 @@ public class CellMap extends javax.swing.JFrame {
     public CellMap(int AmountX, int AmountY) {
         initComponents();
         this.tileplacer = new TilePlacer();
-        Cell[][] cellMap = this.tileplacer.placeTileSet(AmountX, AmountY);
+        Object[] objList = new Object[1];
         this.Map = new MapGrid(AmountX, AmountY);
-        this.Map.generateMap(cellMap);
-        this.Map.insertGeoType(cellMap);
+        Cell[][][] cellList = this.tileplacer.placeTileSet(AmountX, AmountY);
+        this.Map.setPOIList(this.Map.createPOIObjects(cellList));
+        this.Map.generateMap(cellList);
+        this.Map.insertGeoType(this.Map.getCellDataList());
         this.Map.SetTileImages();
         fillMap();
         this.repaint();
@@ -75,12 +77,21 @@ public class CellMap extends javax.swing.JFrame {
         this.POIView.setOpaque(false);
         this.POIView.setFocusable(false);
         
+        for(POI[] poiList : this.Map.getPOIList()){
+            for(POI poi : poiList){
+                poi.setSize(50, 50);
+                poi.setPOIImage(50, 50);
+                poi.setClickEvent();
+                poi.setDescription(poi.getText());
+                this.POIView.add(poi);
+            }
+        }
         POI house = new POI("House", 2,2);
         house.setDescription("A little House !");
         house.setSize(50,50);
         house.setPOIImage(50, 50);
         house.setClickEvent();
-        this.POIView.add(house);
+        //this.POIView.add(house);
     }
     
     private void fillTiles(){

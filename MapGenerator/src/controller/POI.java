@@ -28,8 +28,8 @@ public class POI extends POIModel{
     private Image POIImage;
     private String Description;
     
-    public POI(String type, int xLoc, int yLoc) {
-        super(type, xLoc, yLoc);
+    public POI(String type, int xPos, int yPos) {
+        super(type, xPos, yPos);
         this.setOpaque(false);
         this.setContentAreaFilled(false);
         this.setBorderPainted(false);

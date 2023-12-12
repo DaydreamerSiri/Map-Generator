@@ -18,7 +18,7 @@ public class MapGridModel implements MapGridInterface{
     private int AmountY;
     
     private Cell[][] CellDataList;
-    private List<POI> POIDataList;
+    private POI[][] POIDataList;
     
     
     /**
@@ -63,11 +63,11 @@ public class MapGridModel implements MapGridInterface{
         this.CellDataList = cellData;
     }
     
-    public void setPOIList(List<POI> poiList){
+    public void setPOIList(POI[][] poiList){
         this.POIDataList = poiList;
     }
     
-    public List<POI> getPOIList(){
+    public POI[][] getPOIList(){
         return this.POIDataList;
     }
     
