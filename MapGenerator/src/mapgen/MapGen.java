@@ -21,5 +21,6 @@ public class MapGen {
         //incert, get map presets for UI
         JFrame start = new MainMenu(new Datenbank());
         start.setVisible(true);
+        
     }
 }

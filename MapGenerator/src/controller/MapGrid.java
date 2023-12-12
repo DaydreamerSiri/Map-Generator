@@ -33,21 +33,18 @@ public class MapGrid extends MapGridModel{
      * function to generate map Cells and placing them in the UI
      * @return Boolean 
      */
-    public boolean generateMap(){
-        List<List<Cell>> cellMap = new ArrayList();
+    public boolean generateMap(Cell[][] Cells){
         if(this.getCellDataList() == null) {   //check if Cells haven't been generated
-        for(int i = 0; this.getSizeX() > i; i++){
-                cellMap.add(new ArrayList());
-                for(int j = 0; this.getSizeY() > j; j++) {
-                   Cell cell = new Cell();
+        for(int i = 0; this.getAmountX() > i; i++){
+                for(int j = 0; this.getAmountY() > j; j++) {
                    //cell.setLocation(this.yCellPosition*i-(this.yCellPosition*i/2), -this.xCellPosition*j-(this.xCellPosition*j/2));
-                   cell.setVisible(true);
-                   cell.setPreferredSize(this.sizeDimension);
+                   Cells[i][j].setVisible(true);
+                   Cells[i][j].setPreferredSize(this.sizeDimension);
                    //cell.setBackground(Color.white);
-                   cell.isCreated(true);
-                   cellMap.get(i).add(cell);
+                   Cells[i][j].isCreated(true);
                    //onClick Action Event
-                   cell.addActionListener(new ActionListener(){
+                   Cell cell = Cells[i][j];
+                   Cells[i][j].addActionListener(new ActionListener(){
                        @Override
                        public void actionPerformed(ActionEvent e){
                            JFrame msg = new JFrame();
@@ -60,23 +57,35 @@ public class MapGrid extends MapGridModel{
 
                 }
             }
-            this.setCellDataList(cellMap);
+            this.setCellDataList(Cells);
             return true;
         }
         
         return false;
     }
     
+    /**
+     * Inserting new GeoType into the tileInformations of Cells
+     * @param grid the new tilePlaced Grid with GeoTypes
+     */
+    public boolean insertGeoType(Cell[][] grid){
+        for(int i = 0 ; this.getCellDataList().length > i; i++){
+            for(int j = 0; this.getCellDataList()[i].length > j; j++){
+                if((grid[i][j].getTileInformation().isEmpty())){
+                    this.getCellDataList()[i][j].setTileInformation("Special_Feature");
+                }
+            }
+        }
+        return true;
+    }
     
     /**
      * Function to set the Images of all the Cells to their corresponding geoTile
      */
     public void SetTileImages(){
-        for(List<Cell> row : this.getCellDataList()){
+        for(Cell[] row : this.getCellDataList()){
             for(Cell cell: row){
                 cell.SetTileImages(cell.getSize().width, cell.getSize().height);
-                System.out.println();
-                System.out.println(this.xCellSize);
             }
         }
     }
@@ -86,7 +95,7 @@ public class MapGrid extends MapGridModel{
      * @param frameSizeDimension the Dimension of the Frame
      */
     public void UpdateTileImages(Dimension frameSizeDimension){
-        for(List<Cell> row : this.getCellDataList()){
+        for(Cell[] row : this.getCellDataList()){
             for(Cell cell: row){
                 cell.SetTileImages(frameSizeDimension);
             }
