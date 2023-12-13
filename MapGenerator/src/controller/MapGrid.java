@@ -33,18 +33,19 @@ public class MapGrid extends MapGridModel{
      * function to generate map Cells and placing them in the UI
      * @return Boolean 
      */
-    public boolean generateMap(Cell[][] Cells){
+    public boolean generateMap(Cell[][][] Cells){
+        Cell[][] cellList = new Cell[this.sizeDimension.height][this.sizeDimension.width];
         if(this.getCellDataList() == null) {   //check if Cells haven't been generated
         for(int i = 0; this.getAmountX() > i; i++){
                 for(int j = 0; this.getAmountY() > j; j++) {
                    //cell.setLocation(this.yCellPosition*i-(this.yCellPosition*i/2), -this.xCellPosition*j-(this.xCellPosition*j/2));
-                   Cells[i][j].setVisible(true);
-                   Cells[i][j].setPreferredSize(this.sizeDimension);
+                   Cells[i][j][0].setVisible(true);
+                   Cells[i][j][0].setPreferredSize(this.sizeDimension);
                    //cell.setBackground(Color.white);
-                   Cells[i][j].isCreated(true);
+                   Cells[i][j][0].isCreated(true);
                    //onClick Action Event
-                   Cell cell = Cells[i][j];
-                   Cells[i][j].addActionListener(new ActionListener(){
+                   Cell cell = Cells[i][j][0];
+                   Cells[i][j][0].addActionListener(new ActionListener(){
                        @Override
                        public void actionPerformed(ActionEvent e){
                            JFrame msg = new JFrame();
@@ -54,14 +55,31 @@ public class MapGrid extends MapGridModel{
 
                        }
                    });
-
+                   cellList[i][j] = Cells[i][j][0];
                 }
             }
-            this.setCellDataList(Cells);
+            this.setCellDataList(cellList);
             return true;
         }
         
         return false;
+    }
+    
+    /**
+     * Converts Cell Objects to POI Objects
+     * @param cellList a cellList object with 3th Dimensional Layer
+     * @return an POI List Object with POI Elements in it
+     */
+    public POI[][] createPOIObjects(Cell[][][] cellList){
+        POI[][] poiList = new POI[this.sizeDimension.height][this.sizeDimension.width];
+        for(int i = 0 ; cellList.length > i; i++){
+            for(int j = 0; cellList[i].length > j; j++){
+               POI poi = new POI(cellList[i][j][1].getTileInformation(), 
+                       cellList[i][j][1].getX(), cellList[i][j][1].getY());
+               poiList[i][j] = poi;
+            }
+        }
+        return poiList;
     }
     
     /**
@@ -106,8 +124,10 @@ public class MapGrid extends MapGridModel{
      * @param frameSizeDimension the Dimension of the Frame
      */
     public void UpdatePOIImages(Dimension frameSizeDimension){
-        for(POI poi : this.getPOIList()){
-            poi.setPOIImage(frameSizeDimension);
+        for(POI[] poiList : this.getPOIList()){
+            for(POI poi : poiList){
+                poi.setPOIImage(frameSizeDimension);
+            }
         }
     }
     
