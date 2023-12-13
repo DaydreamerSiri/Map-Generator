@@ -39,10 +39,10 @@ public class CellMap extends javax.swing.JFrame {
         this.tileplacer = new TilePlacer();
         Object[] objList = new Object[1];
         this.Map = new MapGrid(AmountX, AmountY);
-        Cell[][] cellList = this.tileplacer.placeTileSet(AmountX, AmountY);
-        //this.Map.setPOIList(this.Map.createPOIObjects(cellList));
+        Cell[][][] cellList = this.tileplacer.placeTileSet(AmountX, AmountY);
+        this.Map.setPOIList(this.Map.createPOIObjects(cellList));
         this.Map.generateMap(cellList);
-        this.Map.insertGeoType(cellList);
+        this.Map.insertGeoType(this.Map.getCellDataList());
         this.Map.SetTileImages();
         fillMap();
         this.repaint();
