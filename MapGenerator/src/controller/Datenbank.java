@@ -77,28 +77,27 @@ public class Datenbank {
     
 
     public void insertNPC(NPC npc) {
-        String sql = "INSERT INTO NPC (id, realm, name, age, race, sub_type,"
+        String sql = "INSERT INTO NPC (realm, name, age, race, sub_type,"
                + " career, stage_of_career, goal, mob_number, mobType, title, "
-               + "x_Pos, y_Pos, personality, ruler) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+               + "x_Pos, y_Pos, personality, ruler) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = this.connect();
             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-        pstmt.setInt(1, npc.getID());
-        pstmt.setString(2, npc.getRealm());
-        pstmt.setString(3, npc.getName());
-        pstmt.setInt(4, npc.getAge());
-        pstmt.setString(5, npc.getRace());
-        pstmt.setString(6, npc.getSubType());
-        pstmt.setString(7, npc.getCareer());
-        pstmt.setString(8, npc.getStageOfCareer());
-        pstmt.setString(9, npc.getGoal());
-        pstmt.setInt(10, npc.getMobNumber());
-        pstmt.setString(11, npc.getMobType());
-        pstmt.setString(12, npc.getTitle());
-        pstmt.setInt(13, npc.getxPos());
-        pstmt.setInt(14, npc.getyPos());
-        pstmt.setString(15, npc.getPersonality());
-        pstmt.setString(16, npc.getRuler());
+        pstmt.setString(1, npc.getRealm());
+        pstmt.setString(2, npc.getName());
+        pstmt.setInt(3, npc.getAge());
+        pstmt.setString(4, npc.getRace());
+        pstmt.setString(5, npc.getSubType());
+        pstmt.setString(6, npc.getCareer());
+        pstmt.setString(7, npc.getStageOfCareer());
+        pstmt.setString(8, npc.getGoal());
+        pstmt.setInt(9, npc.getMobNumber());
+        pstmt.setString(10, npc.getMobType());
+        pstmt.setString(11, npc.getTitle());
+        pstmt.setInt(12, npc.getxPos());
+        pstmt.setInt(13, npc.getyPos());
+        pstmt.setString(14, npc.getPersonality());
+        pstmt.setString(15, npc.getRuler());
 
         int affectedRows = pstmt.executeUpdate();
 
@@ -130,7 +129,6 @@ public class Datenbank {
             while (rs.next()) {
                 
                 NPC npc = new NPC();
-                npc.setID(rs.getInt("ID"));
                 npc.setRealm(rs.getString("realm"));
                 npc.setName(rs.getString("name"));
                 npc.setAge(rs.getInt("age"));
