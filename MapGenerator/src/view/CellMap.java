@@ -11,6 +11,11 @@ import java.awt.GridBagLayout;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import model.Cell;
+import controller.Datenbank;
+import java.awt.Label;
+import java.util.ArrayList;
+import java.util.List;
+import model.NPC;
 /**
  * The generated Map as View
  * @author Sehri Singh
@@ -109,7 +114,10 @@ public class CellMap extends javax.swing.JFrame {
         jScrollPaneCellMap = new javax.swing.JScrollPane();
         JTabPaneFunctions = new javax.swing.JTabbedPane();
         jPanelPOI = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        jPanelPrinces = new javax.swing.JPanel();
+        loadPrincesBTN = new javax.swing.JButton();
+        savePrincesBTN = new javax.swing.JButton();
+        viewPrincesjPanel = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -148,18 +156,59 @@ public class CellMap extends javax.swing.JFrame {
 
         JTabPaneFunctions.addTab("POIs", jPanelPOI);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 201, Short.MAX_VALUE)
+        loadPrincesBTN.setText("Laden");
+        loadPrincesBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadPrincesBTNActionPerformed(evt);
+            }
+        });
+
+        savePrincesBTN.setText("Speichern");
+        savePrincesBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                savePrincesBTNActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout viewPrincesjPanelLayout = new javax.swing.GroupLayout(viewPrincesjPanel);
+        viewPrincesjPanel.setLayout(viewPrincesjPanelLayout);
+        viewPrincesjPanelLayout.setHorizontalGroup(
+            viewPrincesjPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 471, Short.MAX_VALUE)
+        viewPrincesjPanelLayout.setVerticalGroup(
+            viewPrincesjPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 408, Short.MAX_VALUE)
         );
 
-        JTabPaneFunctions.addTab("Princes", jPanel1);
+        javax.swing.GroupLayout jPanelPrincesLayout = new javax.swing.GroupLayout(jPanelPrinces);
+        jPanelPrinces.setLayout(jPanelPrincesLayout);
+        jPanelPrincesLayout.setHorizontalGroup(
+            jPanelPrincesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPrincesLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(loadPrincesBTN)
+                .addGap(30, 30, 30)
+                .addComponent(savePrincesBTN)
+                .addContainerGap(30, Short.MAX_VALUE))
+            .addGroup(jPanelPrincesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(viewPrincesjPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanelPrincesLayout.setVerticalGroup(
+            jPanelPrincesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPrincesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(viewPrincesjPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanelPrincesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(loadPrincesBTN)
+                    .addComponent(savePrincesBTN))
+                .addGap(16, 16, 16))
+        );
+
+        JTabPaneFunctions.addTab("Princes", jPanelPrinces);
 
         jMenu1.setText("File");
 
@@ -213,6 +262,26 @@ public class CellMap extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void loadPrincesBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadPrincesBTNActionPerformed
+        // TODO add your handling code here:
+        List<NPC> npcList = new ArrayList<>();
+        Datenbank db = new Datenbank();
+        npcList = db.getAllNPCs();
+        Label princLbl = new Label(npcList.get(0).getName()); 
+        this.viewPrincesjPanel.add(princLbl);
+        
+    }//GEN-LAST:event_loadPrincesBTNActionPerformed
+
+    private void savePrincesBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savePrincesBTNActionPerformed
+        // TODO add your handling code here:
+        Datenbank db = new Datenbank();
+        NPC npc = new NPC("Deutschland", "Germany", 100,
+                "Mensch", "Kartoffel", "Baecker", "100",
+                "Rentenversicherung", 1000, "Humans", "Vaterland",
+                100, 100, "Doof", "Olaf Scholz");
+        db.insertNPC(npc);
+    }//GEN-LAST:event_savePrincesBTNActionPerformed
 
     /**
      * @param args the command line arguments
@@ -272,8 +341,11 @@ public class CellMap extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelPOI;
+    private javax.swing.JPanel jPanelPrinces;
     private javax.swing.JScrollPane jScrollPaneCellMap;
+    private javax.swing.JButton loadPrincesBTN;
+    private javax.swing.JButton savePrincesBTN;
+    private javax.swing.JPanel viewPrincesjPanel;
     // End of variables declaration//GEN-END:variables
 }
