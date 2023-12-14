@@ -78,8 +78,8 @@ public class Datenbank {
 
     public void insertNPC(NPC npc) {
         String sql = "INSERT INTO NPC (id, realm, name, age, race, sub_type,"
-               + " career, stage_of_career, goal, mob_number, mob_type, title, "
-               + "x_Pos, y_Pos, personality, ruler) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+               + " career, stage_of_career, goal, mob_number, mobType, title, "
+               + "x_Pos, y_Pos, personality, ruler) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
         try (Connection conn = this.connect();
             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
