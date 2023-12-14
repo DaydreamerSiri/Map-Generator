@@ -13,13 +13,13 @@ public class TilePlacer {
     private DiceRoll diceRoll = new DiceRoll();
 
     //for testing in console
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         TilePlacer tilePlacer = new TilePlacer();
         Object[][] grid = new Object[10][10];
         int x = 10;
         int y = 10;
         grid = tilePlacer.placeTileSet(x, y);
-    }
+    }*/
 
     public Cell[][][] placeTileSet(int x, int y) {
         System.out.println("Initialize placeTileSet method...");
@@ -91,8 +91,8 @@ public class TilePlacer {
             int upCounter = 0;
 
             //while not empty, choose a random position
-            while (grid[xPos][yPos] != null ) {
-                //System.out.println("no empty cell, reroll.");
+            while (grid[xPos][yPos][0] != null ) {
+                System.out.println("no empty cell, reroll.");
                 xPos = diceRoll.roll(x - 1);
                 yPos = diceRoll.roll(y - 1);
             }
@@ -355,5 +355,19 @@ public class TilePlacer {
     }
     
     //TODO: riverPlacer() Methode
-    
+    public int[] riverPlacer(int x, int y) {
+        int direction = diceRoll.roll(4);
+        int[] riverCo = new int[2];
+        switch (direction) {
+            case 1:
+                riverCo = moveLeft(x, y);
+            case 2:
+                riverCo = moveRight(x, y);
+            case 3:
+                riverCo = moveUp(x, y);
+            case 4:
+                riverCo = moveDown(x, y);
+        }
+        return riverCo;
+    }
 }
