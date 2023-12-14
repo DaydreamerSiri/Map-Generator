@@ -41,7 +41,7 @@ public class Cell extends JButton {
      * @param height height of the Tile
      */
     public void SetTileImages(int width, int height){
-        String imagePath = String.format("images\\tiles\\%s.png", this.tileInformation);
+        String imagePath = String.format("images//tiles//%s.png", this.tileInformation);
         if(width == 0 && height == 0){
             width = 100;
             height = 100;
