@@ -63,10 +63,17 @@ public class MapGridModel implements MapGridInterface{
         this.CellDataList = cellData;
     }
     
+    /**
+     * Sets the POI List 
+     * @param poiList 
+     */
     public void setPOIList(List<POI> poiList){
         this.POIDataList = poiList;
     }
-    
+    /**
+     * Returns the POI List
+     * @return POIDataList List of type POI
+     */
     public List<POI> getPOIList(){
         return this.POIDataList;
     }

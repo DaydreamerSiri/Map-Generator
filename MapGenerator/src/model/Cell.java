@@ -26,6 +26,9 @@ public class Cell extends JButton {
     boolean isPlaced = false;
     Image tileGeographyImage;
     
+    /**
+     *  Constructor Class of Cell
+     */
     public void Cell(){
         tileInformation = "";
         this.setOpaque(false);
@@ -57,7 +60,10 @@ public class Cell extends JButton {
         }
     }
     
-    
+    /**
+     * Set the Image of the Cell
+     * @param frameDimension Dimension Objects with Width and Height Informations
+     */
     public void SetTileImages(Dimension frameDimension){
         String imagePath = String.format("images\\tiles\\%s.png", this.tileInformation);
         try{

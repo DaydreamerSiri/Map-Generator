@@ -32,11 +32,17 @@ public class POIModel extends JButton {
         xLocation = xLoc;
         yLocation = yLoc;
     }
-    
+    /**
+     * sets the Image of the POI
+     * @param path 
+     */
     public void setImageLocation(String path){
         this.ImageLocation = path;
     }
-    
+    /**
+     * Getter Function to get the Image Path of POI
+     * @return Image Path as String
+     */
     public String getImageLocation(){
         return ImageLocation;
     }

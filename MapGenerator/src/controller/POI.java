@@ -20,14 +20,19 @@ import javax.swing.JLabel;
 import model.POIModel;
 
 /**
- *
+ * Class for POI Objects for second Layer
  * @author Sehri Singh
  */
 public class POI extends POIModel{
     
     private Image POIImage;
     private String Description;
-    
+    /**
+     * POI Constructor
+     * @param type type of POI as String
+     * @param xLoc x Position of POI
+     * @param yLoc y Position of POI
+     */
     public POI(String type, int xLoc, int yLoc) {
         super(type, xLoc, yLoc);
         this.setOpaque(false);
@@ -35,6 +40,11 @@ public class POI extends POIModel{
         this.setBorderPainted(false);
     }
     
+    /**
+     * sets the Image of the POI Object
+     * @param width width of Image as Int
+     * @param height height of Image as Int
+     */
     public void setPOIImage(int width, int height){
     String imagePath = String.format("images\\POIs\\%s.png", this.Type);
     this.setImageLocation(imagePath);
@@ -48,7 +58,10 @@ public class POI extends POIModel{
         }
         this.setSize(width, height);
     }
-    
+    /**
+     * sets the Image of the POI Object
+     * @param frameDimension size of Image as Dimension Object
+     */
     public void setPOIImage(Dimension frameDimension){
     String imagePath = String.format("images\\POIs\\%s.png", this.Type);
     this.setImageLocation(imagePath);
@@ -63,11 +76,17 @@ public class POI extends POIModel{
         this.setSize(frameDimension.width, frameDimension.height);
     }
     
-    
+    /**
+     * sets the Description of POI Object
+     * @param desc the description as String
+     */
     public void setDescription(String desc){
         Description = desc;
     }
     
+    /**
+     * OnClick event for POI Object, which returns the POI description in a new Frame
+     */
     public void setClickEvent(){
         addActionListener((ActionEvent e) -> {
             JFrame msg = new JFrame();
@@ -77,6 +96,10 @@ public class POI extends POIModel{
         });
     }
     
+    /**
+     * toString Custom Function
+     * @return the POI Description as String
+     */
     public String POIDescription(){
         return this.Description;
     }

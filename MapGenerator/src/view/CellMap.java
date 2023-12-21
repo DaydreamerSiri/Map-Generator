@@ -45,7 +45,7 @@ public class CellMap extends javax.swing.JFrame {
     }
     
     /**
-     * Function to fill the Map with created Cells
+     * Function to fill the Map
      */
     public void fillMap(){
         this.gridLayout = new GridBagLayout();
@@ -64,7 +64,9 @@ public class CellMap extends javax.swing.JFrame {
         this.jScrollPaneCellMap.getViewport().add(this.CellView);
         this.jScrollPaneCellMap.revalidate();
     }
-    
+    /**
+     * function to fill the map with POI Objects
+     */
     private void fillPOIs(){
         
         
@@ -82,7 +84,9 @@ public class CellMap extends javax.swing.JFrame {
         house.setClickEvent();
         this.POIView.add(house);
     }
-    
+    /**
+     * function to fill the Map with Cells
+     */
     private void fillTiles(){
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
@@ -262,7 +266,10 @@ public class CellMap extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-
+    /**
+     * Button to load all Princes
+     * @param evt click event
+     */
     private void loadPrincesBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadPrincesBTNActionPerformed
         // TODO add your handling code here:
         List<NPC> npcList = new ArrayList<>();
@@ -272,7 +279,10 @@ public class CellMap extends javax.swing.JFrame {
         this.viewPrincesjPanel.add(princLbl);
         
     }//GEN-LAST:event_loadPrincesBTNActionPerformed
-
+    /**
+     * Button to save the state of Princes
+     * @param evt click event
+     */
     private void savePrincesBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savePrincesBTNActionPerformed
         // TODO add your handling code here:
         Datenbank db = new Datenbank();
