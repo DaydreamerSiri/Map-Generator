@@ -13,13 +13,16 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.time.chrono.ThaiBuddhistEra;
 import model.NPC;
+import model.Place;
+import model.Relationship;
+import model.Groups;
 import java.util.List;
 import java.util.ArrayList;
         
 
 /**
  *
- * @author noormo
+ * @author Noral Deen Dyab
  */
 public class Datenbank {
 
@@ -30,15 +33,6 @@ public class Datenbank {
     private static Datenbank instance;
     
 
-
-  /**
-     * Der private Standradkonstruktor verhindert, dass
-     * Objekte der Datenbankschnittstelle außerhalb  dieser
-     * Klasse erzeugt werden können.
-     * 
-     * Ferner macht der Konstruktor den Datenbanktreiber
-     * der Laufzeitumgebung bekannt.
-     */
     public Datenbank() {
         try {
             Class.forName(treibername);
@@ -49,14 +43,8 @@ public class Datenbank {
     }
     
     /**
-     * Die Datenbankschnittstelle implementiert das Singleton-
-     * Pattern, sodass es nur ein einziges Objekt davon
-     * geben kann. Auf dieses kann mittels der Klassenmethode
-     * getInstance von überall aus der Anwendung zugegriffen
-     * werden. Wurde das Objekt noch nicht erzeugt, übernimmt
-     * dies ebenfalls die getInstance-Methode.
      * 
-     * @return das Datenbankschnittstelle-Objekt
+     * @return das Datenbank-Objekt
      */
     public static Datenbank getInstance() {
         if (instance == null) {
@@ -66,28 +54,24 @@ public class Datenbank {
     }
 
     /**
-     * Die private Methode connect stellt die Verbindung mit
-     * der Datenbank her.
-     * 
-     *
+     * Diese Methode stellt die Verbindung mit der Datenbank her.
+     * @throws SQLException -
      */
-    private Connection connect() throws SQLException {
+    private Connection getConnection() throws SQLException {    
         return DriverManager.getConnection(dbURL, "SA", "");
     }
     
+    
+    // Für die Tabelle "NPC":
+    
+        // 1. Einfügen
+    public void insertNPC(NPC npc) {
+        String sql = "INSERT INTO NPC (realm, name, age, race, sub_type,"
+               + " career, stage_of_career, goal, mob_number, mobType, title, "
+               + "x_Pos, y_Pos, personality, ruler) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-        public void insertNPC(NPC npc){
-
-            String sql = "INSERT INTO NPC (realm, name, age, race, sub_type,"
-                    + " career, stage_of_career, goal, mob_number, mobtype, title, "
-                    + "x_Pos, y_Pos, personality, ruler) VALUES ('" 
-                    + npc.getRealm() + "', '" + npc.getName() + "', " + npc.getAge() + ", '" + npc.getRace() + "', '" 
-                    + npc.getSubType()+ "', '" + npc.getCareer() + "', '" + npc.getStageOfCareer() + "', '" 
-                    + npc.getGoal()+ "', " + npc.getMobNumber() + ", '" + npc.getMobType() + "', '" + npc.getTitle() + "', " 
-                    + npc.getxPos() + ", " + npc.getyPos() + ", '" + npc.getPersonality() + "', '" + npc.getRuler() + "')";
-        try (Connection conn = this.connect();
-            PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-        
         pstmt.setString(1, npc.getRealm());
         pstmt.setString(2, npc.getName());
         pstmt.setInt(3, npc.getAge());
@@ -103,13 +87,13 @@ public class Datenbank {
         pstmt.setInt(13, npc.getyPos());
         pstmt.setString(14, npc.getPersonality());
         pstmt.setString(15, npc.getRuler());
-        
+
         int affectedRows = pstmt.executeUpdate();
-        
+
         if (affectedRows == 0) {
             throw new SQLException("Creating NPC failed, no rows affected.");
         }
-        
+
         try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
             if (generatedKeys.next()) {
                 npc.setID(generatedKeys.getInt(1));
@@ -117,33 +101,25 @@ public class Datenbank {
                 throw new SQLException("Creating NPC failed, no ID obtained.");
             }
         }
-    } catch (SQLException ex) {
-        System.out.println(ex.getMessage());
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
 }
+
         
-        
-            public List<NPC> getAllNPCs() {
+            // 2. Abfragen
+    public List<NPC> getAllNPCs() {
         List<NPC> npcList = new ArrayList<>();
         String sql = "SELECT * FROM NPC";
-        try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
-            int i = 0;
+        try (Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery()) {
+            
             while (rs.next()) {
-                NPC npc = new NPC(npcList.get(i).getRealm(), npcList.get(i).getName(),
-                npcList.get(i).getAge(), npcList.get(i).getRace(),
-             npcList.get(i).getSubType(), npcList.get(i).getCareer(),
-        npcList.get(i).getStageOfCareer(),
-               npcList.get(i).getGoal(), npcList.get(i).getMobNumber(), npcList.get(i).getMobType(),
-              npcList.get(i).getTitle(), npcList.get(i).getxPos(), npcList.get(i).getyPos(),
-          npcList.get(i).getPersonality(), npcList.get(i).getRuler());
-//                "Deutschland", "Germany", 100,
-//                "Mensch", "Kartoffel", "Baecker", "100",
-//                "Rentenversicherung", 1000, "Humans", "Vaterland",
-//                100, 100, "Doof", "Olaf Scholz"
-                npc.setID(rs.getInt("ID"));
+                
+                NPC npc = new NPC();
                 npc.setRealm(rs.getString("realm"));
+                npc.setName(rs.getString("name"));
                 npc.setAge(rs.getInt("age"));
                 npc.setRace(rs.getString("race"));
                 npc.setSubType(rs.getString("subType"));
@@ -159,75 +135,222 @@ public class Datenbank {
                 npc.setRuler(rs.getString("ruler"));
                 npcList.add(npc);
             }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return npcList;
     }
 
     
-    // 2. Abrufen 
-    public ResultSet getNPC() throws SQLException {
-        
-        return conn.createStatement().executeQuery("SELECT * FROM NPC");
-    }
 
     // 3. Aktualisieren 
-    public void updateNPC(int ID, String realm, String name, int age, String race, String subType, String career, String stageOfCareer, String goal, int mobHP, String mobType, String title, int xPos, int yPos, String personality, String ruler) throws SQLException {
-        
-        String sql = "UPDATE NPC SET realm = '" + realm + "', name = '" + name + " WHERE ID = " + ID;
-        Statement stmt = conn.createStatement();
-        stmt.executeUpdate(sql);
+    public void updateNPC (NPC npc) {
+    String sql = "UPDATE NPC SET (realm = ?, name = ?, age = ?, race = ?, subType = ?, career = ?, stageOfCareer = ?, goal = ?, mobNumber = ?, mobType = ?, title = ?, xPos = ?, yPos = ?, personality = ?, ruler = ? WHERE ID = ?";
+    try (Connection conn = getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setString(1, npc.getRealm());
+        pstmt.setString(2, npc.getName());
+        pstmt.setInt(3, npc.getAge());
+        pstmt.setString(4, npc.getRace());
+        pstmt.setString(5, npc.getSubType());
+        pstmt.setString(6, npc.getCareer());
+        pstmt.setString(7, npc.getStageOfCareer());
+        pstmt.setString(8, npc.getGoal());
+        pstmt.setInt( 9, npc.getMobNumber());
+        pstmt.setString(10, npc.getMobType());
+        pstmt.setString(11, npc.getTitle());
+        pstmt.setInt(12, npc.getxPos());
+        pstmt.setInt(13, npc.getyPos());
+        pstmt.setString(14, npc.getPersonality());
+        pstmt.setString(15, npc.getRuler());
+        pstmt.setInt(16, npc.getID());
+        pstmt.executeUpdate();
+    } catch (SQLException e) {
+            e.printStackTrace();
     }
+}
+
 
     // 4. Löschen 
-    public void deleteNPC(int ID) throws SQLException {
-        
-        String sql = "DELETE FROM NPC WHERE ID = " + ID;
-        Statement stmt = conn.createStatement();
-        stmt.executeUpdate(sql);
+   public void deleteNPC(int npcID) {
+    String sql = "DELETE FROM NPC WHERE ID = ?";
+        try (Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setInt(1, npcID);
+        pstmt.executeUpdate();
+    } catch (SQLException e) {
+            e.printStackTrace();
     }
+}
 
-////////////////////////////////////////////
+
+    // Für die Tabelle "Place":
         
     // 1. Einfügen
-    public void insertPlace(int id, int riverId, int npcId, int xPos, int yPos, String type, int tileId, String symbol, String specialFeatures, String ageHistory, String difficulty) throws SQLException {
-        PlaceOperations placeo = new PlaceOperations();
-        try {
-             String sql = placeo.insertPlace(id, riverId, npcId, xPos, yPos, type, tileId, symbol, specialFeatures, ageHistory, difficulty);
-        Statement stmt = conn.createStatement();
-        stmt.executeUpdate(sql);
-      } catch (Exception ex) {
-            System.out.println(ex);
+    public void insertPlace(Place place) {
+        String sql = "INSERT INTO Place ( int id, int riverId, int npcId, int xPos, int yPos, String type, int tileId, String symbol, String specialFeatures, String ageHistory, String difficulty) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setInt(1, place.getID());
+            pstmt.setInt(2, place.getRiverNumber());
+            pstmt.setInt(3, place.getNpcID());
+            pstmt.setInt(4, place.getXPos());
+            pstmt.setInt(5, place.getYPos());
+            pstmt.setString(6, place.getType());
+            pstmt.setInt(7, place.getTileNumber());
+            pstmt.setString(8, place.getSymbol());
+            pstmt.setString( 9, place.getSpecialFeatures());
+            pstmt.setString(10, place.getAgeHistory());
+            pstmt.setString(11, place.getDifficulty());
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
-        // Für die Tabelle "Place":
-        static class PlaceOperations {
-    // 1. Einfügen 
-        public String insertPlace(int id, int riverId, int npcId, int xPos, int yPos, String type, int tileId, String symbol, String specialFeatures, String ageHistory, String difficulty) throws SQLException {
-        String sql = "INSERT INTO Place (ID, riverId, npcId, xPos, yPos, type, tileId, symbol, specialFeatures, ageHistory, difficulty) VALUES (" + id + ", " + riverId + ", " + npcId + ", " + xPos + ", " + yPos + ", '" + type + "', " + tileId + ", '" + symbol + "', '" + specialFeatures + "', '" + ageHistory + "', '" + difficulty + "')";
-        return sql;
-    }
-        }
+       
     
 
     // 2. Abfragen
-    public ResultSet getPlace() throws SQLException {
-        return conn.createStatement().executeQuery("SELECT * FROM Place");
+    public List<Place> getAllPlaces() {
+        List<Place> placeList = new ArrayList<>();
+        String sql = "SELECT * FROM Place";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            
+            while (rs.next()) {
+                Place place = new Place();
+                place.setID(rs.getInt("id"));
+                place.setRiverNumber(rs.getInt("riverId"));
+                place.setNpcID(rs.getInt("npcId"));
+                place.setXPos(rs.getInt("xPos"));
+                place.setYPos(rs.getInt("yPos"));
+                place.setType(rs.getString("type"));
+                place.setTileNumber(rs.getInt("tileId"));
+                place.setSymbol(rs.getString("symbol"));
+                place.setSpecialFeatures(rs.getNString("specialFeatures"));
+                place.setAgeHistory(rs.getString("ageHistory"));
+                place.setDifficulty(rs.getString("difficulty"));
+                placeList.add(place);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return placeList;
     }
 
     // 3. Aktualisieren
-    public void updatePlace(int ID, String type, int tileId, String symbol, String specialFeatures, String ageHistory, String difficulty) throws SQLException {
-        String sql = "UPDATE Place SET type = '" + type + "', tileId = " + tileId + ", symbol = '" + symbol + "', specialFeatures = '" + specialFeatures + "', ageHistory = '" + ageHistory + "', difficulty = '" + difficulty + "' WHERE ID = " + ID;
-        Statement stmt = conn.createStatement();
-        stmt.executeUpdate(sql);
+    public void updatePlace(Place place) {
+        String sql = "INSERT INTO Place ( int id, int riverId, int npcId, int xPos, int yPos, String type, int tileId, String symbol, String specialFeatures, String ageHistory, String difficulty) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, place.getID());
+            pstmt.setInt(2, place.getRiverNumber());
+            pstmt.setInt(3, place.getNpcID());
+            pstmt.setInt(4, place.getXPos());
+            pstmt.setInt(5, place.getYPos());
+            pstmt.setString(6, place.getType());
+            pstmt.setInt(7, place.getTileNumber());
+            pstmt.setString(8, place.getSymbol());
+            pstmt.setString( 9, place.getSpecialFeatures());
+            pstmt.setString(10, place.getAgeHistory());
+            pstmt.setString(11, place.getDifficulty());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    // 4. Löschen
+    public void deletePlace(int placeId) {
+        String sql = "DELETE FROM Place WHERE ID = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setInt(1, placeId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    // Für die Tabelle "Relationship":
+
+        // 1. Einfügen
+    public void insertRelationship(Relationship relationship) {
+        String sql = "INSERT INTO Relationships (ID, type, duration) VALUES (?, ?, ?)";
+        try (Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, relationship.getID());
+            pstmt.setString(2, relationship.getType());
+            pstmt.setString(3, relationship.getDuration());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+        // 2. Aktualisieren
+    public void updateRelationship(Relationship relationship) {
+        String sql = "UPDATE Relationships SET type = ?, duration = ? WHERE ID = ?";
+        try (Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, relationship.getType());
+            pstmt.setString(2, relationship.getDuration());
+            pstmt.setInt(3, relationship.getID());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+}
+        // 3. Löschen
+    public void deleteRelationship(int relationshipID) {
+        String sql = "DELETE FROM Relationships WHERE ID = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, relationshipID);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    // Für die Tabelle "Groups":
+
+        // 1. Einfügen
+    public void insertGroup(Groups group) {
+        String sql = "INSERT INTO Groups (relationship_ID, relationship_type, relationship_duration) VALUES (?, ?, ?)";
+        try (Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, group.getRelationshipID());
+            pstmt.setString(2, group.getRelationshipType());
+            pstmt.setInt(3, group.getRelationshipDuration());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }    
+
+        // 2. Aktualisieren
+    public void updateGroup(Groups group) {
+        String sql = "UPDATE Groups SET relationship_type = ?, relationship_duration = ? WHERE relationship_ID = ?";
+        try (Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, group.getRelationshipType());
+            pstmt.setInt(2, group.getRelationshipDuration());
+            pstmt.setInt(3, group.getRelationshipID());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    // 4. Löschen
-    public void deletePlace(int ID) throws SQLException {
-        String sql = "DELETE FROM Place WHERE ID = " + ID;
-        Statement stmt = conn.createStatement();
-        stmt.executeUpdate(sql);
+        // 3. Löschen
+    public void deleteGroup(int relationshipID) {
+        String sql = "DELETE FROM Groups WHERE relationship_ID = ?";
+        try (Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, relationshipID);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            }
     }
 
         
